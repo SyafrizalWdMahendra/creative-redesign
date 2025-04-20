@@ -27,6 +27,9 @@
     <link rel="stylesheet" href="{{ asset ('/css/style.css') }}" id="main-style-link" >
     <link rel="stylesheet" href="{{ asset ('/css/style-preset.css') }}" >
 
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -44,53 +47,43 @@
 
 <!-- [ Main Content ] start -->
 <div class="pc-container">
-  <div class="pc-content">
-      <x-admin-content-header></x-admin-content-header>
+<div class="pc-content">
+    <x-admin-content-header></x-admin-content-header>
 
-      <!-- [ Main Content ] start -->
-      <div class="row">
-          <!-- [ link-button ] start -->
-          <div class="col-sm-12">
+    <!-- [ Main Content ] start -->
+    <div class="row">
+        <!-- [ link-button ] start -->
+        <div class="col-sm-12">
           <div class="card">
               <div class="card-header">
-              <h5>Create Contact Content</h5>
+                <h5>All Home Content - Our Clients</h5>
               </div>
               <div class="card-body">
-                <form action="">
-                  <div class="mb-3">
-                    <label for="location" class="form-label">Lokasi Kantor</label>
-                    <select class="form-select" id="location" name="location" required>
-                      <option selected disabled>Pilih Lokasi</option>
-                      <option value="Surabaya Timur">Surabaya Timur</option>
-                      <option value="Surabaya Barat">Surabaya Barat</option>
-                      <option value="Kota Tuban">Kota Tuban</option>
-                    </select>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="address" class="form-label">Alamat Kantor</label>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="Masukkan Alamat" required>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="contact" class="form-label">Kontak Layanan</label>
-                    <input type="number" class="form-control" id="contact" placeholder="Masukkan Kontak Layanan" required>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="email" class="form-label">Email Kantor</label>
-                    <input type="email" class="form-control" id="email" placeholder="Masukkan Email Kantor" required>
-                  </div>
-                  
-                  <button class="btn btn-primary" type="submit">Simpan Konten</button>
-                </form>
+                <table class="table table-dark table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Logo</th>
+                        <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($clients as $client)
+                            <tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td><img src="{{ asset('storage/' .$client->image) }}" alt="" width="100px"></td>
+                                <td class="d-flex">
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
               </div>
           </div>
         </div>
-          <!-- [ link-button ] end -->
-      </div>
-      <!-- [ Main Content ] end -->
-  </div>
+        <!-- [ link-button ] end -->
+    </div>
+    <!-- [ Main Content ] end -->
+</div>
 </div>
 
 <x-admin-footer></x-admin-footer>
@@ -151,7 +144,29 @@
         }, 3000);
       });
     });
+
   </script>
+
+<script>
+  @if(session('clientSuccessAlert'))
+    Swal.fire({
+        title: "Success!",
+        text: "{{ session('clientSuccessAlert') }}",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 3000
+    });
+  @elseif(session('teamSuccessAlert'))
+    Swal.fire({
+        title: "Success!",
+        text: "{{ session('teamSuccessAlert') }}",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 3000
+    });
+  @endif
+</script>
+
 </body>
 <!-- [Body] end -->
 </html>

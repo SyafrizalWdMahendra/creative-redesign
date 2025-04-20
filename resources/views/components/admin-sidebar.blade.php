@@ -20,11 +20,13 @@
     <label>UI Components</label>
     <i class="ti ti-dashboard"></i>
     </li>
-    <li class="pc-item">
-    <a href="{{ route('home.index') }}" class="pc-link">
-        <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
-        <span class="pc-mtext">Beranda</span>
-    </a>
+    <li class="pc-item pc-hasmenu">
+        <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span class="pc-mtext">Beranda</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+        <ul class="pc-submenu">
+            <li class="pc-item"><a class="pc-link" href="{{ route('client.index') }}">Tambah Klien</a></li>
+            <li class="pc-item"><a class="pc-link" href="{{ route('team.index') }}">Tambah Tim</a></li>
+        </ul>
+    </li>
     </li>
     <li class="pc-item">
     <a href="{{ route('study.index') }}" class="pc-link">
@@ -73,38 +75,38 @@
     <i class="ti ti-brand-chrome"></i>
     </li>
     <li class="pc-item pc-hasmenu">
-    <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span class="pc-mtext">mdkjndjnf</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
-    <ul class="pc-submenu">
-        <li class="pc-item"><a class="pc-link" href="#!">Level 2.1</a></li>
-        <li class="pc-item pc-hasmenu">
-        <a href="#!" class="pc-link">Level 2.2<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+        <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span class="pc-mtext">mdkjndjnf</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
         <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
-            <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
+            <li class="pc-item"><a class="pc-link" href="#!">Level 2.1</a></li>
             <li class="pc-item pc-hasmenu">
-            <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+            <a href="#!" class="pc-link">Level 2.2<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
             <ul class="pc-submenu">
-                <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
-                <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
+                <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
+                <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
+                <li class="pc-item pc-hasmenu">
+                <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+                <ul class="pc-submenu">
+                    <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
+                    <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
+                </ul>
+                </li>
+            </ul>
+            </li>
+            <li class="pc-item pc-hasmenu">
+            <a href="#!" class="pc-link">Level 2.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+            <ul class="pc-submenu">
+                <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
+                <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
+                <li class="pc-item pc-hasmenu">
+                <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+                <ul class="pc-submenu">
+                    <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
+                    <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
+                </ul>
+                </li>
             </ul>
             </li>
         </ul>
-        </li>
-        <li class="pc-item pc-hasmenu">
-        <a href="#!" class="pc-link">Level 2.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
-        <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
-            <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
-            <li class="pc-item pc-hasmenu">
-            <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
-            <ul class="pc-submenu">
-                <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
-                <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
-            </ul>
-            </li>
-        </ul>
-        </li>
-    </ul>
     </li>
     <li class="pc-item">
     <a href="../other/sample-page.html" class="pc-link">

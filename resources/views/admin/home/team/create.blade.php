@@ -27,6 +27,9 @@
     <link rel="stylesheet" href="{{ asset ('/css/style.css') }}" id="main-style-link" >
     <link rel="stylesheet" href="{{ asset ('/css/style-preset.css') }}" >
 
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -51,33 +54,46 @@
     <div class="row">
         <!-- [ link-button ] start -->
         <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-              <h5>Create Home Content - Our Teams</h5>
-            </div>
-            <div class="card-body">
-              <form action="">
-                <div class="mb-3">
-                  <label for="name" class="form-label">Nama Lengkap</label>
-                  <input type="text" class="form-control" id="name" placeholder="Masukkan Nama Lengkap" required>
-                </div>
-                <div class="mb-3">
-                  <label for="position" class="form-label">Jabatan</label>
-                  <input type="text" class="form-control" id="position" placeholder="Masukkan Jabatan" required>
-                </div>
-                <div class="mb-3">
-                  <label for="deskripsi" class="form-label">Profil Singkat</label>
-                  <textarea class="form-control" id="deskripsi" rows="3" placeholder="Masukkan Profil Singkat" required></textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="image" class="form-label">Foto Profil</label>
-                  <input type="file" name="image" id="image" accept="image/*" class="form-control" required>
-                </div>
-                <button class="btn btn-primary" type="submit">Simpan Konten</button>
-              </form>
-            </div>
+          <div class="card">
+              <div class="card-header">
+                <h5>Create Home Content - Our Teams</h5>
+              </div>
+              <div class="card-body">
+                <form action="{{ route('team.store') }}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Nama Lengkap</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama Lengkap" value="{{ old('name') }}">
+                    @error('name')
+                      <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
+                  <div class="mb-3">
+                    <label for="position" class="form-label">Jabatan</label>
+                    <input type="text" class="form-control" id="position" name="position" placeholder="Masukkan Jabatan" value="{{ old('position') }}" required>
+                    @error('position')
+                      <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
+                  <div class="mb-3">
+                    <label for="description" class="form-label">Profil Singkat</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Masukkan Profil Singkat" value="{{ old('description') }}" required></textarea>
+                    @error('description')
+                      <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
+                  <div class="mb-3">
+                    <label for="image" class="form-label">Foto Profil</label>
+                    <input type="file" name="image" id="image" class="form-control" value="{{ old('image') }}" required>
+                    @error('image')
+                      <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
+                  <button class="btn btn-primary" type="submit">Simpan Konten</button>
+                </form>
+              </div>
+          </div>
         </div>
-      </div>
         <!-- [ link-button ] end -->
     </div>
     <!-- [ Main Content ] end -->
@@ -142,7 +158,29 @@
         }, 3000);
       });
     });
+
   </script>
+
+<script>
+  @if(session('clientSuccessAlert'))
+    Swal.fire({
+        title: "Success!",
+        text: "{{ session('clientSuccessAlert') }}",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 3000
+    });
+  @elseif(session('teamSuccessAlert'))
+    Swal.fire({
+        title: "Success!",
+        text: "{{ session('teamSuccessAlert') }}",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 3000
+    });
+  @endif
+</script>
+
 </body>
 <!-- [Body] end -->
 </html>
