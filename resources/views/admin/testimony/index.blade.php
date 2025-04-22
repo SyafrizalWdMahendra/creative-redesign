@@ -31,6 +31,9 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -57,29 +60,89 @@
         <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-            <h5>Create Testimony Content</h5>
+              <h5>All Testimony Content</h5>
+              <a href="{{ route('testimony.create') }}">Tambah Testimoni</a>
             </div>
             <div class="card-body">
-              <form action="">
-                <div class="mb-3">
-                  <label for="name" class="form-label">Nama Alumni</label>
-                  <input type="text" class="form-control" id="name" placeholder="Masukkan Nama Alumni" required>
-                </div>
-                <div class="mb-3">
-                  <label for="comentar" class="form-label">Komentar</label>
-                  <input type="text" class="form-control" id="comentar" placeholder="Masukkan Komentar" required>
-                </div>
-                <div class="mb-3">
-                  <label for="summernote" class="form-label">Video Testimoni</label>
-                  <textarea id="summernote" name="editordata" class="form-control" required></textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="image" class="form-label">Foto Profil</label>
-                  <input type="file" name="image" id="image" accept="image/*" class="form-control" required>
-                </div>
-                <button class="btn btn-primary" type="submit">Simpan Konten</button>
-              </form>
+              <table class="table table-hover">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nama Alumni</th>
+                    <th scope="col">Komentar</th>
+                    {{-- <th scope="col">Video Testimoni</th> --}}
+                    <th scope="col">Foto Profil</th>
+                    <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($testimonies as $testimony)
+                        <tr>
+                          <th scope="row">{{ $loop->iteration }}</th>
+                          <td>{{ $testimony->name }}</td>
+                          <td>{{ $testimony->comment }}</td>  
+                          {{-- <td>{!! $testimony->video !!}</td> --}}
+                          <td><img src="{{ asset('storage/' .$testimony->image) }}" alt="" width="100px"></td>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <button class="btn btn-warning btn-sm edit-btn" 
+                                data-id="{{ $testimony->id }}" 
+                                data-name="{{ $testimony->name }}"
+                                data-comment="{{ $testimony->comment }}"
+                                data-video="{{ $testimony->video }}"
+                                data-image="{{ $testimony->image }}">
+                                Edit
+                              </button>
+                              <form id="deleteForm" action="{{ route('testimony.destroy', $testimony->id) }}" method="POST" class="ms-2">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $testimony->id }}">Hapus</button>
+                              </form>
+                            </div>
+                          </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+              </table>
             </div>
+        </div>
+
+        <!-- Scrollable modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title">Edit Testimoni</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="editForm" action="{{ route('testimony.update', $testimony->id) }}" method="POST" enctype="multipart/form-data">
+                      @csrf
+                      @method('PUT')
+                      <input type="hidden" id="edit-modal-id" name="testimony_id">
+
+                      <div class="mb-3">
+                        <label for="name" class="form-label">Nama Alumni</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ $testimony->name }}" placeholder="Masukkan Nama Alumni" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="comentar" class="form-label">Komentar</label>
+                        <textarea class="form-control" id="comentar" name="comment" placeholder="Masukkan Komentar" required>{{ $testimony->comment }}</textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="summernote" class="form-label">Video Testimoni</label>
+                        <textarea id="summernote" name="video" class="form-control">{{ $testimony->video }}</textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="image" class="form-label">Foto Profil</label>
+                        <img id="preview-image" src="{{ asset('storage/' . $testimony->image) }}" alt="Foto Profil" width="150px" class="d-block mb-2">
+                        <input type="file" name="image" id="image" accept="image/*" class="form-control">
+                      </div>
+                      <button class="btn btn-primary" type="submit">Simpan Konten</button>
+                    </form>
+                  </div>
+              </div>
+          </div>
         </div>
       </div>
         <!-- [ link-button ] end -->
@@ -162,6 +225,91 @@
       ]
     });
   </script>
+
+<script>
+  @if(session('testimonySuccessAlert'))
+    Swal.fire({
+        title: "Success!",
+        text: "{{ session('testimonySuccessAlert') }}",
+        icon: "success",
+        showConfirmButton: true,
+        confirmButtonText: 'OK',
+        timer: 3000
+    });
+  @endif
+</script>
+
+<script>
+  // Edit button click event
+  document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll(".edit-btn").forEach(button => {
+          button.addEventListener("click", function() {
+              let testimonyId = this.getAttribute("data-id");
+              let name = this.getAttribute("data-name");
+              let comment = this.getAttribute("data-comment");
+              let video = this.getAttribute("data-video");
+              let image = this.getAttribute("data-image");
+
+              // Set nilai form dengan data yang dipilih
+              document.getElementById("edit-modal-id").value = testimonyId;
+              document.getElementById("name").value = name;
+              document.getElementById("comentar").value = comment;
+              document.getElementById("summernote").value = video;
+              
+              // Jika ada gambar, ubah src untuk preview
+              if (image) {
+                  document.getElementById("preview-image").src = "/storage/" + image;
+              }
+
+              // Perbarui action form agar sesuai dengan testimoni yang dipilih
+              document.getElementById("editForm").setAttribute("action", "/admin/create/testimony/" + testimonyId);
+
+              // Tampilkan modal
+              let editModal = new bootstrap.Modal(document.getElementById("editModal"));
+              editModal.show();
+          });
+      });
+  });
+
+  // Dynamic preview image
+  document.getElementById("image").addEventListener("change", function(event) {
+      let file = event.target.files[0];
+      if (file) {
+          let reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById("preview-image").src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+      }
+  });
+
+  // Confirmation delete message
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("#delete-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            let articleId = this.getAttribute("data-id");
+            let form = this.closest("form");
+
+            Swal.fire({
+                title: "Apakah kamu yakin?",
+                text: "Testimoni ini akan dihapus secara permanen!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+  });
+
+</script>
+
 </body>
 <!-- [Body] end -->
 </html>

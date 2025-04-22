@@ -27,6 +27,10 @@
     <link rel="stylesheet" href="{{ asset ('/css/style.css') }}" id="main-style-link" >
     <link rel="stylesheet" href="{{ asset ('/css/style-preset.css') }}" >
 
+    {{-- Summernote --}}
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -51,32 +55,38 @@
     <div class="row">
         <!-- [ link-button ] start -->
         <div class="col-sm-12">
-          <div class="card">
-              <div class="card-header">
-                <h5>Create Home Content - Our Clients</h5>
-              </div>
-              <div class="card-body">
-                <form action="{{ route('client.store') }}" method="POST" enctype="multipart/form-data">
-                  @csrf
-                  <div class="mb-3">
-                    <label for="name" class="form-label">Nama Klien</label>
-                    <input type="text" name="name" id="name" class="form-control" required placeholder="Masukkan Nama Klien" value={{ old('name') }}>
-                    @error('name')
-                      <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                  </div>
-                  <div class="mb-3">
-                    <label for="image" class="form-label">Logo Klien</label>
-                    <input type="file" name="image" id="image" accept="image/*" class="form-control" value={{ old('image') }} required title="Masukkan Logo Klien">
-                    @error('image')
-                      <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                  </div>
-                  <button class="btn btn-primary" type="submit">Simpan Konten</button>
-                </form>
-              </div>
-          </div>
+        <div class="card">
+            <div class="card-header">
+            <h5>Create Article Content</h5>
+            </div>
+            <div class="card-body">
+              <form action="{{ route('article.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                  <label for="title" class="form-label">Judul Artikel</label>
+                  <input type="text" name="title" class="form-control" id="name" placeholder="Masukkan Judul Artikel" required>
+                </div>
+                <div class="mb-3">
+                  <label for="date" class="form-label">Tanggal Posting</label>
+                  <input type="date" name="date" class="form-control" id="date" placeholder="Masukkan Tanggal Posting" required>
+                </div>
+                <div class="mb-3">
+                  <label for="description" class="form-label">Deskripsi Konten</label>
+                  <textarea id="description" name="description" class="form-control" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="summernote" class="form-label">Isi Konten</label>
+                  <textarea id="summernote" name="content" class="form-control" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="image" class="form-label">Foto Sampul</label>
+                  <input type="file" name="image" id="image" accept="image/*" class="form-control" required>
+                </div>
+                <button class="btn btn-primary" type="submit">Simpan Konten</button>
+              </form>
+            </div>
         </div>
+      </div>
         <!-- [ link-button ] end -->
     </div>
     <!-- [ Main Content ] end -->
@@ -140,6 +150,21 @@
           targetElement.children[0].remove();
         }, 3000);
       });
+    });
+
+    $('#summernote').summernote({
+      placeholder: 'Masukkan Isi Konten',
+      tabsize: 2,
+      height: 120,
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video']],
+        ['view', ['fullscreen', 'codeview', 'help']]
+      ]
     });
   </script>
 </body>

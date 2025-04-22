@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="{{ asset ('/css/style.css') }}" id="main-style-link" >
     <link rel="stylesheet" href="{{ asset ('/css/style-preset.css') }}" >
 
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -53,24 +55,86 @@
         <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-            <h5>Create Student Work Content</h5>
+              <h5>All Student Work Content</h5>
+              <a href="{{ route('student_work.create') }}">Tambah Karya Siswa</a>
             </div>
             <div class="card-body">
-              <form action="">
-                <div class="mb-3">
-                  <label for="image" class="form-label">Foto Karya</label>
-                  <input type="file" name="image" id="image" accept="image/*" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                  <label for="description" class="form-label">Deskripsi Karya</label>
-                  <textarea id="description" name="description" class="form-control" placeholder="Masukkan Deskripsi Karya" required></textarea>
-                </div>
-                <button class="btn btn-primary" type="submit">Simpan Konten</button>
-              </form>
+              <table class="table table-hover">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nama Siswa</th>
+                    <th scope="col">Deskripsi Karya</th>
+                    <th scope="col">Sampul Karya</th>
+                    <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($studentWorks as $student)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $student->name }}</td>
+                            <td>{{ $student->description }}</td>  
+                            <td><img src="{{ asset('storage/' .$student->image) }}" alt="" width="100px"></td>
+                            <td>
+                              <div class="d-flex align-items-center gap-2">
+                                <button class="btn btn-warning btn-sm edit-btn" 
+                                  data-id="{{ $student->id }}" 
+                                  data-name="{{ $student->name }}"
+                                  data-description="{{ $student->description }}"
+                                  data-image="{{ $student->image }}">
+                                  Edit
+                                </button>
+                                <form id="deleteForm" action="{{ route('student_work.destroy', $student->id) }}" method="POST" class="ms-2">
+                                  @csrf
+                                  @method('DELETE')
+                                  <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $student->id }}">Hapus</button>
+                                </form>
+                              </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+              </table>
             </div>
         </div>
       </div>
-        <!-- [ link-button ] end -->
+      <!-- [ link-button ] end -->
+
+      <!-- Scrollable modal -->
+      <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Kontak</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="editForm" action="{{ route('student_work.update', ':id') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" id="edit-modal-id" name="student_work_id">
+
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Nama Siswa</label>
+                      <input type="text" name="name" id="name" class="form-control" placeholder="Masukkan Nama Siswa" value="{{ $student->name }}" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="image" class="form-label">Foto Karya</label>
+                      <img id="preview-image" src="{{ asset('storage/' . $student->image) }}" alt="Artikel Image" width="150px" class="d-block mb-2">
+                      <input type="file" name="image" id="image" accept="image/*" class="form-control">
+                      <small class="text-muted">Unggah gambar baru jika ingin mengubah foto sampul.</small>
+                    </div>
+                    <div class="mb-3">
+                      <label for="description" class="form-label">Deskripsi Karya</label>
+                      <textarea id="description" name="description" class="form-control" placeholder="Masukkan Deskripsi Karya" required>{{ $student->description }}</textarea>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Simpan Konten</button>
+                  </form>
+                </div>
+            </div>
+        </div>
+      </div>
     </div>
     <!-- [ Main Content ] end -->
 </div>
@@ -135,6 +199,90 @@
       });
     });
   </script>
+
+<script>
+  @if(session('studentSuccessAlert'))
+    Swal.fire({
+        title: "Success!",
+        text: "{{ session('studentSuccessAlert') }}",
+        icon: "success",
+        showConfirmButton: true,
+        confirmButtonText: "OK",
+        timer: 3000
+    });
+  @endif
+</script>
+
+<script>
+  // Edit button click event
+  document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll(".edit-btn").forEach(button => {
+          button.addEventListener("click", function() {
+              let studentWorkId = this.getAttribute("data-id");
+              let name = this.getAttribute("data-name");
+              let description = this.getAttribute("data-description");
+              let image = this.getAttribute("data-image");
+
+              // Set nilai form dengan data yang dipilih
+              document.getElementById("edit-modal-id").value = studentWorkId;
+              document.getElementById("name").value = name;
+              document.getElementById("description").value = description;
+              
+              // Jika ada gambar, ubah src untuk preview
+              if (image) {
+                  document.getElementById("preview-image").src = "/storage/" + image;
+              }
+
+              // Perbarui action form agar sesuai dengan testimoni yang dipilih
+              document.getElementById("editForm").setAttribute("action", "/admin/create/student_work/" + studentWorkId);
+
+              // Tampilkan modal
+              let editModal = new bootstrap.Modal(document.getElementById("editModal"));
+              editModal.show();
+          });
+      });
+  });
+
+
+  // Dynamic preview image
+  document.getElementById("image").addEventListener("change", function(event) {
+      let file = event.target.files[0];
+      if (file) {
+          let reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById("preview-image").src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+      }
+  });
+
+  // Confirmation delete message
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("#delete-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            let studentWorkId = this.getAttribute("data-id");
+            let form = this.closest("form");
+
+            Swal.fire({
+                title: "Apakah kamu yakin?",
+                text: "Karya siswa ini akan dihapus secara permanen!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+  });
+
+</script>
+
 </body>
 <!-- [Body] end -->
 </html>

@@ -57,10 +57,10 @@
           <div class="card">
               <div class="card-header">
                 <h5>All Home Content - Our Teams</h5>
-                <a href="{{ route('team.create') }}">Tambahkan Tim</a>
+                <a href="{{ route('team.create') }}">Tambah Tim</a>
               </div>
               <div class="card-body">
-                <table class="table table-dark table-hover">
+                <table class="table table-hover">
                   <thead>
                     <tr>
                       <th scope="col">No</th>
@@ -77,7 +77,23 @@
                         <td>{{ $team->name }}</td>
                         <td>{{ $team->position }}</td>
                         <td><img src="{{ asset('storage/'.$team->image) }}" alt="{{ $team->name }}" width="50"></td>
-                        <td class="d-flex">
+                        <td>
+                          <div class="d-flex align-items-center gap-2">
+                            <button class="btn btn-warning btn-sm edit-btn" 
+                              data-id="{{ $team->id }}" 
+                              data-name="{{ $team->name }}"
+                              data-position="{{ $team->position }}"
+                              data-description="{{ $team->description }}"
+                              data-image="{{ $team->image }}">
+                              Edit
+                            </button>
+                            <form id="deleteForm" action="{{ route('team.destroy', $team->id) }}" method="POST" class="ms-2">
+                              @csrf
+                              @method('DELETE')
+                              <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $team->id }}">Hapus</button>
+                            </form>
+                          </div>
+                        </td>
                       </tr>
                     @endforeach
                 </table>
@@ -85,6 +101,45 @@
           </div>
         </div>
         <!-- [ link-button ] end -->
+
+          <!-- Scrollable modal -->
+          <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Edit Klien</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="editForm" action="{{ route('team.update', ':id') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" id="edit-modal-id" name="team_id">
+
+                        <div class="mb-3">
+                          <label for="name" class="form-label">Nama Lengkap</label>
+                          <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama Lengkap" value="{{ $team->name }}" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="position" class="form-label">Jabatan</label>
+                          <input type="text" class="form-control" id="position" name="position" placeholder="Masukkan Jabatan" value="{{ $team->position }}" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="description" class="form-label">Profil Singkat</label>
+                          <textarea class="form-control" id="description" name="description" rows="3" placeholder="Masukkan Profil Singkat" required>{{ $team->description }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                          <label for="image" class="form-label">Foto Profil</label>
+                          <img id="preview-image" src="{{ asset('storage/' . $team->image) }}" alt="Artikel Image" width="150px" class="d-block mb-2">
+                          <input type="file" name="image" id="image" accept="image/*" class="form-control">
+                          <small class="text-muted">Unggah gambar baru jika ingin mengubah logo.</small>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
+                      </form>
+                    </div>
+                </div>
+            </div>
+          </div>
     </div>
     <!-- [ Main Content ] end -->
 </div>
@@ -171,6 +226,78 @@
   @endif
 </script>
 
+
+<script>
+  // Edit button click event
+  document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll(".edit-btn").forEach(button => {
+          button.addEventListener("click", function() {
+              let teamId = this.getAttribute("data-id");
+              let name = this.getAttribute("data-name");
+              let position = this.getAttribute("data-position");
+              let description = this.getAttribute("data-description");
+              let image = this.getAttribute("data-image");
+
+              // Set nilai form dengan data yang dipilih
+              document.getElementById("edit-modal-id").value = teamId;
+              document.getElementById("name").value = name;
+              document.getElementById("position").value = position;
+              document.getElementById("description").value = description;
+              
+              // Jika ada gambar, ubah src untuk preview
+              if (image) {
+                  document.getElementById("preview-image").src = "/storage/" + image;
+              }
+
+              // Perbarui action form agar sesuai dengan testimoni yang dipilih
+              document.getElementById("editForm").setAttribute("action", "/admin/create/team/" + teamId);
+
+              // Tampilkan modal
+              let editModal = new bootstrap.Modal(document.getElementById("editModal"));
+              editModal.show();
+          });
+      });
+  });
+
+
+  // Dynamic preview image
+  document.getElementById("image").addEventListener("change", function(event) {
+      let file = event.target.files[0];
+      if (file) {
+          let reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById("preview-image").src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+      }
+  });
+
+  // Confirmation delete message
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("#delete-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            let teamId = this.getAttribute("data-id");
+            let form = this.closest("form");
+
+            Swal.fire({
+                title: "Apakah kamu yakin?",
+                text: "Anggota tim ini akan dihapus secara permanen!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+  });
+
+</script>
 </body>
 <!-- [Body] end -->
 </html>

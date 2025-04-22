@@ -51,32 +51,30 @@
     <div class="row">
         <!-- [ link-button ] start -->
         <div class="col-sm-12">
-          <div class="card">
-              <div class="card-header">
-                <h5>Create Home Content - Our Clients</h5>
-              </div>
-              <div class="card-body">
-                <form action="{{ route('client.store') }}" method="POST" enctype="multipart/form-data">
-                  @csrf
-                  <div class="mb-3">
-                    <label for="name" class="form-label">Nama Klien</label>
-                    <input type="text" name="name" id="name" class="form-control" required placeholder="Masukkan Nama Klien" value={{ old('name') }}>
-                    @error('name')
-                      <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                  </div>
-                  <div class="mb-3">
-                    <label for="image" class="form-label">Logo Klien</label>
-                    <input type="file" name="image" id="image" accept="image/*" class="form-control" value={{ old('image') }} required title="Masukkan Logo Klien">
-                    @error('image')
-                      <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                  </div>
-                  <button class="btn btn-primary" type="submit">Simpan Konten</button>
-                </form>
-              </div>
-          </div>
+        <div class="card">
+            <div class="card-header">
+            <h5>Create Student Work Content</h5>
+            </div>
+            <div class="card-body">
+              <form action="{{ route('student_work.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                  <label for="name" class="form-label">Nama Siswa</label>
+                  <input type="text" name="name" id="name" class="form-control" placeholder="Masukkan Nama Siswa" required>
+                </div>
+                <div class="mb-3">
+                  <label for="image" class="form-label">Foto Karya</label>
+                  <input type="file" name="image" id="image" accept="image/*" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label for="description" class="form-label">Deskripsi Karya</label>
+                  <textarea id="description" name="description" class="form-control" placeholder="Masukkan Deskripsi Karya" required></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Simpan Konten</button>
+              </form>
+            </div>
         </div>
+      </div>
         <!-- [ link-button ] end -->
     </div>
     <!-- [ Main Content ] end -->

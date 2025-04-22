@@ -44,43 +44,66 @@
 
 <!-- [ Main Content ] start -->
 <div class="pc-container">
-<div class="pc-content">
-    <x-admin-content-header></x-admin-content-header>
+  <div class="pc-content">
+      <x-admin-content-header></x-admin-content-header>
 
-    <!-- [ Main Content ] start -->
-    <div class="row">
-        <!-- [ link-button ] start -->
-        <div class="col-sm-12">
+      <!-- [ Main Content ] start -->
+      <div class="row">
+          <!-- [ link-button ] start -->
+          <div class="col-sm-12">
           <div class="card">
               <div class="card-header">
-                <h5>Create Home Content - Our Clients</h5>
+              <h5>Create Contact Content</h5>
               </div>
               <div class="card-body">
-                <form action="{{ route('client.store') }}" method="POST" enctype="multipart/form-data">
-                  @csrf
-                  <div class="mb-3">
-                    <label for="name" class="form-label">Nama Klien</label>
-                    <input type="text" name="name" id="name" class="form-control" required placeholder="Masukkan Nama Klien" value={{ old('name') }}>
-                    @error('name')
-                      <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                  </div>
-                  <div class="mb-3">
-                    <label for="image" class="form-label">Logo Klien</label>
-                    <input type="file" name="image" id="image" accept="image/*" class="form-control" value={{ old('image') }} required title="Masukkan Logo Klien">
-                    @error('image')
-                      <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                  </div>
-                  <button class="btn btn-primary" type="submit">Simpan Konten</button>
+                <form action="{{ route('contact.store') }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Lokasi Kantor</label>
+                        <select class="form-select" id="location" name="location" value={{ old('location') }}>
+                            <option selected disabled>Pilih Lokasi</option>
+                            <option value="Surabaya Timur">Surabaya Timur</option>
+                            <option value="Surabaya Barat">Surabaya Barat</option>
+                            <option value="Kota Tuban">Kota Tuban</option>
+                        </select>
+                        @error('location')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Alamat Kantor</label>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Masukkan Alamat" value={{ old( 'address') }}>
+                        @error('address')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contact" class="form-label">Kontak Layanan</label>
+                        <input type="number" class="form-control" id="contact" name="contact" placeholder="Masukkan Kontak Layanan" value={{ old('contact') }}>
+                        @error('contact')
+                            <div class="text-danger">{{ $message }}</div>   
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Kantor</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan Email Kantor" value={{ old('email') }}>
+                        @error('email')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
+                    <button class="btn btn-primary" type="submit">Simpan Konten</button>
                 </form>
               </div>
           </div>
         </div>
-        <!-- [ link-button ] end -->
-    </div>
-    <!-- [ Main Content ] end -->
-</div>
+          <!-- [ link-button ] end -->
+      </div>
+      <!-- [ Main Content ] end -->
+  </div>
 </div>
 
 <x-admin-footer></x-admin-footer>

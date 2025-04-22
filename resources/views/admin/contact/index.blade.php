@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="{{ asset ('/css/style.css') }}" id="main-style-link" >
     <link rel="stylesheet" href="{{ asset ('/css/style-preset.css') }}" >
 
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -45,51 +47,111 @@
 <!-- [ Main Content ] start -->
 <div class="pc-container">
   <div class="pc-content">
-      <x-admin-content-header></x-admin-content-header>
+    <x-admin-content-header></x-admin-content-header>
 
-      <!-- [ Main Content ] start -->
-      <div class="row">
-          <!-- [ link-button ] start -->
-          <div class="col-sm-12">
-          <div class="card">
-              <div class="card-header">
-              <h5>Create Contact Content</h5>
-              </div>
-              <div class="card-body">
-                <form action="">
-                  <div class="mb-3">
-                    <label for="location" class="form-label">Lokasi Kantor</label>
-                    <select class="form-select" id="location" name="location" required>
-                      <option selected disabled>Pilih Lokasi</option>
-                      <option value="Surabaya Timur">Surabaya Timur</option>
-                      <option value="Surabaya Barat">Surabaya Barat</option>
-                      <option value="Kota Tuban">Kota Tuban</option>
-                    </select>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="address" class="form-label">Alamat Kantor</label>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="Masukkan Alamat" required>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="contact" class="form-label">Kontak Layanan</label>
-                    <input type="number" class="form-control" id="contact" placeholder="Masukkan Kontak Layanan" required>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="email" class="form-label">Email Kantor</label>
-                    <input type="email" class="form-control" id="email" placeholder="Masukkan Email Kantor" required>
-                  </div>
-                  
-                  <button class="btn btn-primary" type="submit">Simpan Konten</button>
-                </form>
-              </div>
+    <!-- [ Main Content ] start -->
+    <div class="row">
+      <!-- [ link-button ] start -->
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>All Contact Content</h5>
+            <a href="{{ route('contact.create') }}">Tambah Kontak</a>
+          </div>
+          <div class="card-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Lokasi Kantor</th>
+                  <th scope="col">Alamat Kantor</th>
+                  <th scope="col">Kontak Layanan</th>
+                  <th scope="col">Email Kantor</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($contacts as $contact)
+                <tr>
+                    <th scope="row">{{ $loop->iteration }}</th>
+                    <td>{{ $contact->location }}</td>
+                    <td>{{ $contact->address }}</td>
+                    <td>{{ $contact->contact }}</td>
+                    <td>{{ $contact->email }}</td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-warning btn-sm edit-btn" 
+                          data-id="{{ $contact->id }}" 
+                          data-location="{{ $contact->location }}"
+                          data-address="{{ $contact->address }}"
+                          data-contact="{{ $contact->contact }}"
+                          data-email="{{ $contact->email }}">
+                          Edit
+                        </button>
+                        <form id="deleteForm" action="{{ route('contact.destroy', $contact->id) }}" method="POST" class="ms-2">
+                          @csrf
+                          @method('DELETE')
+                          <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $contact->id }}">Hapus</button>
+                        </form>
+                      </div>
+                    </td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
           </div>
         </div>
-          <!-- [ link-button ] end -->
       </div>
-      <!-- [ Main Content ] end -->
+      <!-- [ link-button ] end -->
+
+      <!-- Scrollable modal -->
+      <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Kontak</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="editForm" action="{{ route('contact.update', ':id') }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" id="edit-modal-id" name="article_id">
+
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Lokasi Kantor</label>
+                        <select class="form-select" id="location" name="location" value="{{ $contact->location }}">
+                          <option selected disabled>Pilih Lokasi</option>
+                          <option value="Surabaya Timur">Surabaya Timur</option>
+                          <option value="Surabaya Barat">Surabaya Barat</option>
+                          <option value="Kota Tuban">Kota Tuban</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Alamat Kantor</label>
+                        <textarea name="address" class="form-control" id="address" placeholder="Masukkan Alamat">{{ $contact->address }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contact" class="form-label">Kontak Layanan</label>
+                        <input type="number" class="form-control" id="contact" name="contact" placeholder="Masukkan Kontak Layanan" value={{ $contact->contact }}>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Kantor</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan Email Kantor" value={{ $contact->email }}>
+                    </div>
+                    
+                    <button class="btn btn-primary" type="submit">Simpan Konten</button>
+                  </form>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
   </div>
 </div>
 
@@ -152,6 +214,76 @@
       });
     });
   </script>
+
+<script>
+  @if(session('contactSuccessAlert'))
+    Swal.fire({
+        title: "Success!",
+        text: "{{ session('contactSuccessAlert') }}",
+        icon: "success",
+        showConfirmButton: true,
+        confirmButtonText: 'OK',
+        timer: 3000
+    });
+  @endif
+</script>
+
+<script>
+  // Edit button click event
+  document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll(".edit-btn").forEach(button => {
+          button.addEventListener("click", function() {
+            let contactId = this.getAttribute("data-id");
+            let location = this.getAttribute("data-location");
+            let address = this.getAttribute("data-address");
+            let contact = this.getAttribute("data-contact");
+            let email = this.getAttribute("data-email");
+
+            // Set nilai form dengan data yang dipilih
+            document.getElementById("edit-modal-id").value = contactId;
+            document.getElementById("location").value = location;
+            document.getElementById("address").value = address;
+            document.getElementById("contact").value = contact;
+            document.getElementById("email").value = email;
+            
+            // Perbarui action form agar sesuai dengan testimoni yang dipilih
+            document.getElementById("editForm").setAttribute("action", "/admin/create/contact/" + contactId);
+
+            // Tampilkan modal
+            let editModal = new bootstrap.Modal(document.getElementById("editModal"));
+            editModal.show();
+          });
+      });
+  });
+
+
+  // Confirmation delete message
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("#delete-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            let contactId = this.getAttribute("data-id");
+            let form = this.closest("form");
+
+            Swal.fire({
+                title: "Apakah kamu yakin?",
+                text: "Kontak ini akan dihapus secara permanen!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+  });
+
+</script>
+
 </body>
 <!-- [Body] end -->
 </html>

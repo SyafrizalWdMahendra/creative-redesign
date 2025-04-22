@@ -38,8 +38,12 @@ class ClientController extends Controller
     {
         // Validasi input file
         $request->validate([
+            'name' => 'required|string|max:50',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
+            'name.required' => 'Nama klien harus diisi.',
+            'name.string' => 'Nama klien harus berupa string.',
+            'name.max' => 'Panjang nama klien maksimal 50 karakter.',
             'image.image' => 'File yang diunggah harus berupa gambar.',
             'image.mimes' => 'Gambar harus dalam format jpeg, png, jpg, atau gif.',
             'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
@@ -54,6 +58,7 @@ class ClientController extends Controller
 
         // Simpan data ke database
         Client::create([
+            'name' => $request->name,
             'image' => $imagePath,
         ]);
 
@@ -82,16 +87,44 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Client $client)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            'name.required' => 'Nama klien harus diisi.',
+            'name.string' => 'Nama klien harus berupa string.',
+            'name.max' => 'Panjang nama klien maksimal 50 karakter.',
+            'image.image' => 'File yang diunggah harus berupa gambar.',
+            'image.mimes' => 'Gambar harus dalam format jpeg, png, jpg, atau gif.',
+            'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
+        ]);
+
+        $imagePath = $client->image;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+
+        $client->update([
+            'name' => $request->name,
+            'image' => $imagePath,
+        ]);
+
+        session()->flash('clientSuccessAlert', "Klien berhasil diperbarui.");
+
+        return redirect()->route('client.index')->with('success', 'Client updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Client $client)
     {
-        //
+        $client->delete();
+
+        session()->flash('clientSuccessAlert', "Klien berhasil dihapus.");
+
+        return redirect()->route('client.index')->with('success', 'Client deleted successfully.');
     }
 }

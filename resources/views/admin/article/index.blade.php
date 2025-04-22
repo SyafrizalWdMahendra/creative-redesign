@@ -31,6 +31,9 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -48,48 +51,121 @@
 
 <!-- [ Main Content ] start -->
 <div class="pc-container">
-<div class="pc-content">
+  <div class="pc-content">
     <x-admin-content-header></x-admin-content-header>
 
     <!-- [ Main Content ] start -->
     <div class="row">
-        <!-- [ link-button ] start -->
-        <div class="col-sm-12">
+      <!-- [ link-button ] start -->
+      <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-            <h5>Create Article Content</h5>
+              <h5>All Article Content</h5>
+              <a href="{{ route('article.create') }}">Tambah Artikel</a>
             </div>
             <div class="card-body">
-              <form action="">
-                <div class="mb-3">
-                  <label for="name" class="form-label">Judul Artikel</label>
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Masukkan Judul Artikel" required>
-                </div>
-                <div class="mb-3">
-                  <label for="date" class="form-label">Tanggal Posting</label>
-                  <input type="date" name="date" class="form-control" id="date" placeholder="Masukkan Tanggal Posting" required>
-                </div>
-                <div class="mb-3">
-                  <label for="description" class="form-label">Deskripsi Konten</label>
-                  <textarea id="description" name="description" class="form-control" required></textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="summernote" class="form-label">Isi Konten</label>
-                  <textarea id="summernote" name="editordata" class="form-control" required></textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="image" class="form-label">Foto Sampul</label>
-                  <input type="file" name="image" id="image" accept="image/*" class="form-control" required>
-                </div>
-                <button class="btn btn-primary" type="submit">Simpan Konten</button>
-              </form>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Judul Artikel</th>
+                    <th scope="col">Tanggal Posting</th>
+                    <th scope="col">Deskripsi</th>
+                    <th scope="col">Foto Sampul</th>
+                    <th scope="col">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($articles as $article)
+                  <tr>
+                      <th scope="row">{{ $loop->iteration }}</th>
+                      <td>{{ $article->title }}</td>
+                      <td>{{ \Carbon\Carbon::parse($article->date)->format('Y-m-d') }}</td>
+                      <td>{{ $article->description }}</td>
+                      <td>
+                          @if ($article->image)
+                              <img src="{{ asset('storage/' . $article->image) }}" alt="Artikel Image" width="100px">
+                          @else
+                              Tidak ada gambar
+                          @endif
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center gap-2">
+                          <button class="btn btn-warning btn-sm edit-btn" 
+                            data-id="{{ $article->id }}" 
+                            data-title="{{ $article->title }}"
+                            data-date="{{ $article->date }}"
+                            data-description="{{ $article->description }}"
+                            data-image="{{ $article->image }}">
+                            Edit
+                          </button>
+                          <form id="deleteForm" action="{{ route('article.destroy', $article->id) }}" method="POST" class="ms-2">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $article->id }}">Hapus</button>
+                          </form>
+                        </div>
+                      </td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
             </div>
         </div>
       </div>
-        <!-- [ link-button ] end -->
+      <!-- [ link-button ] end -->
+
+      <!-- Scrollable modal -->
+      <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Artikel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm" action="{{ route('article.update', ':id') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" id="edit-modal-id" name="article_id">
+                        
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Judul Artikel</label>
+                            <input type="text" name="title" class="form-control" id="title" placeholder="Masukkan Judul Artikel" value="{{ $article->title }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Tanggal Posting</label>
+                            <input type="date" name="date" class="form-control" id="date" value="{{ $article->date }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Deskripsi Konten</label>
+                            <textarea id="description" name="description" class="form-control" required>{{ $article->description }}</textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="summernote" class="form-label">Isi Konten</label>
+                            <textarea id="summernote" name="content" class="form-control" required>{{ $article->content }}</textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                          <label for="image" class="form-label">Foto Sampul</label>
+                          <img id="preview-image" src="{{ asset('storage/' . $article->image) }}" alt="Artikel Image" width="150px" class="d-block mb-2">
+                          <input type="file" name="image" id="image" accept="image/*" class="form-control">
+                          <small class="text-muted">Unggah gambar baru jika ingin mengubah foto sampul.</small>
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
     </div>
     <!-- [ Main Content ] end -->
-</div>
+
+  </div>
 </div>
 
 <x-admin-footer></x-admin-footer>
@@ -166,6 +242,92 @@
       ]
     });
   </script>
+
+<script>
+  @if(session('articleSuccessAlert'))
+    Swal.fire({
+        title: "Success!",
+        text: "{{ session('articleSuccessAlert') }}",
+        icon: "success",
+        showConfirmButton: true,
+        confirmButtonText: 'OK',
+        timer: 3000
+    });
+  @endif
+</script>
+
+<script>
+  // Edit button click event
+  document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll(".edit-btn").forEach(button => {
+          button.addEventListener("click", function() {
+              let articleId = this.getAttribute("data-id");
+              let title = this.getAttribute("data-title");
+              let date = this.getAttribute("data-date");
+              let description = this.getAttribute("data-description");
+              let image = this.getAttribute("data-image");
+
+              // Set nilai form dengan data yang dipilih
+              document.getElementById("edit-modal-id").value = articleId;
+              document.getElementById("title").value = title;
+              document.getElementById("date").value = date;
+              document.getElementById("description").value = description;
+              
+              // Jika ada gambar, ubah src untuk preview
+              if (image) {
+                  document.getElementById("preview-image").src = "/storage/" + image;
+              }
+
+              // Perbarui action form agar sesuai dengan testimoni yang dipilih
+              document.getElementById("editForm").setAttribute("action", "/admin/create/article/" + articleId);
+
+              // Tampilkan modal
+              let editModal = new bootstrap.Modal(document.getElementById("editModal"));
+              editModal.show();
+          });
+      });
+  });
+
+
+  // Dynamic preview image
+  document.getElementById("image").addEventListener("change", function(event) {
+      let file = event.target.files[0];
+      if (file) {
+          let reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById("preview-image").src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+      }
+  });
+
+  // Confirmation delete message
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("#delete-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            let articleId = this.getAttribute("data-id");
+            let form = this.closest("form");
+
+            Swal.fire({
+                title: "Apakah kamu yakin?",
+                text: "Artikel ini akan dihapus secara permanen!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+  });
+
+</script>
+
 </body>
 <!-- [Body] end -->
 </html>

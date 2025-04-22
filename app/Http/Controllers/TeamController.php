@@ -15,12 +15,10 @@ class TeamController extends Controller
     {
         $teams = Team::latest()->get();
 
-        // Jika data tim kosong, arahkan ke halaman create dengan notifikasi
         if ($teams->isEmpty()) {
             return redirect()->route('team.create')->with('teamAlert', 'Silakan buat anggota tim baru.');
         }
 
-        // Jika ada data tim, tampilkan halaman team.index dengan data tim
         return view('admin.home.team.index', compact('teams'));
     }
 
@@ -98,16 +96,52 @@ class TeamController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Team $team)
     {
-        //
+        $request->validate(
+            [
+                'name' => 'required|string|max:50',
+                'position' => 'required|string|max:20',
+                'description' => 'nullable|string',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ],
+            [
+                'name.required' => 'Nama anggota tim harus diisi.',
+                'position.required' => 'Posisi anggota tim harus diisi.',
+                'position.max' => 'Panjang kalimat maksimal 20 karakter.',
+                'image.image' => 'File yang diunggah harus berupa gambar.',
+                'image.mimes' => 'Gambar harus dalam format jpeg, png, jpg, atau gif.',
+                'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
+            ]
+        );
+
+        $imagePath = $team->image;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+
+        $team->update([
+            'name' => $request->name,
+            'position' => $request->position,
+            'description' => $request->description,
+            'image' => $imagePath,
+        ]);
+
+        session()->flash('teamSuccessAlert', "Anggota tim berhasil diperbarui.");
+
+        return redirect()->route('team.index')->with('success', "Team member updated successfully.");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Team $team)
     {
-        //
+        $team->delete();
+
+        session()->flash('teamSuccessAlert', "Anggota tim berhasil dihapus.");
+
+        return redirect()->route('team.index')->with('success', "Team member deleted successfully.");
     }
 }

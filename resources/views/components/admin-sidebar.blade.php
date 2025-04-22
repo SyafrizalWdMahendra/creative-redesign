@@ -46,7 +46,7 @@
     </a>
     </li>
     <li class="pc-item">
-    <a href="{{ route ('study-work.index') }}" class="pc-link">
+    <a href="{{ route ('student_work.index') }}" class="pc-link">
         <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
         <span class="pc-mtext">Karya Siswa</span>
     </a>

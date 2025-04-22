@@ -27,9 +27,6 @@
     <link rel="stylesheet" href="{{ asset ('/css/style.css') }}" id="main-style-link" >
     <link rel="stylesheet" href="{{ asset ('/css/style-preset.css') }}" >
 
-    {{-- SweetAlert2 --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -160,26 +157,6 @@
     });
 
   </script>
-
-<script>
-  @if(session('clientSuccessAlert'))
-    Swal.fire({
-        title: "Success!",
-        text: "{{ session('clientSuccessAlert') }}",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 3000
-    });
-  @elseif(session('teamSuccessAlert'))
-    Swal.fire({
-        title: "Success!",
-        text: "{{ session('teamSuccessAlert') }}",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 3000
-    });
-  @endif
-</script>
 
 </body>
 <!-- [Body] end -->

@@ -29,7 +29,6 @@
 
     {{-- SweetAlert2 --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -57,12 +56,14 @@
           <div class="card">
               <div class="card-header">
                 <h5>All Home Content - Our Clients</h5>
+                <a href="{{ route('client.create') }}">Tambah Klien</a>
               </div>
               <div class="card-body">
-                <table class="table table-dark table-hover">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Nama Klien</th>
                         <th scope="col">Logo</th>
                         <th scope="col">Action</th>
                         </tr>
@@ -71,8 +72,23 @@
                         @foreach ($clients as $client)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
+                                <td>{{ $client->name }}</td>
                                 <td><img src="{{ asset('storage/' .$client->image) }}" alt="" width="100px"></td>
-                                <td class="d-flex">
+                                <td>
+                                  <div class="d-flex align-items-center gap-2">
+                                    <button class="btn btn-warning btn-sm edit-btn" 
+                                      data-id="{{ $client->id }}" 
+                                      data-name="{{ $client->name }}"
+                                      data-image="{{ $client->image }}">
+                                      Edit
+                                    </button>
+                                    <form id="deleteForm" action="{{ route('client.destroy', $client->id) }}" method="POST" class="ms-2">
+                                      @csrf
+                                      @method('DELETE')
+                                      <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $client->id }}">Hapus</button>
+                                    </form>
+                                  </div>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -81,6 +97,38 @@
           </div>
         </div>
         <!-- [ link-button ] end -->
+
+        <!-- Scrollable modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable">
+              <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Edit Klien</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="editForm" action="{{ route('client.update', ':id') }}" method="POST" enctype="multipart/form-data">
+                      @csrf
+                      @method('PUT')
+                      <input type="hidden" id="edit-modal-id" name="client_id">
+
+                      <div class="mb-3">
+                        <label for="name" class="form-label">Nama Klien</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama Layanan" value="{{ $client->name }}" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="image" class="form-label">Logo</label>
+                        <img id="preview-image" src="{{ asset('storage/' . $client->image) }}" alt="Artikel Image" width="150px" class="d-block mb-2">
+                        <input type="file" name="image" id="image" accept="image/*" class="form-control">
+                        <small class="text-muted">Unggah gambar baru jika ingin mengubah logo.</small>
+                      </div>
+                      
+                      <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
+                    </form>
+                  </div>
+              </div>
+          </div>
+        </div>
     </div>
     <!-- [ Main Content ] end -->
 </div>
@@ -156,15 +204,71 @@
         showConfirmButton: false,
         timer: 3000
     });
-  @elseif(session('teamSuccessAlert'))
-    Swal.fire({
-        title: "Success!",
-        text: "{{ session('teamSuccessAlert') }}",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 3000
-    });
   @endif
+</script>
+
+<script>
+  // Edit button click event
+  document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll(".edit-btn").forEach(button => {
+          button.addEventListener("click", function() {
+              let serviceId = this.getAttribute("data-id");
+              let name = this.getAttribute("data-name");
+              let image = this.getAttribute("data-image");
+
+              document.getElementById("edit-modal-id").value = serviceId;
+              document.getElementById("name").value = name;
+              
+              if (image) {
+                  document.getElementById("preview-image").src = "/storage/" + image;
+              }
+
+              document.getElementById("editForm").setAttribute("action", "/admin/create/client/" + serviceId);
+
+              let editModal = new bootstrap.Modal(document.getElementById("editModal"));
+              editModal.show();
+          });
+      });
+  });
+
+
+  // Dynamic preview image
+  document.getElementById("image").addEventListener("change", function(event) {
+      let file = event.target.files[0];
+      if (file) {
+          let reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById("preview-image").src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+      }
+  });
+
+  // Confirmation delete message
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("#delete-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            let serviceId = this.getAttribute("data-id");
+            let form = this.closest("form");
+
+            Swal.fire({
+                title: "Apakah kamu yakin?",
+                text: "Klien ini akan dihapus secara permanen!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+  });
+
 </script>
 
 </body>
