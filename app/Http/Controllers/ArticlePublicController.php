@@ -3,32 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\Client;
-use App\Models\Service;
-use App\Models\Team;
-use App\Models\Testimony;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class ArticlePublicController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $clients = Client::latest()->get();
-        $teams = Team::latest()->get();
-        $testimonies = Testimony::latest()->get();
-        $services = Service::latest()->get();
         $articles = Article::latest()->get();
 
-        return view('public.index', compact([
-            'teams',
-            'clients',
-            'testimonies',
-            'services',
-            'articles',
-        ]));
+        return view('public.article.index', compact('articles'));
     }
 
     /**

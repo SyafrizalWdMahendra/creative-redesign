@@ -70,6 +70,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Layanan Jasa</th>
                     <th scope="col">Judul Artikel</th>
+                    <th scope="col">Deskripsi Layanan</th>
                     <th scope="col">Sampul Halaman</th>
                     <th scope="col">Action</th>
                     </tr>
@@ -79,7 +80,8 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $service->name }}</td>
-                            <td>{{ $service->title }}</td>  
+                            <td>{{ !empty($service->title) ? $service->title : '-' }}</td>
+                            <td>{{ $service->description }}</td>  
                             <td><img src="{{ asset('storage/' .$service->image) }}" alt="" width="100px"></td>
                             <td>
                               <div class="d-flex align-items-center gap-2">
@@ -87,6 +89,7 @@
                                   data-id="{{ $service->id }}" 
                                   data-name="{{ $service->name }}"
                                   data-title="{{ $service->title }}"
+                                  data-description="{{ $service->description }}"
                                   data-content="{{ $service->content }}"
                                   data-image="{{ $service->image }}">
                                   Edit
@@ -121,15 +124,25 @@
 
                       <div class="mb-3">
                         <label for="name" class="form-label">Nama Layanan</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama Layanan" value="{{ $service->name }}" required>
+                        <select class="form-select" id="name" name="name" required value="{{ $service->name }}">
+                          <option selected disabled>Pilih Layanan</option>
+                          <option value="Course & Trainings">Course & Trainings</option>
+                          <option value="Branding & Design">Branding & Design</option>
+                          <option value="Web Developoment">Web Developoment</option>
+                          <option value="Mobile Apps Developoment">Mobile Apps Developoment</option>
+                        </select>
                       </div>
                       <div class="mb-3">
                         <label for="title" class="form-label">Judul Artikel</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="Masukkan Judul Layanan" value="{{ $service->title }}" required>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ !empty($service->title) ? $service->title : '-'  }}" placeholder="Masukkan Judul Layanan">
+                      </div>
+                      <div class="mb-3">
+                        <label for="description" class="form-label">Deskripsi</label>
+                        <textarea name="description" id="description" class="form-control" placeholder="Masukkan Deskripsi Layanan">{{ !empty($service->description) ? $service->description : '-'   }}</textarea>
                       </div>
                       <div class="mb-3">
                         <label for="summernote" class="form-label">Isi Konten</label>
-                        <textarea id="summernote" name="content" class="form-control" required>{{ $service->content }}</textarea>
+                        <textarea id="summernote" name="content">{{ $service->content }}</textarea>
                       </div>
                       <div class="mb-3">
                         <label for="image" class="form-label">Foto Sampul</label>
@@ -236,35 +249,33 @@
 <script>
   // Edit button click event
   document.addEventListener("DOMContentLoaded", function() {
-      document.querySelectorAll(".edit-btn").forEach(button => {
-          button.addEventListener("click", function() {
-              let serviceId = this.getAttribute("data-id");
-              let name = this.getAttribute("data-name");
-              let title = this.getAttribute("data-title");
-              let content = this.getAttribute("data-content");
-              let image = this.getAttribute("data-image");
+    document.querySelectorAll(".edit-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            let serviceId = this.getAttribute("data-id");
+            let name = this.getAttribute("data-name");
+            let title = this.getAttribute("data-title");
+            let description = this.getAttribute("data-description");
+            let content = this.getAttribute("data-content");
+            let image = this.getAttribute("data-image");
 
-              // Set nilai form dengan data yang dipilih
-              document.getElementById("edit-modal-id").value = serviceId;
-              document.getElementById("name").value = name;
-              document.getElementById("title").value = title;
-              document.getElementById("summernote").value = content;
-              
-              // Jika ada gambar, ubah src untuk preview
-              if (image) {
-                  document.getElementById("preview-image").src = "/storage/" + image;
-              }
+            document.getElementById("edit-modal-id").value = serviceId;
+            document.getElementById("name").value = name;
+            document.getElementById("title").value = title;
+            document.getElementById("description").value = description;
+            
+            $('#summernote').summernote('code', content);
 
-              // Perbarui action form agar sesuai dengan testimoni yang dipilih
-              document.getElementById("editForm").setAttribute("action", "/admin/create/service/" + serviceId);
+            if (image) {
+                document.getElementById("preview-image").src = "/storage/" + image;
+            }
 
-              // Tampilkan modal
-              let editModal = new bootstrap.Modal(document.getElementById("editModal"));
-              editModal.show();
-          });
-      });
+            document.getElementById("editForm").setAttribute("action", "/admin/create/service/" + serviceId);
+
+            let editModal = new bootstrap.Modal(document.getElementById("editModal"));
+            editModal.show();
+        });
+    });
   });
-
 
   // Dynamic preview image
   document.getElementById("image").addEventListener("change", function(event) {

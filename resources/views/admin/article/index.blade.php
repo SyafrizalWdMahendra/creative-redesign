@@ -95,6 +95,7 @@
                             data-id="{{ $article->id }}" 
                             data-title="{{ $article->title }}"
                             data-date="{{ $article->date }}"
+                            data-content="{{ $article->content }}"
                             data-description="{{ $article->description }}"
                             data-image="{{ $article->image }}">
                             Edit
@@ -263,25 +264,24 @@
           button.addEventListener("click", function() {
               let articleId = this.getAttribute("data-id");
               let title = this.getAttribute("data-title");
+              let content = this.getAttribute("data-content");
               let date = this.getAttribute("data-date");
               let description = this.getAttribute("data-description");
               let image = this.getAttribute("data-image");
 
-              // Set nilai form dengan data yang dipilih
               document.getElementById("edit-modal-id").value = articleId;
               document.getElementById("title").value = title;
               document.getElementById("date").value = date;
               document.getElementById("description").value = description;
+
+              $('#summernote').summernote('code', content);
               
-              // Jika ada gambar, ubah src untuk preview
               if (image) {
                   document.getElementById("preview-image").src = "/storage/" + image;
               }
 
-              // Perbarui action form agar sesuai dengan testimoni yang dipilih
               document.getElementById("editForm").setAttribute("action", "/admin/create/article/" + articleId);
 
-              // Tampilkan modal
               let editModal = new bootstrap.Modal(document.getElementById("editModal"));
               editModal.show();
           });

@@ -38,7 +38,8 @@ class ServiceController extends Controller
         $request->validate(
             [
                 'name' => 'required|string|max:50',
-                'title' => 'required|string|max:100',
+                'title' => 'nullable|string|max:100',
+                'description' => 'nullable|string',
                 'content' => 'nullable|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ],
@@ -46,9 +47,9 @@ class ServiceController extends Controller
                 'name.required' => 'Nama layanan harus diisi.',
                 'name.string' => 'Nama layanan harus berupa string.',
                 'name.max' => 'Panjang kalimat maksimal 50 karakter.',
-                'title.required' => 'Judul layanan harus diisi.',
                 'title.string' => 'Judul layanan harus berupa string.',
                 'title.max' => 'Panjang kalimat maksimal 100 karakter.',
+                'description.string' => 'Deskripsi harus berupa string.',
                 'content.string' => 'Konten harus berupa string.',
                 'image.image' => 'File yang diunggah harus berupa gambar.',
                 'image.mimes' => 'Gambar harus dalam format jpeg, png, jpg, gif, atau svg.',
@@ -67,9 +68,10 @@ class ServiceController extends Controller
 
         // Simpan data ke database
         Service::create([
-            'name' => $request->input('name'),
-            'title' => $request->input('title'),
-            'content' => $request->input('content'),
+            'name' => $request->name,
+            'title' => $request->title,
+            'description' => $request->description,
+            'content' => $request->content,
             'image' => $imagePath,
         ]);
 
@@ -102,7 +104,8 @@ class ServiceController extends Controller
         $request->validate(
             [
                 'name' => 'required|string|max:50',
-                'title' => 'required|string|max:100',
+                'title' => 'nullable|string|max:100',
+                'description' => 'nullable|string',
                 'content' => 'nullable|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ],
@@ -110,9 +113,9 @@ class ServiceController extends Controller
                 'name.required' => 'Nama layanan harus diisi.',
                 'name.string' => 'Nama layanan harus berupa string.',
                 'name.max' => 'Panjang kalimat maksimal 50 karakter.',
-                'title.required' => 'Judul layanan harus diisi.',
                 'title.string' => 'Judul layanan harus berupa string.',
                 'title.max' => 'Panjang kalimat maksimal 100 karakter.',
+                'description.string' => 'Deskripsi harus berupa string.',
                 'content.string' => 'Konten harus berupa string.',
                 'image.image' => 'File yang diunggah harus berupa gambar.',
                 'image.mimes' => 'Gambar harus dalam format jpeg, png, jpg, gif, atau svg.',
@@ -120,21 +123,27 @@ class ServiceController extends Controller
             ]
         );
 
+        // Simpan gambar jika diunggah, jika tidak gunakan gambar lama
         $imagePath = $service->image;
-
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
+        // Simpan konten jika ada video
         $content = $service->content;
         if ($request->video) {
             preg_match('/<iframe.*?src=\"(.*?)\".*?><\/iframe>/', $request->content, $matches);
             $content = $matches[1] ?? null;
         }
 
+        // Pastikan jika `title` kosong, tetap diperbarui sebagai `null`
+        $title = $request->filled('title') ? $request->title : null;
+
+        // Update data layanan
         $service->update([
             'name' => $request->name,
-            'title' => $request->title,
+            'title' => $title,
+            'description' => $request->description,
             'content' => $content,
             'image' => $imagePath,
         ]);
@@ -143,6 +152,7 @@ class ServiceController extends Controller
 
         return redirect()->route('service.index')->with('success', "Layanan berhasil diperbarui.");
     }
+
 
     /**
      * Remove the specified resource from storage.

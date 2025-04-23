@@ -45,10 +45,11 @@
   <main class="main">
     <x-index-hero></x-index-hero>
     <x-index-about></x-index-about>
-    <x-index-client></x-index-client>
-    <x-index-service></x-index-service>
-    <x-index-testimonial></x-index-testimonial>
-    <x-index-team></x-index-team>
+    <x-index-client :clients="$clients"></x-index-client>
+    <x-index-service :services="$services"></x-index-service>
+    <x-index-testimonial :testimonies="$testimonies"></x-index-testimonial>
+    <x-index-team :teams="$teams"></x-index-team>
+    <x-index-article :articles="$articles"></x-index-article>
     <x-index-contact></x-index-contact>
   </main>
 

@@ -41,14 +41,14 @@ class TeamController extends Controller
         $request->validate(
             [
                 'name' => 'required|string|max:50',
-                'position' => 'required|string|max:20',
+                'position' => 'required|string|max:50',
                 'description' => 'nullable|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ],
             [
                 'name.required' => 'Nama anggota tim harus diisi.',
                 'position.required' => 'Posisi anggota tim harus diisi.',
-                'position.max' => 'Panjang kalimat maksimal 20 karakter.',
+                'position.max' => 'Panjang kalimat maksimal 50 karakter.',
                 'image.image' => 'File yang diunggah harus berupa gambar.',
                 'image.mimes' => 'Gambar harus dalam format jpeg, png, jpg, atau gif.',
                 'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
@@ -101,14 +101,14 @@ class TeamController extends Controller
         $request->validate(
             [
                 'name' => 'required|string|max:50',
-                'position' => 'required|string|max:20',
+                'position' => 'required|string|max:50',
                 'description' => 'nullable|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ],
             [
                 'name.required' => 'Nama anggota tim harus diisi.',
                 'position.required' => 'Posisi anggota tim harus diisi.',
-                'position.max' => 'Panjang kalimat maksimal 20 karakter.',
+                'position.max' => 'Panjang kalimat maksimal 50 karakter.',
                 'image.image' => 'File yang diunggah harus berupa gambar.',
                 'image.mimes' => 'Gambar harus dalam format jpeg, png, jpg, atau gif.',
                 'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',

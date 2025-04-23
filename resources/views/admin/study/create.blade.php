@@ -64,7 +64,23 @@
                 @csrf
                 <div class="mb-3">
                   <label for="name" class="form-label">Nama Kelas</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama Kelas" required>
+                  <select class="form-select" id="name" name="name" required>
+                    <option selected disabled>Pilih Kelas</option>
+                    <option value="Komputer Umum & Internet">Komputer Umum & Internet</option>
+                    <option value="Desain Grafis">Desain Grafis</option>
+                    <option value="Animasi 2D & 3D">Animasi 2D & 3D</option>
+                    <option value="Digital Marketing">Digital Marketing</option>
+                    <option value="Desain Interior">Desain Interior</option>
+                    <option value="Desain Arsitektur">Desain Arsitektur</option>
+                    <option value="Administrasi Perkantoran">Administrasi Perkantoran</option>
+                    <option value="Komputer Akuntansi">Komputer Akuntansi</option>
+                    <option value="Editing Video Multimedia">Editing Video Multimedia</option>
+                    <option value="Website Design CMS">Editing Video Multimedia</option>
+                    <option value="Web Designer">Web Designer</option>
+                    <option value="Programming Web">Programming Web</option>
+                    <option value="Programming Java Android">Programming Java Android</option>
+                    <option value="Photography">Photography</option>
+                  </select>
                 </div>
                 <div class="mb-3">
                   <label for="title" class="form-label">Judul</label>

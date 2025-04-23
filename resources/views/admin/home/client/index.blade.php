@@ -201,7 +201,7 @@
         title: "Success!",
         text: "{{ session('clientSuccessAlert') }}",
         icon: "success",
-        showConfirmButton: false,
+        showConfirmButton: true,
         timer: 3000
     });
   @endif

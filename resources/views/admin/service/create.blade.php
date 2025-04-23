@@ -64,19 +64,29 @@
                 @csrf
                 <div class="mb-3">
                   <label for="name" class="form-label">Nama Layanan</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama Layanan" required>
+                  <select class="form-select" id="name" name="name" required>
+                    <option selected disabled>Pilih Layanan</option>
+                    <option value="Course & Trainings">Course & Trainings</option>
+                    <option value="Branding & Design">Branding & Design</option>
+                    <option value="Web Developoment">Web Developoment</option>
+                    <option value="Mobile Apps Developoment">Mobile Apps Developoment</option>
+                  </select>
                 </div>
                 <div class="mb-3">
                   <label for="title" class="form-label">Judul Artikel</label>
-                  <input type="text" class="form-control" id="title" name="title" placeholder="Masukkan Judul Layanan" required>
+                  <input type="text" class="form-control" id="title" name="title" placeholder="Masukkan Judul Layanan">
+                </div>
+                <div class="mb-3">
+                  <label for="description" class="form-label">Deskripsi</label>
+                  <textarea name="description" id="description" class="form-control" placeholder="Masukkan Deskripsi Layanan"></textarea>
                 </div>
                 <div class="mb-3">
                   <label for="summernote" class="form-label">Isi Konten</label>
-                  <textarea id="summernote" name="content" class="form-control" required></textarea>
+                  <textarea id="summernote" name="content" class="form-control"></textarea>
                 </div>
                 <div class="mb-3">
                   <label for="image" class="form-label">Foto Sampul</label>
-                  <input type="file" name="image" id="image" accept="image/*" class="form-control" required>
+                  <input type="file" name="image" id="image" accept="image/*" class="form-control">
                 </div>
                 
                 <button class="btn btn-primary" type="submit">Simpan Konten</button>

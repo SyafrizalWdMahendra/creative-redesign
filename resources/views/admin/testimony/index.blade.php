@@ -70,7 +70,9 @@
                     <th scope="col">#</th>
                     <th scope="col">Nama Alumni</th>
                     <th scope="col">Komentar</th>
-                    {{-- <th scope="col">Video Testimoni</th> --}}
+                    @if ($testimonies->isNotEmpty())
+                      <th scope="col">Video Testimoni</th>
+                    @endif
                     <th scope="col">Foto Profil</th>
                     <th scope="col">Action</th>
                     </tr>
@@ -81,7 +83,13 @@
                           <th scope="row">{{ $loop->iteration }}</th>
                           <td>{{ $testimony->name }}</td>
                           <td>{{ $testimony->comment }}</td>  
-                          {{-- <td>{!! $testimony->video !!}</td> --}}
+                          <td>
+                            @if (!empty($testimony->video))
+                                <iframe width="150" height="150" src="{{ $testimony->video }}" frameborder="0" allowfullscreen></iframe>
+                            @else
+                                <p>-</p>
+                            @endif
+                          </td>
                           <td><img src="{{ asset('storage/' .$testimony->image) }}" alt="" width="100px"></td>
                           <td>
                             <div class="d-flex align-items-center gap-2">
