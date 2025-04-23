@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ArticleController extends Controller
 {
@@ -15,7 +16,7 @@ class ArticleController extends Controller
         $articles = Article::latest()->get();
 
         if ($articles->isEmpty()) {
-            return redirect()->route('article.create')->with('teamAlert', 'Silakan buat artikel baru.');
+            return redirect()->route('article_admin.create')->with('teamAlert', 'Silakan buat artikel baru.');
         }
 
         return view('admin.article.index', compact('articles'));
@@ -71,7 +72,7 @@ class ArticleController extends Controller
 
         session()->flash('articleSuccessAlert', 'Artikel berhasil ditambahkan.');
 
-        return redirect()->route('article.index')->with('success', 'Artikel berhasil ditambahkan.');
+        return redirect()->route('article_admin.index')->with('success', 'Artikel berhasil ditambahkan.');
     }
 
 
@@ -94,7 +95,7 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, Article $article_admin)
     {
         $request->validate([
             'title' => 'required|string|max:100',
@@ -118,12 +119,12 @@ class ArticleController extends Controller
             'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
         ]);
 
-        $imagePath = $article->image;
+        $imagePath = $article_admin->image;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
-        $article->update([
+        $article_admin->update([
             'title' => $request->title,
             'date' => $request->date,
             'description' => $request->description,
@@ -133,18 +134,18 @@ class ArticleController extends Controller
 
         session()->flash('articleSuccessAlert', "Artikel berhasil diperbarui.");
 
-        return redirect()->route('article.index')->with('success', "Artikel {$request->input('title')} berhasil diperbarui.");
+        return redirect()->route('article_admin.index')->with('success', "Artikel {$request->input('title')} berhasil diperbarui.");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Article $article)
+    public function destroy(Article $article_admin)
     {
-        $article->delete();
+        $article_admin->delete();
 
         session()->flash('articleSuccessAlert', "Artikel berhasil dihapus.");
 
-        return redirect()->route('article.index')->with('success', 'Artikel berhasil dihapus.');
+        return redirect()->route('article_admin.index')->with('success', 'Artikel berhasil dihapus.');
     }
 }

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ServiceController extends Controller
 {
@@ -15,7 +16,7 @@ class ServiceController extends Controller
         $services = Service::latest()->get();
 
         if ($services->isEmpty()) {
-            return redirect()->route('service.create')->with('teamAlert', 'Silakan buat layanan baru.');
+            return redirect()->route('service_admin.create')->with('teamAlert', 'Silakan buat layanan baru.');
         }
 
         return view('admin.service.index', compact('services'));
@@ -77,7 +78,7 @@ class ServiceController extends Controller
 
         session()->flash('serviceSuccessAlert', "Layanan berhasil ditambahkan.");
 
-        return redirect()->route('service.index')->with('success', 'Layanan berhasil ditambahkan.');
+        return redirect()->route('service_admin.index')->with('success', 'Layanan berhasil ditambahkan.');
     }
 
     /**
@@ -99,7 +100,7 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Service $service)
+    public function update(Request $request, Service $service_admin)
     {
         $request->validate(
             [
@@ -124,13 +125,13 @@ class ServiceController extends Controller
         );
 
         // Simpan gambar jika diunggah, jika tidak gunakan gambar lama
-        $imagePath = $service->image;
+        $imagePath = $service_admin->image;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
         // Simpan konten jika ada video
-        $content = $service->content;
+        $content = $service_admin->content;
         if ($request->video) {
             preg_match('/<iframe.*?src=\"(.*?)\".*?><\/iframe>/', $request->content, $matches);
             $content = $matches[1] ?? null;
@@ -140,7 +141,7 @@ class ServiceController extends Controller
         $title = $request->filled('title') ? $request->title : null;
 
         // Update data layanan
-        $service->update([
+        $service_admin->update([
             'name' => $request->name,
             'title' => $title,
             'description' => $request->description,
@@ -150,19 +151,19 @@ class ServiceController extends Controller
 
         session()->flash('serviceSuccessAlert', "Layanan berhasil diperbarui.");
 
-        return redirect()->route('service.index')->with('success', "Layanan berhasil diperbarui.");
+        return redirect()->route('service_admin.index')->with('success', "Layanan berhasil diperbarui.");
     }
 
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Service $service)
+    public function destroy(Service $service_admin)
     {
-        $service->delete();
+        $service_admin->delete();
 
         session()->flash('serviceSuccessAlert', "Layanan berhasil dihapus.");
 
-        return redirect()->route('service.index')->with('success', 'Layanan berhasil dihapus.');
+        return redirect()->route('service_admin.index')->with('success', 'Layanan berhasil dihapus.');
     }
 }

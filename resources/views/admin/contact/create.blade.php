@@ -56,7 +56,7 @@
               <h5>Create Contact Content</h5>
               </div>
               <div class="card-body">
-                <form action="{{ route('contact.store') }}" method="POST">
+                <form action="{{ route('contact_admin.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="location" class="form-label">Lokasi Kantor</label>

@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Public;
 
-use App\Models\Article;
+use App\Models\StudentWork;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class ArticlePublicController extends Controller
+class StudentWorkPublicController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $articles = Article::latest()->get();
+        $studentWorks = StudentWork::latest()->get();
 
-        return view('public.article.index', compact('articles'));
+        return view('public.study_work.index', compact('studentWorks'));
     }
 
     /**

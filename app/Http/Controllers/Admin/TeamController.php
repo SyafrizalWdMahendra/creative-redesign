@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 
 class TeamController extends Controller
 {
@@ -16,7 +17,7 @@ class TeamController extends Controller
         $teams = Team::latest()->get();
 
         if ($teams->isEmpty()) {
-            return redirect()->route('team.create')->with('teamAlert', 'Silakan buat anggota tim baru.');
+            return redirect()->route('team_admin.create')->with('teamAlert', 'Silakan buat anggota tim baru.');
         }
 
         return view('admin.home.team.index', compact('teams'));
@@ -73,7 +74,7 @@ class TeamController extends Controller
 
         session()->flash('teamSuccessAlert', 'Anggota tim berhasil diunggah dan disimpan.');
 
-        return redirect()->route('team.index')->with('success', 'Team member created successfully.');
+        return redirect()->route('team_admin.index')->with('success', 'Team member created successfully.');
     }
 
 
@@ -96,7 +97,7 @@ class TeamController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Team $team)
+    public function update(Request $request, Team $team_admin)
     {
         $request->validate(
             [
@@ -115,13 +116,13 @@ class TeamController extends Controller
             ]
         );
 
-        $imagePath = $team->image;
+        $imagePath = $team_admin->image;
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
-        $team->update([
+        $team_admin->update([
             'name' => $request->name,
             'position' => $request->position,
             'description' => $request->description,
@@ -130,18 +131,18 @@ class TeamController extends Controller
 
         session()->flash('teamSuccessAlert', "Anggota tim berhasil diperbarui.");
 
-        return redirect()->route('team.index')->with('success', "Team member updated successfully.");
+        return redirect()->route('team_admin.index')->with('success', "Team member updated successfully.");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Team $team)
+    public function destroy(Team $team_admin)
     {
-        $team->delete();
+        $team_admin->delete();
 
         session()->flash('teamSuccessAlert', "Anggota tim berhasil dihapus.");
 
-        return redirect()->route('team.index')->with('success', "Team member deleted successfully.");
+        return redirect()->route('team_admin.index')->with('success', "Team member deleted successfully.");
     }
 }

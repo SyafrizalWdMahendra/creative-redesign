@@ -61,7 +61,7 @@
         <div class="card">
             <div class="card-header">
               <h5>All Article Content</h5>
-              <a href="{{ route('article.create') }}">Tambah Artikel</a>
+              <a href="{{ route('article_admin.create') }}">Tambah Artikel</a>
             </div>
             <div class="card-body">
               <table class="table table-hover">
@@ -100,7 +100,7 @@
                             data-image="{{ $article->image }}">
                             Edit
                           </button>
-                          <form id="deleteForm" action="{{ route('article.destroy', $article->id) }}" method="POST" class="ms-2">
+                          <form id="deleteForm" action="{{ route('article_admin.destroy', $article->id) }}" method="POST" class="ms-2">
                             @csrf
                             @method('DELETE')
                             <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $article->id }}">Hapus</button>
@@ -125,7 +125,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editForm" action="{{ route('article.update', ':id') }}" method="POST" enctype="multipart/form-data">
+                    <form id="editForm" action="{{ route('article_admin.update', ':id') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <input type="hidden" id="edit-modal-id" name="article_id">
@@ -280,7 +280,7 @@
                   document.getElementById("preview-image").src = "/storage/" + image;
               }
 
-              document.getElementById("editForm").setAttribute("action", "/admin/create/article/" + articleId);
+              document.getElementById("editForm").setAttribute("action", "/admin/create/article_admin/" + articleId);
 
               let editModal = new bootstrap.Modal(document.getElementById("editModal"));
               editModal.show();

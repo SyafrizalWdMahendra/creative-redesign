@@ -61,7 +61,7 @@
         <div class="card">
             <div class="card-header">
               <h5>All Service Content</h5>
-              <a href="{{ route('service.create') }}">Tambah Layanan Jasa</a>
+              <a href="{{ route('service_admin.create') }}">Tambah Layanan Jasa</a>
             </div>
             <div class="card-body">
               <table class="table table-hover">
@@ -94,7 +94,7 @@
                                   data-image="{{ $service->image }}">
                                   Edit
                                 </button>
-                                <form id="deleteForm" action="{{ route('service.destroy', $service->id) }}" method="POST" class="ms-2">
+                                <form id="deleteForm" action="{{ route('service_admin.destroy', $service->id) }}" method="POST" class="ms-2">
                                   @csrf
                                   @method('DELETE')
                                   <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $service->id }}">Hapus</button>
@@ -117,7 +117,7 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <form id="editForm" action="{{ route('service.update', ':id') }}" method="POST" enctype="multipart/form-data">
+                    <form id="editForm" action="{{ route('service_admin.update', ':id') }}" method="POST" enctype="multipart/form-data">
                       @csrf
                       @method('PUT')
                       <input type="hidden" id="edit-modal-id" name="service_id">
@@ -133,7 +133,7 @@
                         </select>
                       </div>
                       <div class="mb-3">
-                        <label for="title" class="form-label">Judul Artikel</label>
+                        <label for="title" class="form-label">Judul Layanan</label>
                         <input type="text" class="form-control" id="title" name="title" value="{{ !empty($service->title) ? $service->title : '-'  }}" placeholder="Masukkan Judul Layanan">
                       </div>
                       <div class="mb-3">
@@ -269,7 +269,7 @@
                 document.getElementById("preview-image").src = "/storage/" + image;
             }
 
-            document.getElementById("editForm").setAttribute("action", "/admin/create/service/" + serviceId);
+            document.getElementById("editForm").setAttribute("action", "/admin/create/service_admin/" + serviceId);
 
             let editModal = new bootstrap.Modal(document.getElementById("editModal"));
             editModal.show();

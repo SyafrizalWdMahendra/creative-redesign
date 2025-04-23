@@ -56,7 +56,7 @@
         <div class="card">
           <div class="card-header">
             <h5>All Contact Content</h5>
-            <a href="{{ route('contact.create') }}">Tambah Kontak</a>
+            <a href="{{ route('contact_admin.create') }}">Tambah Kontak</a>
           </div>
           <div class="card-body">
             <table class="table table-hover">
@@ -88,7 +88,7 @@
                           data-email="{{ $contact->email }}">
                           Edit
                         </button>
-                        <form id="deleteForm" action="{{ route('contact.destroy', $contact->id) }}" method="POST" class="ms-2">
+                        <form id="deleteForm" action="{{ route('contact_admin.destroy', $contact->id) }}" method="POST" class="ms-2">
                           @csrf
                           @method('DELETE')
                           <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $contact->id }}">Hapus</button>
@@ -113,7 +113,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form id="editForm" action="{{ route('contact.update', ':id') }}" method="POST">
+                  <form id="editForm" action="{{ route('contact_admin.update', ':id') }}" method="POST">
                     @csrf
                     @method('PUT')
                     <input type="hidden" id="edit-modal-id" name="article_id">
@@ -247,7 +247,7 @@
             document.getElementById("email").value = email;
             
             // Perbarui action form agar sesuai dengan testimoni yang dipilih
-            document.getElementById("editForm").setAttribute("action", "/admin/create/contact/" + contactId);
+            document.getElementById("editForm").setAttribute("action", "/admin/create/contact_admin/" + contactId);
 
             // Tampilkan modal
             let editModal = new bootstrap.Modal(document.getElementById("editModal"));

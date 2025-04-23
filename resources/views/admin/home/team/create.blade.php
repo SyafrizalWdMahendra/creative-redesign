@@ -56,7 +56,7 @@
                 <h5>Create Home Content - Our Teams</h5>
               </div>
               <div class="card-body">
-                <form action="{{ route('team.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('team_admin.store') }}" method="POST" enctype="multipart/form-data">
                   @csrf
                   <div class="mb-3">
                     <label for="name" class="form-label">Nama Lengkap</label>

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Study;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class StudyController extends Controller
 {
@@ -15,7 +16,7 @@ class StudyController extends Controller
         $studies = Study::latest()->get();
 
         if ($studies->isEmpty()) {
-            return redirect()->route('study.create')->with('teamAlert', 'Silakan buat bidang studi baru.');
+            return redirect()->route('study_admin.create')->with('teamAlert', 'Silakan buat bidang studi baru.');
         }
 
         return view('admin.study.index', compact('studies'));
@@ -69,7 +70,7 @@ class StudyController extends Controller
 
         session()->flash('studySuccessAlert', "Bidang studi berhasil ditambahkan.");
 
-        return redirect()->route('study.index')->with('studySuccessAlert', 'Bidang studi berhasil ditambahkan.');
+        return redirect()->route('study_admin.index')->with('studySuccessAlert', 'Bidang studi berhasil ditambahkan.');
     }
 
     /**
@@ -91,7 +92,7 @@ class StudyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Study $study)
+    public function update(Request $request, Study $study_admin)
     {
         $request->validate(
             [
@@ -114,18 +115,18 @@ class StudyController extends Controller
             ]
         );
 
-        $imagePath = $study->image;
+        $imagePath = $study_admin->image;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
-        $content = $study->content;
+        $content = $study_admin->content;
         if ($request->content) {
             preg_match('/<iframe.*?src=\"(.*?)\".*?><\/iframe>/', $request->content, $matches);
             $content = $matches[1] ?? null;
         }
 
-        $study->update([
+        $study_admin->update([
             'name' => $request->name,
             'title' => $request->title,
             'content' => $content,
@@ -134,18 +135,18 @@ class StudyController extends Controller
 
         session()->flash('studySuccessAlert', "Bidang studi berhasil diperbarui.");
 
-        return redirect()->route('study.index')->with('studySuccessAlert', "Bidang studi berhasil diperbarui.");
+        return redirect()->route('study_admin.index')->with('studySuccessAlert', "Bidang studi berhasil diperbarui.");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Study $study)
+    public function destroy(Study $study_admin)
     {
-        $study->delete();
+        $study_admin->delete();
 
         session()->flash('studySuccessAlert', "Bidang studi berhasil dihapus.");
 
-        return redirect()->route('study.index')->with('studySuccessAlert', "Bidang studi berhasil dihapus.");
+        return redirect()->route('study_admin.index')->with('studySuccessAlert', "Bidang studi berhasil dihapus.");
     }
 }

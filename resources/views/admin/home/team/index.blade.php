@@ -57,7 +57,7 @@
           <div class="card">
               <div class="card-header">
                 <h5>All Home Content - Our Teams</h5>
-                <a href="{{ route('team.create') }}">Tambah Tim</a>
+                <a href="{{ route('team_admin.create') }}">Tambah Tim</a>
               </div>
               <div class="card-body">
                 <table class="table table-hover">
@@ -87,7 +87,7 @@
                               data-image="{{ $team->image }}">
                               Edit
                             </button>
-                            <form id="deleteForm" action="{{ route('team.destroy', $team->id) }}" method="POST" class="ms-2">
+                            <form id="deleteForm" action="{{ route('team_admin.destroy', $team->id) }}" method="POST" class="ms-2">
                               @csrf
                               @method('DELETE')
                               <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $team->id }}">Hapus</button>
@@ -111,7 +111,7 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <form id="editForm" action="{{ route('team.update', ':id') }}" method="POST" enctype="multipart/form-data">
+                      <form id="editForm" action="{{ route('team_admin.update', ':id') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <input type="hidden" id="edit-modal-id" name="team_id">
@@ -250,7 +250,7 @@
               }
 
               // Perbarui action form agar sesuai dengan testimoni yang dipilih
-              document.getElementById("editForm").setAttribute("action", "/admin/create/team/" + teamId);
+              document.getElementById("editForm").setAttribute("action", "/admin/create/team_admin/" + teamId);
 
               // Tampilkan modal
               let editModal = new bootstrap.Modal(document.getElementById("editModal"));

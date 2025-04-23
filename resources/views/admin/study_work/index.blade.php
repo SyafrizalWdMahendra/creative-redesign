@@ -56,7 +56,7 @@
         <div class="card">
             <div class="card-header">
               <h5>All Student Work Content</h5>
-              <a href="{{ route('student_work.create') }}">Tambah Karya Siswa</a>
+              <a href="{{ route('student_work_admin.create') }}">Tambah Karya Siswa</a>
             </div>
             <div class="card-body">
               <table class="table table-hover">
@@ -85,7 +85,7 @@
                                   data-image="{{ $student->image }}">
                                   Edit
                                 </button>
-                                <form id="deleteForm" action="{{ route('student_work.destroy', $student->id) }}" method="POST" class="ms-2">
+                                <form id="deleteForm" action="{{ route('student_work_admin.destroy', $student->id) }}" method="POST" class="ms-2">
                                   @csrf
                                   @method('DELETE')
                                   <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $student->id }}">Hapus</button>
@@ -110,7 +110,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form id="editForm" action="{{ route('student_work.update', ':id') }}" method="POST" enctype="multipart/form-data">
+                  <form id="editForm" action="{{ route('student_work_admin.update', ':id') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <input type="hidden" id="edit-modal-id" name="student_work_id">
@@ -234,7 +234,7 @@
               }
 
               // Perbarui action form agar sesuai dengan testimoni yang dipilih
-              document.getElementById("editForm").setAttribute("action", "/admin/create/student_work/" + studentWorkId);
+              document.getElementById("editForm").setAttribute("action", "/admin/create/student_work_admin/" + studentWorkId);
 
               // Tampilkan modal
               let editModal = new bootstrap.Modal(document.getElementById("editModal"));

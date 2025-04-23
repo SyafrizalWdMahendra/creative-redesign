@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Public;
 
-use App\Models\Study;
+use App\Models\Testimony;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class StudyPublicController extends Controller
+class TestimonyPublicController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $studies = Study::latest()->get();
-    
-        return view('public.study.index', compact('studies'));
+        $testimonies = Testimony::latest()->get();
+
+        return view('public.testimony.index', compact('testimonies'));
     }
 
     /**

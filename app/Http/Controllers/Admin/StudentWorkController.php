@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\StudentWork;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class StudentWorkController extends Controller
 {
@@ -15,7 +16,7 @@ class StudentWorkController extends Controller
         $studentWorks = StudentWork::latest()->get();
 
         if ($studentWorks->isEmpty()) {
-            return redirect()->route('student_work.create')->with('teamAlert', 'Silakan buat karya siswa baru.');
+            return redirect()->route('student_work_admin.create')->with('teamAlert', 'Silakan buat karya siswa baru.');
         }
 
         return view('admin.study_work.index', compact('studentWorks'));
@@ -63,7 +64,7 @@ class StudentWorkController extends Controller
 
         session()->flash('studentSuccessAlert', 'Karya siswa berhasil diunggah dan disimpan.');
 
-        return redirect()->route('student_work.index')->with('success', 'Karya siswa berhasil dibuat.');
+        return redirect()->route('student_work_admin.index')->with('success', 'Karya siswa berhasil dibuat.');
     }
 
     /**
@@ -85,7 +86,7 @@ class StudentWorkController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, StudentWork $studentWork)
+    public function update(Request $request, StudentWork $student_work_admin)
     {
         $request->validate(
             [
@@ -103,12 +104,12 @@ class StudentWorkController extends Controller
             ]
         );
 
-        $imagePath = $studentWork->image;
+        $imagePath = $student_work_admin->image;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
-        $studentWork->update([
+        $student_work_admin->update([
             'name' => $request->name,
             'image' => $imagePath,
             'description' => $request->description,
@@ -116,18 +117,18 @@ class StudentWorkController extends Controller
 
         session()->flash('studentSuccessAlert', 'Karya siswa berhasil diperbarui.');
 
-        return redirect()->route('student_work.index')->with('success', 'Karya siswa berhasil diperbarui.');
+        return redirect()->route('student_work_admin.index')->with('success', 'Karya siswa berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(StudentWork $studentWork)
+    public function destroy(StudentWork $student_work_admin)
     {
-        $studentWork->delete();
+        $student_work_admin->delete();
 
         session()->flash('studentSuccessAlert', 'Karya siswa berhasil dihapus.');
 
-        return redirect()->route('student_work.index')->with('success', 'Karya siswa berhasil dihapus.');
+        return redirect()->route('student_work_admin.index')->with('success', 'Karya siswa berhasil dihapus.');
     }
 }

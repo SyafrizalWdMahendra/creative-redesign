@@ -61,7 +61,7 @@
         <div class="card">
             <div class="card-header">
               <h5>All Testimony Content</h5>
-              <a href="{{ route('testimony.create') }}">Tambah Testimoni</a>
+              <a href="{{ route('testimony_admin.create') }}">Tambah Testimoni</a>
             </div>
             <div class="card-body">
               <table class="table table-hover">
@@ -101,7 +101,7 @@
                                 data-image="{{ $testimony->image }}">
                                 Edit
                               </button>
-                              <form id="deleteForm" action="{{ route('testimony.destroy', $testimony->id) }}" method="POST" class="ms-2">
+                              <form id="deleteForm" action="{{ route('testimony_admin.destroy', $testimony->id) }}" method="POST" class="ms-2">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $testimony->id }}">Hapus</button>
@@ -124,7 +124,7 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <form id="editForm" action="{{ route('testimony.update', $testimony->id) }}" method="POST" enctype="multipart/form-data">
+                    <form id="editForm" action="{{ route('testimony_admin.update', $testimony->id) }}" method="POST" enctype="multipart/form-data">
                       @csrf
                       @method('PUT')
                       <input type="hidden" id="edit-modal-id" name="testimony_id">
@@ -270,7 +270,7 @@
               }
 
               // Perbarui action form agar sesuai dengan testimoni yang dipilih
-              document.getElementById("editForm").setAttribute("action", "/admin/create/testimony/" + testimonyId);
+              document.getElementById("editForm").setAttribute("action", "/admin/create/testimony_admin/" + testimonyId);
 
               // Tampilkan modal
               let editModal = new bootstrap.Modal(document.getElementById("editModal"));

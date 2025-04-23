@@ -1,23 +1,21 @@
 <?php
 
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\ArticlePublicController;
-use App\Http\Controllers\BerandaController;
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\ContactPublicController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\ServicePublicController;
-use App\Http\Controllers\StudentWorkController;
-use App\Http\Controllers\StudentWorkPublicController;
-use App\Http\Controllers\StudyController;
-use App\Http\Controllers\StudyPublicController;
-use App\Http\Controllers\StudyWorkController;
-use App\Http\Controllers\TeamController;
-use App\Http\Controllers\TestimonyController;
-use App\Http\Controllers\TestimonyPublicController;
+use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Public\ArticlePublicController;
+use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Public\ContactPublicController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Public\ServicePublicController;
+use App\Http\Controllers\Admin\StudentWorkController;
+use App\Http\Controllers\Public\StudentWorkPublicController;
+use App\Http\Controllers\Admin\StudyController;
+use App\Http\Controllers\Public\StudyPublicController;
+use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\TestimonyController;
+use App\Http\Controllers\Public\TestimonyPublicController;
 use App\Models\Client;
 use Illuminate\Support\Facades\Route;
 
@@ -25,14 +23,14 @@ Route::get('/admin', [DashboardController::class, 'index'])->name('dashboard.ind
 // Route::get('/admin/home', [HomeController::class, 'index'])->name('home.index');
 
 // CRUD Admin Page
-Route::resource('admin/create/client', ClientController::class);
-Route::resource('admin/create/team', TeamController::class);
-Route::resource('admin/create/study', StudyController::class);
-Route::resource('admin/create/service', ServiceController::class);
-Route::resource('admin/create/student_work', StudentWorkController::class);
-Route::resource('admin/create/testimony', TestimonyController::class);
-Route::resource('admin/create/article', ArticleController::class);
-Route::resource('admin/create/contact', ContactController::class);
+Route::resource('admin/create/client_admin', ClientController::class);
+Route::resource('admin/create/team_admin', TeamController::class);
+Route::resource('admin/create/study_admin', StudyController::class);
+Route::resource('admin/create/service_admin', ServiceController::class);
+Route::resource('admin/create/student_work_admin', StudentWorkController::class);
+Route::resource('admin/create/testimony_admin', TestimonyController::class);
+Route::resource('admin/create/article_admin', ArticleController::class);
+Route::resource('admin/create/contact_admin', ContactController::class);
 
 // CRUD Frontend Page
 Route::resource('/', HomeController::class);

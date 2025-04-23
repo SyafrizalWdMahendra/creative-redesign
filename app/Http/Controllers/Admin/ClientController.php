@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Client;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ClientController extends Controller
 {
@@ -17,7 +18,7 @@ class ClientController extends Controller
         $clients = Client::latest()->get();
 
         if ($clients->isEmpty()) {
-            return redirect()->route('client.create')->with('clientAlert', 'Silakan buat klien baru.');
+            return redirect()->route('client_admin.create')->with('clientAlert', 'Silakan buat klien baru.');
         }
 
         return view('admin.home.client.index', compact('clients'));
@@ -64,7 +65,7 @@ class ClientController extends Controller
 
         session()->flash('clientSuccessAlert', 'Klien berhasil diunggah dan disimpan.');
 
-        return redirect()->route('client.index')->with('success', 'Client created successfully.');
+        return redirect()->route('client_admin.index')->with('success', 'Client created successfully.');
     }
 
 
@@ -87,7 +88,7 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request, Client $client_admin)
     {
         $request->validate([
             'name' => 'required|string|max:50',
@@ -101,30 +102,30 @@ class ClientController extends Controller
             'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
         ]);
 
-        $imagePath = $client->image;
+        $imagePath = $client_admin->image;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
-        $client->update([
+        $client_admin->update([
             'name' => $request->name,
             'image' => $imagePath,
         ]);
 
         session()->flash('clientSuccessAlert', "Klien berhasil diperbarui.");
 
-        return redirect()->route('client.index')->with('success', 'Client updated successfully.');
+        return redirect()->route('client_admin.index')->with('success', 'Client updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Client $client)
+    public function destroy(Client $client_admin)
     {
-        $client->delete();
+        $client_admin->delete();
 
         session()->flash('clientSuccessAlert', "Klien berhasil dihapus.");
 
-        return redirect()->route('client.index')->with('success', 'Client deleted successfully.');
+        return redirect()->route('client_admin.index')->with('success', 'Client deleted successfully.');
     }
 }

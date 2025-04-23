@@ -60,7 +60,7 @@
             <h5>Create Study Content</h5>
             </div>
             <div class="card-body">
-              <form action="{{ route('study.store') }}" method="POST" enctype="multipart/form-data">
+              <form action="{{ route('study_admin.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                   <label for="name" class="form-label">Nama Kelas</label>

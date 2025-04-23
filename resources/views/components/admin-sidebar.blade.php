@@ -23,13 +23,13 @@
     <li class="pc-item pc-hasmenu">
         <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span class="pc-mtext">Beranda</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
         <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="{{ route('client.index') }}">Tambah Klien</a></li>
-            <li class="pc-item"><a class="pc-link" href="{{ route('team.index') }}">Tambah Tim</a></li>
+            <li class="pc-item"><a class="pc-link" href="{{ route('client_admin.index') }}">Tambah Klien</a></li>
+            <li class="pc-item"><a class="pc-link" href="{{ route('team_admin.index') }}">Tambah Tim</a></li>
         </ul>
     </li>
     </li>
     <li class="pc-item">
-    <a href="{{ route('study.index') }}" class="pc-link">
+    <a href="{{ route('study_admin.index') }}" class="pc-link">
         <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
         <span class="pc-mtext">Bidang Studi</span>
     </a>
@@ -40,31 +40,31 @@
     <i class="ti ti-news"></i>
     </li>
     <li class="pc-item">
-    <a href="{{ route ('service.index') }}" class="pc-link">
+    <a href="{{ route ('service_admin.index') }}" class="pc-link">
         <span class="pc-micon"><i class="ti ti-lock"></i></span>
         <span class="pc-mtext">Layanan Jasa</span>
     </a>
     </li>
     <li class="pc-item">
-    <a href="{{ route ('student_work.index') }}" class="pc-link">
+    <a href="{{ route ('student_work_admin.index') }}" class="pc-link">
         <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
         <span class="pc-mtext">Karya Siswa</span>
     </a>
     </li>
     <li class="pc-item">
-    <a href="{{ route ('testimony.index') }}" class="pc-link">
+    <a href="{{ route ('testimony_admin.index') }}" class="pc-link">
         <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
         <span class="pc-mtext">Testimoni</span>
     </a>
     </li>
     <li class="pc-item">
-    <a href="{{ route ('article.index') }}" class="pc-link">
+    <a href="{{ route ('article_admin.index') }}" class="pc-link">
         <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
         <span class="pc-mtext">Artikel</span>
     </a>
     </li>
     <li class="pc-item">
-    <a href="{{ route ('contact.index') }}" class="pc-link">
+    <a href="{{ route ('contact_admin.index') }}" class="pc-link">
         <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
         <span class="pc-mtext">Hubungi Kami</span>
     </a>

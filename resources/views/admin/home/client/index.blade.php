@@ -56,7 +56,7 @@
           <div class="card">
               <div class="card-header">
                 <h5>All Home Content - Our Clients</h5>
-                <a href="{{ route('client.create') }}">Tambah Klien</a>
+                <a href="{{ route('client_admin.create') }}">Tambah Klien</a>
               </div>
               <div class="card-body">
                 <table class="table table-hover">
@@ -82,7 +82,7 @@
                                       data-image="{{ $client->image }}">
                                       Edit
                                     </button>
-                                    <form id="deleteForm" action="{{ route('client.destroy', $client->id) }}" method="POST" class="ms-2">
+                                    <form id="deleteForm" action="{{ route('client_admin.destroy', $client->id) }}" method="POST" class="ms-2">
                                       @csrf
                                       @method('DELETE')
                                       <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $client->id }}">Hapus</button>
@@ -107,7 +107,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <form id="editForm" action="{{ route('client.update', ':id') }}" method="POST" enctype="multipart/form-data">
+                    <form id="editForm" action="{{ route('client_admin.update', ':id') }}" method="POST" enctype="multipart/form-data">
                       @csrf
                       @method('PUT')
                       <input type="hidden" id="edit-modal-id" name="client_id">
@@ -223,7 +223,7 @@
                   document.getElementById("preview-image").src = "/storage/" + image;
               }
 
-              document.getElementById("editForm").setAttribute("action", "/admin/create/client/" + serviceId);
+              document.getElementById("editForm").setAttribute("action", "/admin/create/client_admin/" + serviceId);
 
               let editModal = new bootstrap.Modal(document.getElementById("editModal"));
               editModal.show();

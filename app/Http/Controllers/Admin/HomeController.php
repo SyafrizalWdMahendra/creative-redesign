@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Article;
 use App\Models\Client;
@@ -8,6 +8,7 @@ use App\Models\Service;
 use App\Models\Team;
 use App\Models\Testimony;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {

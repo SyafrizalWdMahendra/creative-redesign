@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ContactController extends Controller
 {
@@ -15,7 +16,7 @@ class ContactController extends Controller
         $contacts = Contact::latest()->get();
 
         if ($contacts->isEmpty()) {
-            return redirect()->route('contact.create')->with('teamAlert', 'Silakan buat kontak baru.');
+            return redirect()->route('contact_admin.create')->with('teamAlert', 'Silakan buat kontak baru.');
         }
 
         return view('admin.contact.index', compact('contacts'));
@@ -64,7 +65,7 @@ class ContactController extends Controller
 
         session()->flash('contactSuccessAlert', 'Kontak berhasil ditambahkan.');
 
-        return redirect()->route('contact.index')->with('contactSuccessAlert', 'Kontak berhasil ditambahkan.');
+        return redirect()->route('contact_admin.index')->with('contactSuccessAlert', 'Kontak berhasil ditambahkan.');
     }
 
     /**
@@ -86,7 +87,7 @@ class ContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request, Contact $contact_admin)
     {
         $request->validate([
             'location' => 'required|string|max:30',
@@ -108,7 +109,7 @@ class ContactController extends Controller
             'email.max' => 'Panjang email maksimal 50 karakter.',
         ]);
 
-        $contact->update([
+        $contact_admin->update([
             'location' => $request->location,
             'address' => $request->address,
             'contact' => $request->contact,
@@ -117,18 +118,18 @@ class ContactController extends Controller
 
         session()->flash('contactSuccessAlert', 'Kontak berhasil diperbarui.');
 
-        return redirect()->route('contact.index')->with('contactSuccessAlert', 'Kontak berhasil diperbarui.');
+        return redirect()->route('contact_admin.index')->with('contactSuccessAlert', 'Kontak berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Contact $contact)
+    public function destroy(Contact $contact_admin)
     {
-        $contact->delete();
+        $contact_admin->delete();
 
         session()->flash('contactSuccessAlert', 'Kontak berhasil dihapus.');
 
-        return redirect()->route('contact.index')->with('contactSuccessAlert', 'Kontak berhasil dihapus.');
+        return redirect()->route('contact_admin.index')->with('contactSuccessAlert', 'Kontak berhasil dihapus.');
     }
 }

@@ -56,7 +56,7 @@
             <h5>Create Student Work Content</h5>
             </div>
             <div class="card-body">
-              <form action="{{ route('student_work.store') }}" method="POST" enctype="multipart/form-data">
+              <form action="{{ route('student_work_admin.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                   <label for="name" class="form-label">Nama Siswa</label>

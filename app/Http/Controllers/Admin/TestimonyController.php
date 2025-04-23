@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Testimony;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 
 class TestimonyController extends Controller
 {
@@ -16,7 +17,7 @@ class TestimonyController extends Controller
         $testimonies = Testimony::latest()->get();
 
         if ($testimonies->isEmpty()) {
-            return redirect()->route('testimony.create')->with('teamAlert', 'Silakan buat testimoni baru.');
+            return redirect()->route('testimony_admin.create')->with('teamAlert', 'Silakan buat testimoni baru.');
         }
 
         return view('admin.testimony.index', compact('testimonies'));
@@ -73,14 +74,14 @@ class TestimonyController extends Controller
 
         session()->flash('testimonySuccessAlert', 'Testimoni berhasil diunggah dan disimpan.');
 
-        return redirect()->route('testimony.index')->with('success', 'Testimoni created successfully.');
+        return redirect()->route('testimony_admin.index')->with('success', 'Testimoni created successfully.');
     }
 
 
     /**
      * Display the specified resource.
      */
-    public function show(Testimony $testimony)
+    public function show(Testimony $testimony_admin)
     {
         //
     }
@@ -88,7 +89,7 @@ class TestimonyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Testimony $testimony)
+    public function edit(Testimony $testimony_admin)
     {
         //
     }
@@ -96,7 +97,7 @@ class TestimonyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Testimony $testimony)
+    public function update(Request $request, Testimony $testimony_admin)
     {
         $request->validate([
             'name' => 'required|string|max:50',
@@ -115,19 +116,19 @@ class TestimonyController extends Controller
             'video.string' => 'Video harus berupa string.',
         ]);
 
-        $imagePath = $testimony->image;
+        $imagePath = $testimony_admin->image;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
         // Filter hanya URL dari iframe Summernote
-        $videoEmbed = $testimony->video;
+        $videoEmbed = $testimony_admin->video;
         if ($request->video) {
             preg_match('/<iframe.*?src=\"(.*?)\".*?><\/iframe>/', $request->video, $matches);
             $videoEmbed = $matches[1] ?? null;
         }
 
-        $testimony->update([
+        $testimony_admin->update([
             'name' => $request->name,
             'comment' => $request->comment,
             'image' => $imagePath,
@@ -136,22 +137,22 @@ class TestimonyController extends Controller
 
         session()->flash('testimonySuccessAlert', "Testimoni berhasil diperbarui.");
 
-        return redirect()->route('testimony.index')->with('success', "Testimoni berhasil diperbarui.");
+        return redirect()->route('testimony_admin.index')->with('success', "Testimoni berhasil diperbarui.");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Testimony $testimony)
+    public function destroy(Testimony $testimony_admin)
     {
-        if ($testimony->image) {
-            Storage::disk('public')->delete($testimony->image);
+        if ($testimony_admin->image) {
+            Storage::disk('public')->delete($testimony_admin->image);
         }
 
-        $testimony->delete();
+        $testimony_admin->delete();
 
         session()->flash('testimonySuccessAlert', "Testimoni berhasil dihapus.");
 
-        return redirect()->route('testimony.index')->with('success', "Testimoni berhasil dihapus.");
+        return redirect()->route('testimony_admin.index')->with('success', "Testimoni berhasil dihapus.");
     }
 }

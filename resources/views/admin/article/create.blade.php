@@ -60,7 +60,7 @@
             <h5>Create Article Content</h5>
             </div>
             <div class="card-body">
-              <form action="{{ route('article.store') }}" method="POST" enctype="multipart/form-data">
+              <form action="{{ route('article_admin.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                   <label for="title" class="form-label">Judul Artikel</label>
