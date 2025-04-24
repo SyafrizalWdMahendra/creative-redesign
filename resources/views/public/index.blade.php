@@ -39,7 +39,7 @@
 <body class="index-page">
 
   <header id="header" class="header d-flex align-items-center fixed-top">
-    <x-index-header></x-index-header>
+    <x-index-header :studies="$studies" :services="$services"></x-index-header>
   </header>
 
   <main class="main">

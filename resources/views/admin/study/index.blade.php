@@ -51,7 +51,7 @@
 
 <!-- [ Main Content ] start -->
 <div class="pc-container">
-<div class="pc-content">
+  <div class="pc-content">
     <x-admin-content-header></x-admin-content-header>
 
     <!-- [ Main Content ] start -->
@@ -164,7 +164,8 @@
         <!-- [ link-button ] end -->
     </div>
     <!-- [ Main Content ] end -->
-</div>
+      
+  </div>
 </div>
 
 <x-admin-footer></x-admin-footer>

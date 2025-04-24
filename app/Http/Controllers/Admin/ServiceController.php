@@ -124,28 +124,18 @@ class ServiceController extends Controller
             ]
         );
 
-        // Simpan gambar jika diunggah, jika tidak gunakan gambar lama
         $imagePath = $service_admin->image;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
-        // Simpan konten jika ada video
-        $content = $service_admin->content;
-        if ($request->video) {
-            preg_match('/<iframe.*?src=\"(.*?)\".*?><\/iframe>/', $request->content, $matches);
-            $content = $matches[1] ?? null;
-        }
-
-        // Pastikan jika `title` kosong, tetap diperbarui sebagai `null`
         $title = $request->filled('title') ? $request->title : null;
 
-        // Update data layanan
         $service_admin->update([
             'name' => $request->name,
             'title' => $title,
             'description' => $request->description,
-            'content' => $content,
+            'content' => $request->content,
             'image' => $imagePath,
         ]);
 

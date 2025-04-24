@@ -9,6 +9,7 @@ use App\Models\Team;
 use App\Models\Testimony;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Study;
 
 class HomeController extends Controller
 {
@@ -22,6 +23,7 @@ class HomeController extends Controller
         $testimonies = Testimony::latest()->get();
         $services = Service::latest()->get();
         $articles = Article::latest()->get();
+        $studies = Study::latest()->get();
 
         return view('public.index', compact([
             'teams',
@@ -29,6 +31,7 @@ class HomeController extends Controller
             'testimonies',
             'services',
             'articles',
+            'studies',
         ]));
     }
 
@@ -51,10 +54,7 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+    public function show(string $id) {}
 
     /**
      * Show the form for editing the specified resource.

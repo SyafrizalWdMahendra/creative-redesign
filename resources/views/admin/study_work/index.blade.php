@@ -46,13 +46,13 @@
 
 <!-- [ Main Content ] start -->
 <div class="pc-container">
-<div class="pc-content">
+  <div class="pc-content">
     <x-admin-content-header></x-admin-content-header>
 
     <!-- [ Main Content ] start -->
     <div class="row">
-        <!-- [ link-button ] start -->
-        <div class="col-sm-12">
+      <!-- [ link-button ] start -->
+      <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
               <h5>All Student Work Content</h5>
@@ -61,38 +61,38 @@
             <div class="card-body">
               <table class="table table-hover">
                 <thead>
-                    <tr>
+                  <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nama Siswa</th>
                     <th scope="col">Deskripsi Karya</th>
                     <th scope="col">Sampul Karya</th>
                     <th scope="col">Action</th>
-                    </tr>
+                  </tr>
                 </thead>
                 <tbody>
                     @foreach ($studentWorks as $student)
-                        <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $student->name }}</td>
-                            <td>{{ $student->description }}</td>  
-                            <td><img src="{{ asset('storage/' .$student->image) }}" alt="" width="100px"></td>
-                            <td>
-                              <div class="d-flex align-items-center gap-2">
-                                <button class="btn btn-warning btn-sm edit-btn" 
-                                  data-id="{{ $student->id }}" 
-                                  data-name="{{ $student->name }}"
-                                  data-description="{{ $student->description }}"
-                                  data-image="{{ $student->image }}">
-                                  Edit
-                                </button>
-                                <form id="deleteForm" action="{{ route('student_work_admin.destroy', $student->id) }}" method="POST" class="ms-2">
-                                  @csrf
-                                  @method('DELETE')
-                                  <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $student->id }}">Hapus</button>
-                                </form>
-                              </div>
-                            </td>
-                        </tr>
+                      <tr>
+                          <th scope="row">{{ $loop->iteration }}</th>
+                          <td>{{ $student->name }}</td>
+                          <td>{{ $student->description }}</td>  
+                          <td><img src="{{ asset('storage/' .$student->image) }}" alt="" width="100px"></td>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <button class="btn btn-warning btn-sm edit-btn" 
+                                data-id="{{ $student->id }}" 
+                                data-name="{{ $student->name }}"
+                                data-description="{{ $student->description }}"
+                                data-image="{{ $student->image }}">
+                                Edit
+                              </button>
+                              <form id="deleteForm" action="{{ route('student_work_admin.destroy', $student->id) }}" method="POST" class="ms-2">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-danger btn-sm" id="delete-btn" data-id="{{ $student->id }}">Hapus</button>
+                              </form>
+                            </div>
+                          </td>
+                      </tr>
                     @endforeach
                 </tbody>
               </table>
@@ -105,39 +105,40 @@
       <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Kontak</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <form id="editForm" action="{{ route('student_work_admin.update', ':id') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" id="edit-modal-id" name="student_work_id">
+              <div class="modal-header">
+                  <h5 class="modal-title">Edit Kontak</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form id="editForm" action="{{ route('student_work_admin.update', ':id') }}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  @method('PUT')
+                  <input type="hidden" id="edit-modal-id" name="student_work_id">
 
-                    <div class="mb-3">
-                      <label for="name" class="form-label">Nama Siswa</label>
-                      <input type="text" name="name" id="name" class="form-control" placeholder="Masukkan Nama Siswa" value="{{ $student->name }}" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="image" class="form-label">Foto Karya</label>
-                      <img id="preview-image" src="{{ asset('storage/' . $student->image) }}" alt="Artikel Image" width="150px" class="d-block mb-2">
-                      <input type="file" name="image" id="image" accept="image/*" class="form-control">
-                      <small class="text-muted">Unggah gambar baru jika ingin mengubah foto sampul.</small>
-                    </div>
-                    <div class="mb-3">
-                      <label for="description" class="form-label">Deskripsi Karya</label>
-                      <textarea id="description" name="description" class="form-control" placeholder="Masukkan Deskripsi Karya" required>{{ $student->description }}</textarea>
-                    </div>
-                    <button class="btn btn-primary" type="submit">Simpan Konten</button>
-                  </form>
-                </div>
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Nama Siswa</label>
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Masukkan Nama Siswa" value="{{ $student->name }}" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="image" class="form-label">Foto Karya</label>
+                    <img id="preview-image" src="{{ asset('storage/' . $student->image) }}" alt="Artikel Image" width="150px" class="d-block mb-2">
+                    <input type="file" name="image" id="image" accept="image/*" class="form-control">
+                    <small class="text-muted">Unggah gambar baru jika ingin mengubah foto sampul.</small>
+                  </div>
+                  <div class="mb-3">
+                    <label for="description" class="form-label">Deskripsi Karya</label>
+                    <textarea id="description" name="description" class="form-control" placeholder="Masukkan Deskripsi Karya" required>{{ $student->description }}</textarea>
+                  </div>
+                  <button class="btn btn-primary" type="submit">Simpan Konten</button>
+                </form>
+              </div>
             </div>
         </div>
       </div>
     </div>
     <!-- [ Main Content ] end -->
-</div>
+
+  </div>
 </div>
 
 <x-admin-footer></x-admin-footer>

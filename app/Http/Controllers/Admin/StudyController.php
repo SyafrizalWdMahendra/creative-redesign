@@ -120,16 +120,12 @@ class StudyController extends Controller
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
-        $content = $study_admin->content;
-        if ($request->content) {
-            preg_match('/<iframe.*?src=\"(.*?)\".*?><\/iframe>/', $request->content, $matches);
-            $content = $matches[1] ?? null;
-        }
+
 
         $study_admin->update([
             'name' => $request->name,
             'title' => $request->title,
-            'content' => $content,
+            'content' => $request->content,
             'image' => $imagePath,
         ]);
 

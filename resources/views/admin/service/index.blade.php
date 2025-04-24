@@ -247,7 +247,6 @@
 </script>
 
 <script>
-  // Edit button click event
   document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll(".edit-btn").forEach(button => {
         button.addEventListener("click", function() {

@@ -55,7 +55,7 @@
 
     <body class="starter-page-page">
         <header id="header" class="header d-flex align-items-center fixed-top">
-            <x-index-header></x-index-header>
+            <x-index-header :studies="$studies" :services="$services"></x-index-header>
         </header>
 
         <main class="main">
@@ -100,7 +100,7 @@
                                         <div class="icon">
                                             <i class="bi bi-book"></i>
                                         </div>
-                                        <a href="#studies" class="stretched-link">
+                                        <a href="{{ route('study.show', $study->id) }}" class="stretched-link">
                                             <h3>{{ $study->name }}</h3>
                                         </a>
                                         <p>{{ $study->title }}</p>

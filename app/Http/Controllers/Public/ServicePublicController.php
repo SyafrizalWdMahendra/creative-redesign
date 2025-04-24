@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Study;
 
 class ServicePublicController extends Controller
 {
@@ -14,8 +15,9 @@ class ServicePublicController extends Controller
     public function index()
     {
         $services = Service::latest()->get();
+        $studies = Study::latest()->get();
 
-        return view('public.service.index', compact('services'));
+        return view('public.service.index', compact(['services', 'studies']));
     }
 
     /**
@@ -39,7 +41,11 @@ class ServicePublicController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $findServices = Service::findOrFail($id);
+        $services = Service::latest()->get();
+        $studies = Study::latest()->get();
+
+        return view('public.service.detail', compact(['findServices', 'services', 'studies']));
     }
 
     /**
