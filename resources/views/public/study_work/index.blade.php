@@ -100,9 +100,9 @@
                                         <div class="icon">
                                             <i class="bi bi-layers"></i>
                                         </div>
-                                        <a href="#students" class="stretched-link">
+                                        <span class="stretched-link">
                                             <h3>{{ $student->name }}</h3>
-                                        </a>
+                                        </span>
                                         <p>{{ $student->description }}</p>
                                     </div>
                                 </div>

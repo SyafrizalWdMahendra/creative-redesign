@@ -100,9 +100,9 @@
                                         <div class="icon">
                                             <i class="bi bi-quote"></i>
                                         </div>
-                                        <a href="#testimonies" class="stretched-link">
+                                        <span class="stretched-link">
                                             <h3>{{ $testimony->name }}</h3>
-                                        </a>
+                                        </span>
                                         <p>{{ $testimony->comment }}</p>
                                     </div>
                                 </div>

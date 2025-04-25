@@ -10,6 +10,7 @@ use App\Models\Testimony;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Study;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,10 @@ class HomeController extends Controller
         $services = Service::latest()->get();
         $articles = Article::latest()->get();
         $studies = Study::latest()->get();
+
+        // if (Auth::check()) {
+        //     return redirect()->route('dashboard.index');
+        // }
 
         return view('public.index', compact([
             'teams',

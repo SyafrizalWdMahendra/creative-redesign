@@ -55,7 +55,7 @@
 
     <body class="starter-page-page">
         <header id="header" class="header d-flex align-items-center fixed-top">
-            <x-index-header></x-index-header>
+            <x-index-header :studies="$studies" :services="$services"></x-index-header>
         </header>
 
         <main class="main">
@@ -101,7 +101,7 @@
                                         <div class="icon">
                                             <i class="bi bi-file-text"></i>
                                         </div>
-                                        <a href="#articles" class="stretched-link">
+                                        <a href="{{ route('article.show', $article->id) }}" class="stretched-link">
                                             <h3>{{ $article->title }}</h3>
                                         </a>
                                         <p>{{ $article->description }}</p>

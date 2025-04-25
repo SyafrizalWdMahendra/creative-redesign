@@ -15,28 +15,39 @@ use App\Http\Controllers\Admin\StudyController;
 use App\Http\Controllers\Public\StudyPublicController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\TestimonyController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Public\TestimonyPublicController;
 use App\Models\Client;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/admin', [DashboardController::class, 'index'])->name('dashboard.index');
-// Route::get('/admin/home', [HomeController::class, 'index'])->name('home.index');
+// Guest Routes
+Route::middleware('guest')->group(function () {
+    // CRUD Frontend Page
+    Route::resource('/', HomeController::class);
+    Route::resource('/study', StudyPublicController::class);
+    Route::resource('/service', ServicePublicController::class);
+    Route::resource('/student_work', StudentWorkPublicController::class);
+    Route::resource('/testimony', TestimonyPublicController::class);
+    Route::resource('/article', ArticlePublicController::class);
+    Route::resource('/contact', ContactPublicController::class);
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login-submit', [LoginController::class, 'login'])->name('login.submit');
+});
 
-// CRUD Admin Page
-Route::resource('admin/create/client_admin', ClientController::class);
-Route::resource('admin/create/team_admin', TeamController::class);
-Route::resource('admin/create/study_admin', StudyController::class);
-Route::resource('admin/create/service_admin', ServiceController::class);
-Route::resource('admin/create/student_work_admin', StudentWorkController::class);
-Route::resource('admin/create/testimony_admin', TestimonyController::class);
-Route::resource('admin/create/article_admin', ArticleController::class);
-Route::resource('admin/create/contact_admin', ContactController::class);
+// Auth Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/admin', [DashboardController::class, 'index'])->name('dashboard.index');
 
-// CRUD Frontend Page
-Route::resource('/', HomeController::class);
-Route::resource('/study', StudyPublicController::class);
-Route::resource('/service', ServicePublicController::class);
-Route::resource('/student_work', StudentWorkPublicController::class);
-Route::resource('/testimony', TestimonyPublicController::class);
-Route::resource('/article', ArticlePublicController::class);
-Route::resource('/contact', ContactPublicController::class);
+    // CRUD Admin Page
+    Route::resource('admin/create/client_admin', ClientController::class);
+    Route::resource('admin/create/team_admin', TeamController::class);
+    Route::resource('admin/create/study_admin', StudyController::class);
+    Route::resource('admin/create/service_admin', ServiceController::class);
+    Route::resource('admin/create/student_work_admin', StudentWorkController::class);
+    Route::resource('admin/create/testimony_admin', TestimonyController::class);
+    Route::resource('admin/create/article_admin', ArticleController::class);
+    Route::resource('admin/create/contact_admin', ContactController::class);
+
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+});

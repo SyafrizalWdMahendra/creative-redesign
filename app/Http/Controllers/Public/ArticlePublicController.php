@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Public;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Service;
+use App\Models\Study;
 
 class ArticlePublicController extends Controller
 {
@@ -14,8 +16,10 @@ class ArticlePublicController extends Controller
     public function index()
     {
         $articles = Article::latest()->get();
+        $studies = Study::latest()->get();
+        $services = Service::latest()->get();
 
-        return view('public.article.index', compact('articles'));
+        return view('public.article.index', compact(['articles', 'studies', 'services']));
     }
 
     /**
@@ -39,7 +43,9 @@ class ArticlePublicController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $articles = Article::findOrFail($id);
+
+        return view('public.article.detail', compact('articles'));
     }
 
     /**
