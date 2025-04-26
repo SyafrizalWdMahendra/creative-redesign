@@ -59,15 +59,15 @@
                 <form action="{{ route('client_admin.store') }}" method="POST" enctype="multipart/form-data">
                   @csrf
                   <div class="mb-3">
-                    <label for="name" class="form-label">Nama Klien</label>
-                    <input type="text" name="name" id="name" class="form-control" required placeholder="Masukkan Nama Klien" value={{ old('name') }}>
+                    <label for="name" class="form-label">Nama Klien <span class="text-danger">*</span></label>
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Masukkan Nama Klien" value={{ old('name') }}>
                     @error('name')
                       <div class="text-danger">{{ $message }}</div>
                     @enderror
                   </div>
                   <div class="mb-3">
-                    <label for="image" class="form-label">Logo Klien</label>
-                    <input type="file" name="image" id="image" accept="image/*" class="form-control" value={{ old('image') }} required title="Masukkan Logo Klien">
+                    <label for="image" class="form-label">Logo Klien <span class="text-danger">*</span></label>
+                    <input type="file" name="image" id="image" accept="image/*" class="form-control" value={{ old('image') }} title="Masukkan Logo Klien">
                     @error('image')
                       <div class="text-danger">{{ $message }}</div>
                     @enderror

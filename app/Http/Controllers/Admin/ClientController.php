@@ -40,11 +40,12 @@ class ClientController extends Controller
         // Validasi input file
         $request->validate([
             'name' => 'required|string|max:50',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             'name.required' => 'Nama klien harus diisi.',
             'name.string' => 'Nama klien harus berupa string.',
             'name.max' => 'Panjang nama klien maksimal 50 karakter.',
+            'image.required' => 'Logo klien harus diisi.',
             'image.image' => 'File yang diunggah harus berupa gambar.',
             'image.mimes' => 'Gambar harus dalam format jpeg, png, jpg, atau gif.',
             'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',

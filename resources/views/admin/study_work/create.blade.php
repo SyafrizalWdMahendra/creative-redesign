@@ -59,16 +59,25 @@
               <form action="{{ route('student_work_admin.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
-                  <label for="name" class="form-label">Nama Siswa</label>
-                  <input type="text" name="name" id="name" class="form-control" placeholder="Masukkan Nama Siswa" required>
+                  <label for="name" class="form-label">Nama Siswa <span class="text-danger">*</span></label>
+                  <input type="text" name="name" id="name" class="form-control" placeholder="Masukkan Nama Siswa" value={{ old('name') }}>
+                  @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="image" class="form-label">Foto Karya</label>
-                  <input type="file" name="image" id="image" accept="image/*" class="form-control" required>
+                  <label for="image" class="form-label">Foto Karya <span class="text-danger">*</span></label>
+                  <input type="file" name="image" id="image" accept="image/*" class="form-control" value={{ old('image') }}>
+                  @error('image')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="description" class="form-label">Deskripsi Karya</label>
-                  <textarea id="description" name="description" class="form-control" placeholder="Masukkan Deskripsi Karya" required></textarea>
+                  <label for="description" class="form-label">Deskripsi Karya <span class="text-danger">*</span></label>
+                  <textarea id="description" name="description" class="form-control" placeholder="Masukkan Deskripsi Karya" value={{ old('description') }}></textarea>
+                  @error('description')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <button class="btn btn-primary" type="submit">Simpan Konten</button>
               </form>

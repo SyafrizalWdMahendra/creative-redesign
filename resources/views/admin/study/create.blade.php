@@ -63,8 +63,8 @@
               <form action="{{ route('study_admin.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
-                  <label for="name" class="form-label">Nama Kelas</label>
-                  <select class="form-select" id="name" name="name" required>
+                  <label for="name" class="form-label">Nama Kelas <span class="text-danger">*</span></label>
+                  <select class="form-select" id="name" name="name" value={{ old('name') }}>
                     <option selected disabled>Pilih Kelas</option>
                     <option value="Komputer Umum & Internet">Komputer Umum & Internet</option>
                     <option value="Desain Grafis">Desain Grafis</option>
@@ -81,18 +81,30 @@
                     <option value="Programming Java Android">Programming Java Android</option>
                     <option value="Photography">Photography</option>
                   </select>
+                  @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="title" class="form-label">Judul</label>
-                  <input type="text" class="form-control" id="title" name="title" placeholder="Masukkan Judul" required>
+                  <label for="title" class="form-label">Judul <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="title" name="title" placeholder="Masukkan Judul" value={{ old('title') }}>
+                  @error('title')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="summernote" class="form-label">Isi Konten</label>
-                  <textarea id="summernote" name="content" class="form-control" required></textarea>
+                  <label for="summernote" class="form-label">Isi Konten <span class="text-danger">*</span></label>
+                  <textarea id="summernote" name="content" class="form-control" value={{ old('content') }}></textarea>
+                  @error('content')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="image" class="form-label">Foto Sampul</label>
-                  <input type="file" name="image" id="image" accept="image/*" class="form-control" required>
+                  <label for="image" class="form-label">Foto Sampul <span class="text-danger">*</span></label>
+                  <input type="file" name="image" id="image" accept="image/*" class="form-control" value={{ old('image') }}>
+                  @error('image')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <button class="btn btn-primary" type="submit">Simpan Konten</button>
               </form>

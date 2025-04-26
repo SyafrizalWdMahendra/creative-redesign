@@ -40,7 +40,7 @@ class ArticleController extends Controller
             'date' => 'required|date|date_format:Y-m-d',
             'description' => 'required|string',
             'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'title.required' => 'Judul artikel harus diisi.',
             'title.string' => 'Judul artikel harus berupa string.',
@@ -52,6 +52,7 @@ class ArticleController extends Controller
             'description.string' => 'Deskripsi artikel harus berupa teks.',
             'content.required' => 'Konten artikel harus diisi.',
             'content.string' => 'Konten artikel harus berupa teks.',
+            'image.required' => 'Foto sampul harus diisi.',
             'image.image' => 'File yang diunggah harus berupa gambar.',
             'image.mimes' => 'Gambar harus dalam format jpeg, png, jpg, gif, atau svg.',
             'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',

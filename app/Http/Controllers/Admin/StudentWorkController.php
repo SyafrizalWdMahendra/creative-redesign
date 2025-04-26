@@ -45,9 +45,11 @@ class StudentWorkController extends Controller
                 'name.required' => 'Nama karya siswa harus diisi.',
                 'name.string' => 'Nama karya siswa harus berupa string.',
                 'name.max' => 'Panjang kalimat maksimal 50 karakter.',
+                'image.required' => 'Foto karya harus diisi.',
                 'image.image' => 'File yang diunggah harus berupa gambar.',
                 'image.mimes' => 'Gambar harus dalam format jpeg, png, jpg, gif, atau svg.',
                 'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
+                'description.required' => 'Deskripsi harus diisi.'
             ]
         );
 

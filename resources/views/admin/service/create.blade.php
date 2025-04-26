@@ -63,30 +63,45 @@
               <form action="{{ route('service_admin.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
-                  <label for="name" class="form-label">Nama Layanan</label>
-                  <select class="form-select" id="name" name="name" required>
+                  <label for="name" class="form-label">Nama Layanan <span class="text-danger">*</span></label>
+                  <select class="form-select" id="name" name="name" value={{ old('name') }}>
                     <option selected disabled>Pilih Layanan</option>
                     <option value="Course & Trainings">Course & Trainings</option>
                     <option value="Branding & Design">Branding & Design</option>
                     <option value="Web Developoment">Web Developoment</option>
                     <option value="Mobile Apps Developoment">Mobile Apps Developoment</option>
                   </select>
+                  @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="title" class="form-label">Judul Artikel</label>
-                  <input type="text" class="form-control" id="title" name="title" placeholder="Masukkan Judul Layanan">
+                  <label for="title" class="form-label">Judul Artikel <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="title" name="title" placeholder="Masukkan Judul Layanan" value={{ old('title') }}>
+                  @error('title')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="description" class="form-label">Deskripsi</label>
-                  <textarea name="description" id="description" class="form-control" placeholder="Masukkan Deskripsi Layanan"></textarea>
+                  <label for="description" class="form-label">Deskripsi <span class="text-danger">*</span></label>
+                  <textarea name="description" id="description" class="form-control" placeholder="Masukkan Deskripsi Layanan" value={{ old('description') }}></textarea>
+                  @error('description')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="summernote" class="form-label">Isi Konten</label>
-                  <textarea id="summernote" name="content" class="form-control"></textarea>
+                  <label for="summernote" class="form-label">Isi Konten <span class="text-danger">*</span></label>
+                  <textarea id="summernote" name="content" class="form-control" value={{ old('content') }}></textarea>
+                  @error('content')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="image" class="form-label">Foto Sampul</label>
-                  <input type="file" name="image" id="image" accept="image/*" class="form-control">
+                  <label for="image" class="form-label">Foto Sampul <span class="text-danger">*</span></label>
+                  <input type="file" name="image" id="image" accept="image/*" class="form-control" value={{ old('image') }}>
+                  @error('image')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 
                 <button class="btn btn-primary" type="submit">Simpan Konten</button>

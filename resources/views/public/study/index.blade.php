@@ -109,7 +109,7 @@
                             </div><!-- End Service Item -->
                         @empty
                             <div class="col-12">
-                                <p>Articles not available</p>
+                                <p>Studies not available</p>
                             </div>
                         @endforelse
                     </div>

@@ -59,7 +59,7 @@
                 <form action="{{ route('contact_admin.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="location" class="form-label">Lokasi Kantor</label>
+                        <label for="location" class="form-label">Lokasi Kantor <span class="text-danger">*</span></label>
                         <select class="form-select" id="location" name="location" value={{ old('location') }}>
                             <option selected disabled>Pilih Lokasi</option>
                             <option value="Surabaya Timur">Surabaya Timur</option>
@@ -72,7 +72,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="address" class="form-label">Alamat Kantor</label>
+                        <label for="address" class="form-label">Alamat Kantor <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="address" name="address" placeholder="Masukkan Alamat" value={{ old( 'address') }}>
                         @error('address')
                             <div class="text-danger">{{ $message }}</div>
@@ -80,7 +80,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="contact" class="form-label">Kontak Layanan</label>
+                        <label for="contact" class="form-label">Kontak Layanan <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" id="contact" name="contact" placeholder="Masukkan Kontak Layanan" value={{ old('contact') }}>
                         @error('contact')
                             <div class="text-danger">{{ $message }}</div>   
@@ -88,7 +88,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email Kantor</label>
+                        <label for="email" class="form-label">Email Kantor <span class="text-danger">*</span></label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan Email Kantor" value={{ old('email') }}>
                         @error('email')
                             <div class="text-danger">{{ $message }}</div>

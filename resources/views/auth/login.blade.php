@@ -56,11 +56,19 @@
                             @csrf
                             <div class="form-group mb-3">
                                 <label class="form-label">Email Address</label>
-                                <input type="email" id="email" name="email" class="form-control" placeholder="Email Address">
+                                <input type="email" id="email" name="email" class="form-control"
+                                    placeholder="Email Address" autofocus value={{ old('email') }}>
+                                @error('email')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="form-group mb-3">
                                 <label class="form-label">Password</label>
-                                <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                                <input type="password" id="password" name="password" class="form-control"
+                                    placeholder="Password" value={{ old('password') }}>
+                                @error('password')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="d-grid mt-4">
                                 <button type="submit" class="btn btn-primary">Login</button>

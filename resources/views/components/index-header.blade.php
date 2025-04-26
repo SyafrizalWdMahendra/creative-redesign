@@ -8,9 +8,9 @@
 
   <nav id="navmenu" class="navmenu">
     <ul>
-      <li><a href="/" class="active">Beranda</a></li>
+      <li><a href="/" class="{{ request()->routeIs(['index']) ? 'active' : '' }}">Beranda</a></li>
       <li class="dropdown">
-        <a href="{{ route('study.index') }}">
+        <a href="{{ route('study.index') }}" class="{{ request()->routeIs(['study.index']) ? 'active' : '' }}">
           <span>Bidang Studi</span>
           <i class="bi bi-chevron-down toggle-dropdown"></i>
         </a>
@@ -26,7 +26,8 @@
         </ul>
       </li>
       </li>
-      <li class="dropdown"><a href="{{ route('service.index') }}">Layanan Jasa <i
+      <li class="dropdown"><a href="{{ route('service.index') }}"
+          class="{{ request()->routeIs(['service.index']) ? 'active' : '' }}">Layanan Jasa <i
             class="bi bi-chevron-down toggle-dropdown"></i></a>
         <ul>
           @foreach($services as $service)
@@ -39,10 +40,14 @@
       @endforeach
         </ul>
       </li>
-      <li><a href="{{ route('student_work.index') }}">Karya Siswa</a></li>
-      <li><a href="{{ route('testimony.index') }}">Testimoni</a></li>
-      <li><a href="{{ route('article.index') }}">Artikel</a></li>
-      <li><a href="{{ route('contact.index') }}">Hubungi Kami</a></li>
+      <li><a href="{{ route('student_work.index') }}"
+          class="{{ request()->routeIs(['student_work.index']) ? 'active' : '' }}">Karya Siswa</a></li>
+      <li><a href="{{ route('testimony.index') }}"
+          class="{{ request()->routeIs(['testimony.index']) ? 'active' : '' }}">Testimoni</a></li>
+      <li><a href="{{ route('article.index') }}"
+          class="{{ request()->routeIs(['article.index']) ? 'active' : '' }}">Artikel</a></li>
+      <li><a href="{{ route('contact.index') }}"
+          class="{{ request()->routeIs(['contact.index']) ? 'active' : '' }}">Hubungi Kami</a></li>
     </ul>
     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
   </nav>

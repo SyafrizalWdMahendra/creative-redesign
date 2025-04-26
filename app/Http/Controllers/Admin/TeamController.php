@@ -43,13 +43,15 @@ class TeamController extends Controller
             [
                 'name' => 'required|string|max:50',
                 'position' => 'required|string|max:50',
-                'description' => 'nullable|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'description' => 'required|string',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ],
             [
                 'name.required' => 'Nama anggota tim harus diisi.',
                 'position.required' => 'Posisi anggota tim harus diisi.',
                 'position.max' => 'Panjang kalimat maksimal 50 karakter.',
+                'description.required' => 'Deskripsi harus diisi.',
+                'image.required' => 'Foto profil harus diisi.',
                 'image.image' => 'File yang diunggah harus berupa gambar.',
                 'image.mimes' => 'Gambar harus dalam format jpeg, png, jpg, atau gif.',
                 'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',

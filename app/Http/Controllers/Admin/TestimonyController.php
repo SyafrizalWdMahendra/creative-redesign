@@ -39,18 +39,19 @@ class TestimonyController extends Controller
         $request->validate([
             'name' => 'required|string|max:50',
             'comment' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'video' => 'nullable|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'video' => 'nullable|url',
         ], [
             'name.required' => 'Nama testimoni harus diisi.',
             'name.string' => 'Nama testimoni harus berupa string.',
             'name.max' => 'Panjang kalimat maksimal 50 karakter.',
             'comment.required' => 'Komentar testimoni harus diisi.',
             'comment.string' => 'Komentar testimoni harus berupa teks.',
+            'image.required' => 'Foto profil harus diisi.',
             'image.image' => 'File yang diunggah harus berupa gambar.',
             'image.mimes' => 'Gambar harus dalam format jpeg, png, jpg, gif, atau svg.',
             'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
-            'video.string' => 'Video harus berupa string.',
+            'video.url' => 'Video testimoni harus berupa link.',
         ]);
 
         $imagePath = null;

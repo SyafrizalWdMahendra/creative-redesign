@@ -63,20 +63,32 @@
               <form action="{{ route('testimony_admin.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
-                  <label for="name" class="form-label">Nama Alumni</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama Alumni" required>
+                  <label for="name" class="form-label">Nama Alumni <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Nama Alumni" value={{ old('name') }}>
+                  @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="comentar" class="form-label">Komentar</label>
-                  <textarea class="form-control" id="comentar" name="comment" placeholder="Masukkan Komentar" required></textarea>
+                  <label for="comentar" class="form-label">Komentar <span class="text-danger">*</span></label>
+                  <textarea class="form-control" id="comentar" name="comment" placeholder="Masukkan Komentar" value={{ old('comment') }}></textarea>
+                  @error('comment')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="mb-3">
                   <label for="summernote" class="form-label">Video Testimoni</label>
-                  <textarea id="summernote" name="video" class="form-control"></textarea>
+                  <textarea id="summernote" name="video" class="form-control" value={{ old('video') }}></textarea>
+                  @error('video')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="mb-3">
-                  <label for="image" class="form-label">Foto Profil</label>
-                  <input type="file" name="image" id="image" accept="image/*" class="form-control" required>
+                  <label for="image" class="form-label">Foto Profil <span class="text-danger">*</span></label>
+                  <input type="file" name="image" id="image" accept="image/*" class="form-control" value={{ old('image') }}>
+                  @error('image')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <button class="btn btn-primary" type="submit">Simpan Konten</button>
               </form>
