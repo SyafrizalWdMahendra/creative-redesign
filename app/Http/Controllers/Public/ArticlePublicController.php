@@ -71,4 +71,18 @@ class ArticlePublicController extends Controller
     {
         //
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $articles = Article::where('title', 'LIKE', "%{$query}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('public.article.search_results', [
+            'articles' => $articles,
+            'searchQuery' => $query
+        ]);
+    }
 }

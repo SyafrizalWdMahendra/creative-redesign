@@ -70,15 +70,7 @@
                 <div class="row gy-4">
 
                     <div class="col-lg-8">
-                        <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">
-                            <h3>{{ $articles->title }}</h3>
-                            <ul>
-                                <img src="{{ asset('storage/' . $articles->image) }}"
-                                    style="height: 400px; width: 100%;" class="img-fluid">
-                                <li>{{ $articles->description }}</li>
-                                <li>{!! $articles->content !!}</li>
-                            </ul>
-                        </div>
+                        <x-article-search :articles="$articles" :searchQuery="$searchQuery"></x-article-search>
                     </div>
                     <div class="col-lg-4">
                         <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">

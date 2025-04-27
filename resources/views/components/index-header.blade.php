@@ -1,7 +1,7 @@
 @props(['studies' => [], 'services' => []])
 <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-  <a href="index.html" class="logo d-flex align-items-center me-auto">
+  <a href="/" class="logo d-flex align-items-center me-auto">
     <!-- Uncomment the line below if you also wish to use an image logo -->
     <h1 class="sitename">Credis</h1>
   </a>
@@ -48,10 +48,49 @@
           class="{{ request()->routeIs(['article.index']) ? 'active' : '' }}">Artikel</a></li>
       <li><a href="{{ route('contact.index') }}"
           class="{{ request()->routeIs(['contact.index']) ? 'active' : '' }}">Hubungi Kami</a></li>
+      @auth
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          @php
+            $hour = \Carbon\Carbon::now()->hour;
+            if ($hour >= ('05:00') && $hour < ('12:00')) {
+            $greeting = 'Selamat Pagi';
+            } elseif ($hour >= ('12:00') && $hour < ('15:00')) {
+            $greeting = 'Selamat Siang';
+            } elseif ($hour >= ('15:00') && $hour < ('18:00')) {
+            $greeting = 'Selamat Sore';
+            } else {
+            $greeting = 'Selamat Malam';
+            }
+          @endphp
+
+          {{ $greeting }}, {{ Auth::user()->name }}
+
+          {{-- Selamat {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y H:i') }}, {{ Auth::user()->name }} --}}
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="{{ route('dashboard.index') }}">Dashboard</a></li>
+          <li>
+          <form method="POST" action="{{ route('logout') }}" class="dropdown-item">
+            @csrf
+            <button type="submit" class="pc-link" style="border: none; background: none; cursor: pointer;">
+            <div class="logout-menu" id="logout-menu">
+              <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
+              <span class="pc-mtext">Logout</span>
+            </div>
+            </button>
+          </form>
+          </li>
+          <li>
+          <hr class="dropdown-divider">
+          </li>
+        </ul>
+        </li>
+    @else
+      <a class="cta-btn" href="{{ route('login') }}">Login</a>
+    @endauth
     </ul>
     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
   </nav>
-
-  <a class="cta-btn" href="{{ route('login') }}">Login</a>
 
 </div>

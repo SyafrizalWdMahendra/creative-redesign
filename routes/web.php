@@ -17,20 +17,23 @@ use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\TestimonyController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Public\TestimonyPublicController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+// CRUD Frontend Page
+Route::resource('/', HomeController::class);
+Route::resource('/study', StudyPublicController::class);
+Route::resource('/service', ServicePublicController::class);
+Route::resource('/student_work', StudentWorkPublicController::class);
+Route::resource('/testimony', TestimonyPublicController::class);
+Route::resource('/article', ArticlePublicController::class);
+Route::resource('/contact', ContactPublicController::class);
+Route::get('/search/articles', [ArticlePublicController::class, 'search'])->name('search.articles');
+
 // Guest Routes
 Route::middleware('guest')->group(function () {
-    // CRUD Frontend Page
-    Route::resource('/', HomeController::class);
-    Route::resource('/study', StudyPublicController::class);
-    Route::resource('/service', ServicePublicController::class);
-    Route::resource('/student_work', StudentWorkPublicController::class);
-    Route::resource('/testimony', TestimonyPublicController::class);
-    Route::resource('/article', ArticlePublicController::class);
-    Route::resource('/contact', ContactPublicController::class);
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login-submit', [LoginController::class, 'login'])->name('login.submit');
 });
