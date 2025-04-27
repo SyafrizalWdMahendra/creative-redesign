@@ -156,4 +156,18 @@ class TestimonyController extends Controller
 
         return redirect()->route('testimony_admin.index')->with('success', "Testimoni berhasil dihapus.");
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $testimonies = Testimony::where('name', 'LIKE', "%{$query}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.testimony.index', [
+            'testimonies' => $testimonies,
+            'searchQuery' => $query
+        ]);
+    }
 }

@@ -133,4 +133,18 @@ class StudentWorkController extends Controller
 
         return redirect()->route('student_work_admin.index')->with('success', 'Karya siswa berhasil dihapus.');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $studentWorks = StudentWork::where('name', 'LIKE', "%{$query}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.study_work.index', [
+            'studentWorks' => $studentWorks,
+            'searchQuery' => $query
+        ]);
+    }
 }

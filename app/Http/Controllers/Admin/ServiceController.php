@@ -160,4 +160,18 @@ class ServiceController extends Controller
 
         return redirect()->route('service_admin.index')->with('success', 'Layanan berhasil dihapus.');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $services = Service::where('name', 'LIKE', "%{$query}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.service.index', [
+            'services' => $services,
+            'searchQuery' => $query
+        ]);
+    }
 }

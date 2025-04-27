@@ -147,4 +147,18 @@ class TeamController extends Controller
 
         return redirect()->route('team_admin.index')->with('success', "Team member deleted successfully.");
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $teams = Team::where('name', 'LIKE', "%{$query}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.home.team.index', [
+            'teams' => $teams,
+            'searchQuery' => $query
+        ]);
+    }
 }

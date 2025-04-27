@@ -52,5 +52,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/create/article_admin', ArticleController::class);
     Route::resource('admin/create/contact_admin', ContactController::class);
 
+    // Searching Route
+    Route::get('/search/clients', [ClientController::class, 'search'])->name('search.clients');
+    Route::get('/search/teams', [TeamController::class, 'search'])->name('search.teams');
+    Route::get('/search/studies', [StudyController::class, 'search'])->name('search.studies');
+    Route::get('/search/services', [ServiceController::class, 'search'])->name('search.services');
+    Route::get('/search/study_works', [StudentWorkController::class, 'search'])->name('search.study_works');
+    Route::get('/search/testimonies', [TestimonyController::class, 'search'])->name('search.testimonies');
+    Route::get('/search/articles', [ArticleController::class, 'search'])->name('search.articles');
+    Route::get('/search/contacts', [ContactController::class, 'search'])->name('search.contacts');
+
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });

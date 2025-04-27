@@ -149,4 +149,18 @@ class ArticleController extends Controller
 
         return redirect()->route('article_admin.index')->with('success', 'Artikel berhasil dihapus.');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $articles = Article::where('title', 'LIKE', "%{$query}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.article.index', [
+            'articles' => $articles,
+            'searchQuery' => $query
+        ]);
+    }
 }

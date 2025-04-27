@@ -147,4 +147,18 @@ class StudyController extends Controller
 
         return redirect()->route('study_admin.index')->with('studySuccessAlert', "Bidang studi berhasil dihapus.");
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $studies = Study::where('name', 'LIKE', "%{$query}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.study.index', [
+            'studies' => $studies,
+            'searchQuery' => $query
+        ]);
+    }
 }

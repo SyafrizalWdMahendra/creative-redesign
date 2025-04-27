@@ -132,4 +132,18 @@ class ContactController extends Controller
 
         return redirect()->route('contact_admin.index')->with('contactSuccessAlert', 'Kontak berhasil dihapus.');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $contacts = Contact::where('location', 'LIKE', "%{$query}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.contact.index', [
+            'contacts' => $contacts,
+            'searchQuery' => $query
+        ]);
+    }
 }

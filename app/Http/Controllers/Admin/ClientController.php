@@ -129,4 +129,18 @@ class ClientController extends Controller
 
         return redirect()->route('client_admin.index')->with('success', 'Client deleted successfully.');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $clients = Client::where('name', 'LIKE', "%{$query}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.home.client.index', [
+            'clients' => $clients,
+            'searchQuery' => $query
+        ]);
+    }
 }
