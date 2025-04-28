@@ -64,6 +64,7 @@ class ClientController extends Controller
         Client::create([
             'name' => $request->name,
             'image' => $imagePath,
+            'url' => $request->url,
         ]);
 
         HistoryContent::create([

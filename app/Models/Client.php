@@ -16,6 +16,7 @@ class Client extends Model
     protected $fillable = [
         'name',
         'image',
+        'url'
     ];
 
     public function historyContents()

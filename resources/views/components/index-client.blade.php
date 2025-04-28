@@ -4,51 +4,12 @@
     <div class="scroller-wrapper">
       <div class="d-flex gy-4 scroller">
         @forelse ($clients as $client)
-          <img src="{{ asset('storage/' . $client->image) }}" width="150px" class="d-block mb-2">
+          <a href="{{ $client->url }}">
+            <img src="{{ asset('storage/' . $client->image) }}" width="150px" class="d-block mb-2">
+          </a>
         @empty
           <p>Clients not available.</p>
         @endforelse
-        
-        <!-- Duplicate the images for seamless looping -->
-        @foreach ($clients as $client)
-          <img src="{{ asset('storage/' . $client->image) }}" width="150px" class="d-block mb-2">
-        @endforeach
-        <!-- Duplicate the images for seamless looping -->
-        @foreach ($clients as $client)
-          <img src="{{ asset('storage/' . $client->image) }}" width="150px" class="d-block mb-2">
-        @endforeach
-        <!-- Duplicate the images for seamless looping -->
-        @foreach ($clients as $client)
-          <img src="{{ asset('storage/' . $client->image) }}" width="150px" class="d-block mb-2">
-        @endforeach
-        <!-- Duplicate the images for seamless looping -->
-        @foreach ($clients as $client)
-          <img src="{{ asset('storage/' . $client->image) }}" width="150px" class="d-block mb-2">
-        @endforeach
-        <!-- Duplicate the images for seamless looping -->
-        @foreach ($clients as $client)
-          <img src="{{ asset('storage/' . $client->image) }}" width="150px" class="d-block mb-2">
-        @endforeach
-        <!-- Duplicate the images for seamless looping -->
-        @foreach ($clients as $client)
-          <img src="{{ asset('storage/' . $client->image) }}" width="150px" class="d-block mb-2">
-        @endforeach
-        <!-- Duplicate the images for seamless looping -->
-        @foreach ($clients as $client)
-          <img src="{{ asset('storage/' . $client->image) }}" width="150px" class="d-block mb-2">
-        @endforeach
-        <!-- Duplicate the images for seamless looping -->
-        @foreach ($clients as $client)
-          <img src="{{ asset('storage/' . $client->image) }}" width="150px" class="d-block mb-2">
-        @endforeach
-        <!-- Duplicate the images for seamless looping -->
-        @foreach ($clients as $client)
-          <img src="{{ asset('storage/' . $client->image) }}" width="150px" class="d-block mb-2">
-        @endforeach
-        <!-- Duplicate the images for seamless looping -->
-        @foreach ($clients as $client)
-          <img src="{{ asset('storage/' . $client->image) }}" width="150px" class="d-block mb-2">
-        @endforeach
       </div>
     </div>
   </div>

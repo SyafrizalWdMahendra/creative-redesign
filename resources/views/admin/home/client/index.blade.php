@@ -64,7 +64,7 @@
                 <div class="input-group mb-3">
                   <input type="search" name="query" id="searchInput" class="form-control rounded"
                     placeholder="Cari Klien..." aria-label="Search" aria-describedby="search-addon"
-                    value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus/>
+                    value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus />
                   <button type="submit" class="input-group-text border-0" id="search-addon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                       class="bi bi-search" viewBox="0 0 16 16">
@@ -143,8 +143,16 @@
                     <input type="file" name="image" id="image" accept="image/*" class="form-control">
                     <small class="text-muted">Unggah gambar baru jika ingin mengubah logo.</small>
                   </div>
+                  <div class="mb-3">
+                    <label for="url" class="form-label">Link Website <span class="text-danger">*</span></label>
+                    <input type="url" name="url" id="url" class="form-control" placeholder="Masukkan Link Website Klien"
+                      value="{{ $client->url }}">
+                    @error('url')
+                      <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
 
-                  <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
+                    <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
                 </form>
               </div>
             </div>
