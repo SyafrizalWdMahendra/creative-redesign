@@ -13,4 +13,9 @@ class Study extends Model
         'content',
         'image',
     ];
+
+    public function historyContents()
+    {
+        return $this->hasMany(HistoryContent::class);
+    }
 }

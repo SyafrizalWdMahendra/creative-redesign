@@ -66,12 +66,12 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-              <form action="{{ route('search.testimonies') }}" method="GET" class="col-lg-4" id="searchForm">
+              <form action="{{ route('search.testimony_admin') }}" method="GET" class="col-lg-4" id="searchForm">
                 @csrf
                 <div class="input-group mb-3">
                   <input type="search" name="query" id="searchInput" class="form-control rounded"
                     placeholder="Cari Testimoni..." aria-label="Search" aria-describedby="search-addon"
-                    value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus/>
+                    value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus />
                   <button type="submit" class="input-group-text border-0" id="search-addon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                       class="bi bi-search" viewBox="0 0 16 16">
@@ -170,7 +170,7 @@
                         width="150px" class="d-block mb-2">
                       <input type="file" name="image" id="image" accept="image/*" class="form-control">
                     </div>
-                    <button class="btn btn-primary" type="submit">Simpan Konten</button>
+                    <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
                   </form>
                 </div>
               </div>

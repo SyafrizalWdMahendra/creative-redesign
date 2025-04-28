@@ -72,4 +72,18 @@ class StudyPublicController extends Controller
     {
         //
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $studies = Study::where('title', 'LIKE', "%{$query}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('public.study.search_results', [
+            'studies' => $studies,
+            'searchQuery' => $query
+        ]);
+    }
 }

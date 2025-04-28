@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\HistoryContent;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
@@ -78,6 +80,11 @@ class ServiceController extends Controller
             'description' => $request->description,
             'content' => $request->content,
             'image' => $imagePath,
+        ]);
+
+        HistoryContent::create([
+            'user_id' => Auth::user()->id,
+            'service_id' => Service::latest()->first()->id,
         ]);
 
         session()->flash('serviceSuccessAlert', "Layanan berhasil ditambahkan.");

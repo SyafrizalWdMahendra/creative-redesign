@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\HistoryContent;
+use Illuminate\Support\Facades\Auth;
 
 class ContactController extends Controller
 {
@@ -61,6 +63,11 @@ class ContactController extends Controller
             'address' => $request->address,
             'contact' => $request->contact,
             'email' => $request->email,
+        ]);
+
+        HistoryContent::create([
+            'user_id' => Auth::user()->id,
+            'contact_id' => Contact::latest()->first()->id,
         ]);
 
         session()->flash('contactSuccessAlert', 'Kontak berhasil ditambahkan.');

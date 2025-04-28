@@ -66,7 +66,7 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-              <form action="{{ route('search.studies') }}" method="GET" class="col-lg-4" id="searchForm">
+              <form action="{{ route('search.study_admin') }}" method="GET" class="col-lg-4" id="searchForm">
                 @csrf
                 <div class="input-group mb-3">
                   <input type="search" name="query" id="searchInput" class="form-control rounded"
@@ -177,7 +177,7 @@
                       <small class="text-muted">Unggah gambar baru jika ingin mengubah foto sampul.</small>
                     </div>
 
-                    <button class="btn btn-primary" type="submit">Simpan Konten</button>
+                    <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
                   </form>
                 </div>
               </div>

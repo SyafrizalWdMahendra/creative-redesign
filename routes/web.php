@@ -31,6 +31,8 @@ Route::resource('/testimony', TestimonyPublicController::class);
 Route::resource('/article', ArticlePublicController::class);
 Route::resource('/contact', ContactPublicController::class);
 Route::get('/search/articles', [ArticlePublicController::class, 'search'])->name('search.articles');
+Route::get('/search/services', [ServicePublicController::class, 'search'])->name('search.services');
+Route::get('/search/studies', [StudyPublicController::class, 'search'])->name('search.studies');
 
 // Guest Routes
 Route::middleware('guest')->group(function () {
@@ -53,14 +55,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/create/contact_admin', ContactController::class);
 
     // Searching Route
-    Route::get('/search/clients', [ClientController::class, 'search'])->name('search.clients');
-    Route::get('/search/teams', [TeamController::class, 'search'])->name('search.teams');
-    Route::get('/search/studies', [StudyController::class, 'search'])->name('search.studies');
-    Route::get('/search/services', [ServiceController::class, 'search'])->name('search.services');
-    Route::get('/search/study_works', [StudentWorkController::class, 'search'])->name('search.study_works');
-    Route::get('/search/testimonies', [TestimonyController::class, 'search'])->name('search.testimonies');
-    Route::get('/search/articles', [ArticleController::class, 'search'])->name('search.articles');
-    Route::get('/search/contacts', [ContactController::class, 'search'])->name('search.contacts');
+    Route::get('/search/client_admin', [ClientController::class, 'search'])->name('search.client_admin');
+    Route::get('/search/team_admin', [TeamController::class, 'search'])->name('search.team_admin');
+    Route::get('/search/study_admin', [StudyController::class, 'search'])->name('search.study_admin');
+    Route::get('/search/service_admin', [ServiceController::class, 'search'])->name('search.service_admin');
+    Route::get('/search/study_work_admin', [StudentWorkController::class, 'search'])->name('search.study_work_admin');
+    Route::get('/search/testimony_admin', [TestimonyController::class, 'search'])->name('search.testimony_admin');
+    Route::get('/search/article_admin', [ArticleController::class, 'search'])->name('search.article_admin');
+    Route::get('/search/contact_admin', [ContactController::class, 'search'])->name('search.contact_admin');
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });

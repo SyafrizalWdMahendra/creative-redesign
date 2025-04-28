@@ -6,6 +6,8 @@ use App\Models\Testimony;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
+use App\Models\HistoryContent;
+use Illuminate\Support\Facades\Auth;
 
 class TestimonyController extends Controller
 {
@@ -40,7 +42,7 @@ class TestimonyController extends Controller
             'name' => 'required|string|max:50',
             'comment' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'video' => 'nullable|url',
+            'video' => 'nullable|string',
         ], [
             'name.required' => 'Nama testimoni harus diisi.',
             'name.string' => 'Nama testimoni harus berupa string.',
@@ -71,6 +73,11 @@ class TestimonyController extends Controller
             'comment' => $request->comment,
             'image' => $imagePath,
             'video' => $videoEmbed,
+        ]);
+
+        HistoryContent::create([
+            'user_id' => Auth::user()->id,
+            'testimony_id' => Testimony::latest()->first()->id,
         ]);
 
         session()->flash('testimonySuccessAlert', 'Testimoni berhasil diunggah dan disimpan.');

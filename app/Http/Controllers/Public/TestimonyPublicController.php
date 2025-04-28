@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Public;
 use App\Models\Testimony;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Service;
+use App\Models\Study;
 
 class TestimonyPublicController extends Controller
 {
@@ -14,8 +16,10 @@ class TestimonyPublicController extends Controller
     public function index()
     {
         $testimonies = Testimony::latest()->get();
+        $services = Service::latest()->get();
+        $studies = Study::latest()->get();
 
-        return view('public.testimony.index', compact('testimonies'));
+        return view('public.testimony.index', compact(['testimonies', 'services', 'studies']));
     }
 
     /**

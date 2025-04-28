@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\HistoryContent;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -69,6 +71,11 @@ class ArticleController extends Controller
             'description' => $request->description,
             'content' => $request->content,
             'image' => $imagePath,
+        ]);
+
+        HistoryContent::create([
+            'user_id' => Auth::user()->id,
+            'article_id' => Article::latest()->first()->id,
         ]);
 
         session()->flash('articleSuccessAlert', 'Artikel berhasil ditambahkan.');

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Study;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\HistoryContent;
+use Illuminate\Support\Facades\Auth;
 
 class StudyController extends Controller
 {
@@ -68,6 +70,11 @@ class StudyController extends Controller
             'title' => $request->title,
             'content' => $request->content,
             'image' => $imagePath,
+        ]);
+
+        HistoryContent::create([
+            'user_id' => Auth::user()->id,
+            'study_id' => Study::latest()->first()->id,
         ]);
 
         session()->flash('studySuccessAlert', "Bidang studi berhasil ditambahkan.");

@@ -6,6 +6,8 @@ use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\HistoryContent;
+use Illuminate\Support\Facades\Auth;
 
 class TeamController extends Controller
 {
@@ -72,6 +74,11 @@ class TeamController extends Controller
             'position' => $request->position,
             'description' => $request->description,
             'image' => $imagePath, // Pastikan variabel ini sudah ditentukan
+        ]);
+
+        HistoryContent::create([
+            'user_id' => Auth::user()->id,
+            'team_id' => Team::latest()->first()->id,
         ]);
 
         session()->flash('teamSuccessAlert', 'Anggota tim berhasil diunggah dan disimpan.');

@@ -50,13 +50,13 @@
         <div class="page-title dark-background" data-aos="fade"
             style="background-image: url({{ asset('img/page-title-bg.webp') }});">
             <div class="container position-relative">
-                <h1>Article Details</h1>
+                <h1>Service Details</h1>
                 <p>Esse dolorum voluptatum ullam est sint nemo et est ipsa porro placeat quibusdam quia assumenda
                     numquam molestias.</p>
                 <nav class="breadcrumbs">
                     <ol>
                         <li><a href="index.html">Home</a></li>
-                        <li class="current">Article Details</li>
+                        <li class="current">Service Details</li>
                     </ol>
                 </nav>
             </div>
@@ -70,28 +70,15 @@
                 <div class="row gy-4">
 
                     <div class="col-lg-8">
-                        <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">
-                            <h3>{{ $articles->title }}</h3>
-                            <ul>
-                                <h10>Posted on
-                                    <strong>{{ $articles->created_at->format('F j, Y') }}</strong> by
-                                    <strong>{{ Str::title(Auth::user()->name) }}</strong>
-                                </h10>
-                                <img src="{{ asset('storage/' . $articles->image) }}"
-                                    style="height: 400px; width: 100%;" class="img-fluid">
-                                <li>{{ $articles->description }}</li>
-                                <li>{!! $articles->content !!}</li>
-                            </ul>
-                        </div>
+                        <x-service-search :services="$services" :searchQuery="$searchQuery"></x-service-search>
                     </div>
-
                     <div class="col-lg-4">
                         <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">
-                            <form action="{{ route('search.articles') }}" method="GET">
+                            <form action="{{ route('search.services') }}" method="GET">
                                 @csrf
                                 <div class="input-group mb-3">
                                     <input type="search" name="query" class="form-control rounded"
-                                        placeholder="Search articles..." aria-label="Search"
+                                        placeholder="Search services..." aria-label="Search"
                                         aria-describedby="search-addon"
                                         onkeydown="if(event.key === 'Enter') this.form.submit()" />
                                     <button type="submit" class="input-group-text border-0" id="search-addon">

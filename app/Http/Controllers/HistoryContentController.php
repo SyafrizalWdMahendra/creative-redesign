@@ -1,25 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Public;
+namespace App\Http\Controllers;
 
-use App\Models\StudentWork;
+use App\Models\HistoryContent;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Service;
-use App\Models\Study;
 
-class StudentWorkPublicController extends Controller
+class HistoryContentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $studentWorks = StudentWork::latest()->get();
-        $services = Service::latest()->get();
-        $studies = Study::latest()->get();
-
-        return view('public.study_work.index', compact(['studentWorks', 'services', 'studies']));
+        //
     }
 
     /**
@@ -41,7 +34,7 @@ class StudentWorkPublicController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(HistoryContent $historyContent)
     {
         //
     }
@@ -49,7 +42,7 @@ class StudentWorkPublicController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(HistoryContent $historyContent)
     {
         //
     }
@@ -57,7 +50,7 @@ class StudentWorkPublicController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, HistoryContent $historyContent)
     {
         //
     }
@@ -65,7 +58,7 @@ class StudentWorkPublicController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(HistoryContent $historyContent)
     {
         //
     }

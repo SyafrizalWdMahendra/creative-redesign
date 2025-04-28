@@ -18,4 +18,9 @@ class Team extends Model
         'description',
         'image',
     ];
+
+    public function historyContents()
+    {
+        return $this->hasMany(HistoryContent::class);
+    }
 }

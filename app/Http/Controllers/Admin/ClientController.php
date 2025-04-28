@@ -6,6 +6,8 @@ use App\Models\Client;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\HistoryContent;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -62,6 +64,11 @@ class ClientController extends Controller
         Client::create([
             'name' => $request->name,
             'image' => $imagePath,
+        ]);
+
+        HistoryContent::create([
+            'user_id' => Auth::user()->id,
+            'client_id' => Client::latest()->first()->id,
         ]);
 
         session()->flash('clientSuccessAlert', 'Klien berhasil diunggah dan disimpan.');

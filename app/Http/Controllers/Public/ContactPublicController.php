@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Public;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Service;
+use App\Models\Study;
 
 class ContactPublicController extends Controller
 {
@@ -14,8 +16,10 @@ class ContactPublicController extends Controller
     public function index()
     {
         $contacts = Contact::latest()->get();
+        $services = Service::latest()->get();
+        $studies = Study::latest()->get();
 
-        return view('public.contact.index', compact('contacts'));
+        return view('public.contact.index', compact(['contacts', 'services', 'studies']));
     }
 
     /**

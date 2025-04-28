@@ -2,7 +2,7 @@
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
         <div class="m-header">
-            <a href="../dashboard/index.html" class="b-brand text-primary">
+            <a href="{{ route('client_admin.index') }}" class="b-brand text-primary">
                 <!-- ========   Change your logo from here   ============ -->
                 <img src="{{ asset('img/logo-dark.svg') }}" class="img-fluid logo-lg" alt="logo">
             </a>
@@ -11,14 +11,9 @@
             <ul class="pc-navbar">
                 <li class="pc-item">
                     <a href="{{ route('dashboard.index') }}" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
+                        <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
                         <span class="pc-mtext">Dashboard</span>
                     </a>
-                </li>
-
-                <li class="pc-item pc-caption">
-                    <label>UI Components</label>
-                    <i class="ti ti-dashboard"></i>
                 </li>
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span

@@ -69,67 +69,51 @@
 
                 <div class="row gy-4">
 
-                    <div class="container-fluid">
+                    <div class="col-lg-8">
                         <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">
                             <h3>{{ $findServices->name }}</h3>
                             <ul>
-                                <li><strong>{{ $findServices->title }}</strong></li>
+                                <li>
+                                    <h5>{{ $findServices->title }}</h5>
+                                </li>
+                                <img src="{{ asset('storage/' . $findServices->image) }}"
+                                    style="height: 400px; width: 100%;" class="img-fluid">
                                 <li>{!! $findServices->content !!}</li>
                             </ul>
                         </div>
-                        <div class="portfolio-description" data-aos="fade-up" data-aos-delay="300">
-                            <h2>Exercitationem repudiandae officiis neque suscipit</h2>
-                            <p>
-                                Autem ipsum nam porro corporis rerum. Quis eos dolorem eos itaque inventore commodi
-                                labore quia quia. Exercitationem repudiandae officiis neque suscipit non officia eaque
-                                itaque enim. Voluptatem officia accusantium nesciunt est omnis tempora consectetur
-                                dignissimos. Sequi nulla at esse enim cum deserunt eius.
-                            </p>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">
+                            <form action="{{ route('search.services') }}" method="GET">
+                                @csrf
+                                <div class="input-group mb-3">
+                                    <input type="search" name="query" class="form-control rounded"
+                                        placeholder="Search articles..." aria-label="Search"
+                                        aria-describedby="search-addon"
+                                        onkeydown="if(event.key === 'Enter') this.form.submit()" />
+                                    <button type="submit" class="input-group-text border-0" id="search-addon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </form>
+                            <h3>Belum Mempunyai Website?</h3>
+                            <ul>
+                                <a href="https://creativemultimedia.id/">
+                                    <p>Buat Website?</p>
+                                </a>
+                            </ul>
+                            <h3>Like Kami di Facebook</h3>
+                            <ul>
+                                <a href="https://www.facebook.com/114056538753850?ref=embed_page">
+                                    <p>Facebook</p>
+                                </a>
+                            </ul>
                         </div>
                     </div>
-                    {{--
-                    <div class="col-lg-4">
-                        <div class="portfolio-details-slider swiper init-swiper">
-
-                            <script type="application/json" class="swiper-config">
-                {
-                  "loop": true,
-                  "speed": 600,
-                  "autoplay": {
-                    "delay": 5000
-                  },
-                  "slidesPerView": "auto",
-                  "pagination": {
-                    "el": ".swiper-pagination",
-                    "type": "bullets",
-                    "clickable": true
-                  }
-                }
-              </script>
-
-                            <div class="swiper-wrapper align-items-center">
-
-                                <div class="swiper-slide">
-                                    <img src="{{ asset ('img/portfolio/app-1.jpg') }}" alt="">
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <img src="{{ asset ('img/portfolio/product-1.jpg') }}" alt="">
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <img src="{{ asset ('img/portfolio/branding-1.jpg') }}" alt="">
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <img src="{{ asset ('img/portfolio/books-1.jpg') }}" alt="">
-                                </div>
-
-                            </div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-                    </div> --}}
-
 
                 </div>
 

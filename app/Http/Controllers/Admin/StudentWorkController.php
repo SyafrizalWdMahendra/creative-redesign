@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\StudentWork;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\HistoryContent;
+use Illuminate\Support\Facades\Auth;
 
 class StudentWorkController extends Controller
 {
@@ -62,6 +64,11 @@ class StudentWorkController extends Controller
             'name' => $request->name,
             'image' => $imagePath,
             'description' => $request->description,
+        ]);
+
+        HistoryContent::create([
+            'user_id' => Auth::user()->id,
+            'student_work_id' => StudentWork::latest()->first()->id,
         ]);
 
         session()->flash('studentSuccessAlert', 'Karya siswa berhasil diunggah dan disimpan.');
