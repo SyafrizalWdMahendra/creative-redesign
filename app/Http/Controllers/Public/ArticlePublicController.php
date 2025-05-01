@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use App\Models\Service;
 use App\Models\Study;
 
@@ -18,8 +19,9 @@ class ArticlePublicController extends Controller
         $articles = Article::latest()->get();
         $studies = Study::latest()->get();
         $services = Service::latest()->get();
+        $contacts = Contact::latest()->get();
 
-        return view('public.article.index', compact(['articles', 'studies', 'services']));
+        return view('public.article.index', compact(['articles', 'studies', 'services', 'contacts']));
     }
 
     /**
@@ -44,8 +46,11 @@ class ArticlePublicController extends Controller
     public function show(string $id)
     {
         $articles = Article::findOrFail($id);
+        $services = Service::latest()->get();
+        $studies = Study::latest()->get();
+        $contacts = Contact::latest()->get();
 
-        return view('public.article.detail', compact('articles'));
+        return view('public.article.detail', compact(['articles', 'services', 'studies', 'contacts']));
     }
 
     /**
@@ -75,14 +80,20 @@ class ArticlePublicController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
+        $services = Service::latest()->get();
+        $studies = Study::latest()->get();
+        $contacts = Contact::latest()->get();
 
-        $articles = Article::where('title', 'LIKE', "%{$query}%")
+        $searchArticles = Article::where('title', 'LIKE', "%{$query}%")
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         return view('public.article.search_results', [
-            'articles' => $articles,
-            'searchQuery' => $query
+            'searchArticles' => $searchArticles,
+            'searchQuery' => $query,
+            'services' => $services,
+            'studies' => $studies,
+            'contacts' => $contacts,
         ]);
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Team;
 use App\Models\Testimony;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use App\Models\Study;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,13 +23,10 @@ class HomeController extends Controller
         $clients = Client::latest()->get();
         $teams = Team::latest()->get();
         $testimonies = Testimony::latest()->get();
-        $services = Service::latest()->get();
         $articles = Article::latest()->get();
+        $services = Service::latest()->get();
         $studies = Study::latest()->get();
-
-        // if (Auth::check()) {
-        //     return redirect()->route('dashboard.index');
-        // }
+        $contacts = Contact::latest()->get();
 
         return view('public.index', compact([
             'teams',
@@ -37,6 +35,7 @@ class HomeController extends Controller
             'services',
             'articles',
             'studies',
+            'contacts'
         ]));
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public;
 use App\Models\Study;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use App\Models\Service;
 
 class StudyPublicController extends Controller
@@ -16,8 +17,9 @@ class StudyPublicController extends Controller
     {
         $studies = Study::latest()->get();
         $services = Service::latest()->get();
+        $contacts = Contact::latest()->get();
 
-        return view('public.study.index', compact(['studies', 'services']));
+        return view('public.study.index', compact(['studies', 'services', 'contacts']));
     }
 
     /**
@@ -44,9 +46,10 @@ class StudyPublicController extends Controller
         $findStudy = Study::findOrFail($id);
         $services = Service::latest()->get();
         $studies = Study::latest()->get();
+        $contacts = Contact::latest()->get();
 
 
-        return view('public.study.detail', compact(['findStudy', 'services', 'studies']));
+        return view('public.study.detail', compact(['findStudy', 'services', 'studies', 'contacts']));
     }
 
     /**
@@ -76,14 +79,20 @@ class StudyPublicController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
+        $services = Service::latest()->get();
+        $studies = Study::latest()->get();
+        $contacts = Contact::latest()->get();
 
-        $studies = Study::where('title', 'LIKE', "%{$query}%")
+        $searchStudies = Study::where('title', 'LIKE', "%{$query}%")
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         return view('public.study.search_results', [
+            'searchStudies' => $searchStudies,
+            'searchQuery' => $query,
+            'services' => $services,
             'studies' => $studies,
-            'searchQuery' => $query
+            'contacts' => $contacts,
         ]);
     }
 }

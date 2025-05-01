@@ -15,7 +15,7 @@ class StudyController extends Controller
      */
     public function index()
     {
-        $studies = Study::latest()->get();
+        $studies = Study::latest()->paginate(5);
 
         if ($studies->isEmpty()) {
             return redirect()->route('study_admin.create')->with('teamAlert', 'Silakan buat bidang studi baru.');
@@ -161,7 +161,7 @@ class StudyController extends Controller
 
         $studies = Study::where('name', 'LIKE', "%{$query}%")
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(5);
 
         return view('admin.study.index', [
             'studies' => $studies,

@@ -62,7 +62,7 @@
               <form action="{{ route('search.contact_admin') }}" method="GET" class="col-lg-4" id="searchForm">
                 @csrf
                 <div class="input-group mb-3">
-                  <input type="search" name="query" id="searchInput" class="form-control rounded"
+                  <input type="text" name="query" id="searchInput" class="form-control rounded"
                     placeholder="Cari Lokasi..." aria-label="Search" aria-describedby="search-addon"
                     value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus />
                   <button type="submit" class="input-group-text border-0" id="search-addon">
@@ -76,11 +76,11 @@
               </form>
               <a href="{{ route('contact_admin.create') }}" class="btn btn-primary">Tambah Kontak</a>
             </div>
-            <div class="card-body">
+            <div class="card-body d-flex flex-column align-items-center">
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">No.</th>
                     <th scope="col">Lokasi Kantor</th>
                     <th scope="col">Alamat Kantor</th>
                     <th scope="col">Kontak Layanan</th>
@@ -90,32 +90,35 @@
                 </thead>
                 <tbody>
                   @foreach ($contacts as $contact)
-            <tr>
-            <th scope="row">{{ $loop->iteration }}</th>
-            <td>{{ $contact->location }}</td>
-            <td>{{ $contact->address }}</td>
-            <td>{{ $contact->contact }}</td>
-            <td>{{ $contact->email }}</td>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-              <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $contact->id }}"
-                data-location="{{ $contact->location }}" data-address="{{ $contact->address }}"
-                data-contact="{{ $contact->contact }}" data-email="{{ $contact->email }}">
-                Edit
-              </button>
-              <form id="deleteForm" action="{{ route('contact_admin.destroy', $contact->id) }}" method="POST"
-                class="ms-2">
-                @csrf
-                @method('DELETE')
-                <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
-                data-id="{{ $contact->id }}">Hapus</button>
-              </form>
-              </div>
-            </td>
-            </tr>
-          @endforeach
+                    <tr>
+                      <th scope="row">{{ ($contacts->currentPage() - 1) * $contacts->perPage() + $loop->iteration }}</th>
+                      <td>{{ $contact->location }}</td>
+                      <td>{{ $contact->address }}</td>
+                      <td>{{ $contact->contact }}</td>
+                      <td>{{ $contact->email }}</td>
+                      <td>
+                        <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $contact->id }}"
+                          data-location="{{ $contact->location }}" data-address="{{ $contact->address }}"
+                          data-contact="{{ $contact->contact }}" data-email="{{ $contact->email }}">
+                          Edit
+                        </button>
+                        <form id="deleteForm" action="{{ route('contact_admin.destroy', $contact->id) }}" method="POST"
+                          class="ms-2">
+                          @csrf
+                          @method('DELETE')
+                          <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
+                          data-id="{{ $contact->id }}">Hapus</button>
+                        </form>
+                        </div>
+                      </td>
+                    </tr>
+                  @endforeach
                 </tbody>
               </table>
+              <div class="pagination-container">
+                {{ $contacts->links('components.custom-pagination') }}
+              </div>
             </div>
           </div>
         </div>

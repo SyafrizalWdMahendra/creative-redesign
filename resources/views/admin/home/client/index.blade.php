@@ -62,7 +62,7 @@
               <form action="{{ route('search.client_admin') }}" method="GET" class="col-lg-4" id="searchForm">
                 @csrf
                 <div class="input-group mb-3">
-                  <input type="search" name="query" id="searchInput" class="form-control rounded"
+                  <input type="text" name="query" id="searchInput" class="form-control rounded"
                     placeholder="Cari Klien..." aria-label="Search" aria-describedby="search-addon"
                     value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus />
                   <button type="submit" class="input-group-text border-0" id="search-addon">
@@ -76,11 +76,11 @@
               </form>
               <a href="{{ route('client_admin.create') }}" class="btn btn-primary">Tambah Klien</a>
             </div>
-            <div class="card-body">
+            <div class="card-body d-flex flex-column align-items-center">
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">No.</th>
                     <th scope="col">Nama Klien</th>
                     <th scope="col">Logo</th>
                     <th scope="col">Action</th>
@@ -88,29 +88,32 @@
                 </thead>
                 <tbody>
                   @foreach ($clients as $client)
-            <tr>
-            <th scope="row">{{ $loop->iteration }}</th>
-            <td>{{ $client->name }}</td>
-            <td><img src="{{ asset('storage/' . $client->image) }}" alt="" width="100px"></td>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-              <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $client->id }}"
-                data-name="{{ $client->name }}" data-image="{{ $client->image }}">
-                Edit
-              </button>
-              <form id="deleteForm" action="{{ route('client_admin.destroy', $client->id) }}" method="POST"
-                class="ms-2">
-                @csrf
-                @method('DELETE')
-                <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
-                data-id="{{ $client->id }}">Hapus</button>
-              </form>
-              </div>
-            </td>
-            </tr>
-          @endforeach
+                    <tr>
+                      <th scope="row">{{ ($clients->currentPage() - 1) * $clients->perPage() + $loop->iteration }}</th>
+                      <td>{{ $client->name }}</td>
+                      <td><img src="{{ asset('storage/' . $client->image) }}" alt="" width="100px"></td>
+                      <td>
+                        <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $client->id }}"
+                          data-name="{{ $client->name }}" data-image="{{ $client->image }}">
+                          Edit
+                        </button>
+                        <form id="deleteForm" action="{{ route('client_admin.destroy', $client->id) }}" method="POST"
+                          class="ms-2">
+                          @csrf
+                          @method('DELETE')
+                          <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
+                          data-id="{{ $client->id }}">Hapus</button>
+                        </form>
+                        </div>
+                      </td>
+                    </tr>
+                  @endforeach
                 </tbody>
               </table>
+              <div class="pagination-container">
+                {{ $clients->links('components.custom-pagination') }}
+              </div>
             </div>
           </div>
         </div>
@@ -148,11 +151,11 @@
                     <input type="url" name="url" id="url" class="form-control" placeholder="Masukkan Link Website Klien"
                       value="{{ $client->url }}">
                     @error('url')
-                      <div class="text-danger">{{ $message }}</div>
-                    @enderror
+            <div class="text-danger">{{ $message }}</div>
+          @enderror
                   </div>
 
-                    <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
+                  <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
                 </form>
               </div>
             </div>

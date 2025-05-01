@@ -69,9 +69,9 @@
               <form action="{{ route('search.study_admin') }}" method="GET" class="col-lg-4" id="searchForm">
                 @csrf
                 <div class="input-group mb-3">
-                  <input type="search" name="query" id="searchInput" class="form-control rounded"
+                  <input type="text" name="query" id="searchInput" class="form-control rounded"
                     placeholder="Cari Bidang Studi..." aria-label="Search" aria-describedby="search-addon"
-                    value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus/>
+                    value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus />
                   <button type="submit" class="input-group-text border-0" id="search-addon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                       class="bi bi-search" viewBox="0 0 16 16">
@@ -83,11 +83,11 @@
               </form>
               <a href="{{ route('study_admin.create') }}" class="btn btn-primary">Tambah Bidang Studi</a>
             </div>
-            <div class="card-body">
+            <div class="card-body d-flex flex-column align-items-center">
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">No.</th>
                     <th scope="col">Bidang Studi</th>
                     <th scope="col">Judul Artikel</th>
                     <th scope="col">Sampul Halaman</th>
@@ -96,31 +96,34 @@
                 </thead>
                 <tbody>
                   @foreach ($studies as $study)
-            <tr>
-            <th scope="row">{{ $loop->iteration }}</th>
-            <td>{{ $study->name }}</td>
-            <td>{{ $study->title }}</td>
-            <td><img src="{{ asset('storage/' . $study->image) }}" alt="" width="100px"></td>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-              <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $study->id }}"
-                data-name="{{ $study->name }}" data-title="{{ $study->title }}"
-                data-content="{{ $study->content }}" data-image="{{ $study->image }}">
-                Edit
-              </button>
-              <form id="deleteForm" action="{{ route('study_admin.destroy', $study->id) }}" method="POST"
-                class="ms-2">
-                @csrf
-                @method('DELETE')
-                <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
-                data-id="{{ $study->id }}">Hapus</button>
-              </form>
-              </div>
-            </td>
-            </tr>
-          @endforeach
+                  <tr>
+                    <th scope="row">{{ ($studies->currentPage() - 1) * $studies->perPage() + $loop->iteration }}</th>
+                    <td>{{ $study->name }}</td>
+                    <td>{{ $study->title }}</td>
+                    <td><img src="{{ asset('storage/' . $study->image) }}" alt="" width="100px"></td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                      <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $study->id }}"
+                        data-name="{{ $study->name }}" data-title="{{ $study->title }}"
+                        data-content="{{ $study->content }}" data-image="{{ $study->image }}">
+                        Edit
+                      </button>
+                      <form id="deleteForm" action="{{ route('study_admin.destroy', $study->id) }}" method="POST"
+                        class="ms-2">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
+                        data-id="{{ $study->id }}">Hapus</button>
+                      </form>
+                      </div>
+                    </td>
+                  </tr>
+                  @endforeach
                 </tbody>
               </table>
+              <div class="pagination-container">
+                {{ $studies->links('components.custom-pagination') }}
+              </div>
             </div>
           </div>
 

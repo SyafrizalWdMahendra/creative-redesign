@@ -15,7 +15,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::latest()->get();
+        $contacts = Contact::latest()->paginate(5);
 
         if ($contacts->isEmpty()) {
             return redirect()->route('contact_admin.create')->with('teamAlert', 'Silakan buat kontak baru.');
@@ -146,7 +146,7 @@ class ContactController extends Controller
 
         $contacts = Contact::where('location', 'LIKE', "%{$query}%")
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(5);
 
         return view('admin.contact.index', [
             'contacts' => $contacts,

@@ -2,7 +2,7 @@
 <section id="team" class="team section light-background">
     <div class="container section-title" data-aos="fade-up">
       <h2>Tim</h2>
-      <p>cek tim kami</p>
+      <p>tim kami</p>
     </div>
 
     <div class="container">

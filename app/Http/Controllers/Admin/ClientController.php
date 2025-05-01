@@ -17,7 +17,7 @@ class ClientController extends Controller
     public function index()
     {
 
-        $clients = Client::latest()->get();
+        $clients = Client::latest()->paginate(5);
 
         if ($clients->isEmpty()) {
             return redirect()->route('client_admin.create')->with('clientAlert', 'Silakan buat klien baru.');
@@ -144,7 +144,7 @@ class ClientController extends Controller
 
         $clients = Client::where('name', 'LIKE', "%{$query}%")
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(5);
 
         return view('admin.home.client.index', [
             'clients' => $clients,

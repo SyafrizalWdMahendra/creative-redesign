@@ -21,7 +21,7 @@ class DashboardController extends Controller
         $services = Service::count();
         $clientContents = HistoryContent::with(['client', 'team', 'study', 'service', 'testimony', 'contact', 'article', 'studentWork'])
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(5);
 
         return view('admin.dashboard.index', compact(['clients', 'teams', 'studies', 'services', 'clientContents']));
     }

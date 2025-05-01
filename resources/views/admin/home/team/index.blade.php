@@ -63,9 +63,9 @@
               <form action="{{ route('search.team_admin') }}" method="GET" class="col-lg-4" id="searchForm">
                 @csrf
                 <div class="input-group mb-3">
-                  <input type="search" name="query" id="searchInput" class="form-control rounded"
+                  <input type="text" name="query" id="searchInput" class="form-control rounded"
                     placeholder="Cari Tim..." aria-label="Search" aria-describedby="search-addon"
-                    value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus/>
+                    value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus />
                   <button type="submit" class="input-group-text border-0" id="search-addon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                       class="bi bi-search" viewBox="0 0 16 16">
@@ -77,11 +77,11 @@
               </form>
               <a href="{{ route('team_admin.create') }}" class="btn btn-primary">Tambah Tim</a>
             </div>
-            <div class="card-body">
+            <div class="card-body d-flex flex-column align-items-center">
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">No</th>
+                    <th scope="col">No.</th>
                     <th scope="col">Name</th>
                     <th scope="col">Position</th>
                     <th scope="col">Image</th>
@@ -90,30 +90,33 @@
                 </thead>
                 <tbody>
                   @foreach ($teams as $team)
-            <tr>
-            <td>{{ $loop->iteration }}</td>
-            <td>{{ $team->name }}</td>
-            <td>{{ $team->position }}</td>
-            <td><img src="{{ asset('storage/' . $team->image) }}" alt="{{ $team->name }}" width="50"></td>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-              <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $team->id }}"
-                data-name="{{ $team->name }}" data-position="{{ $team->position }}"
-                data-description="{{ $team->description }}" data-image="{{ $team->image }}">
-                Edit
-              </button>
-              <form id="deleteForm" action="{{ route('team_admin.destroy', $team->id) }}" method="POST"
-                class="ms-2">
-                @csrf
-                @method('DELETE')
-                <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
-                data-id="{{ $team->id }}">Hapus</button>
-              </form>
-              </div>
-            </td>
-            </tr>
-          @endforeach
+                  <tr>
+                    <th scope="row">{{ ($teams->currentPage() - 1) * $teams->perPage() + $loop->iteration }}</th>
+                    <td>{{ $team->name }}</td>
+                    <td>{{ $team->position }}</td>
+                    <td><img src="{{ asset('storage/' . $team->image) }}" alt="{{ $team->name }}" width="50"></td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                      <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $team->id }}"
+                        data-name="{{ $team->name }}" data-position="{{ $team->position }}"
+                        data-description="{{ $team->description }}" data-image="{{ $team->image }}">
+                        Edit
+                      </button>
+                      <form id="deleteForm" action="{{ route('team_admin.destroy', $team->id) }}" method="POST"
+                        class="ms-2">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
+                        data-id="{{ $team->id }}">Hapus</button>
+                      </form>
+                      </div>
+                    </td>
+                  </tr>
+                @endforeach
               </table>
+              <div class="pagination-container">
+                {{ $teams->links('components.custom-pagination') }}
+              </div>
             </div>
           </div>
         </div>

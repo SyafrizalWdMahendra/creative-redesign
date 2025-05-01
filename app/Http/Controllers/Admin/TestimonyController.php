@@ -16,7 +16,7 @@ class TestimonyController extends Controller
      */
     public function index()
     {
-        $testimonies = Testimony::latest()->get();
+        $testimonies = Testimony::latest()->paginate(5);
 
         if ($testimonies->isEmpty()) {
             return redirect()->route('testimony_admin.create')->with('teamAlert', 'Silakan buat testimoni baru.');
@@ -170,7 +170,7 @@ class TestimonyController extends Controller
 
         $testimonies = Testimony::where('name', 'LIKE', "%{$query}%")
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(5);
 
         return view('admin.testimony.index', [
             'testimonies' => $testimonies,

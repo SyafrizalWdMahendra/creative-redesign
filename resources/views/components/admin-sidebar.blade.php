@@ -1,11 +1,9 @@
 <!-- [ Sidebar Menu ] start -->
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
-        <div class="m-header">
-            <a href="{{ route('client_admin.index') }}" class="b-brand text-primary">
-                <!-- ========   Change your logo from here   ============ -->
-                <img src="{{ asset('img/logo-dark.svg') }}" class="img-fluid logo-lg" alt="logo">
-            </a>
+        <div class="m-header d-flex justify-content-center">
+            <a href="{{ route('client_admin.index') }}" class="b-brand text-primary"></a>
+            <img src="{{ asset('img/craetive-logo.png') }}" alt="creative media logo" class="img-fluid" width="50%">
         </div>
         <div class="navbar-content">
             <ul class="pc-navbar">
@@ -15,14 +13,25 @@
                         <span class="pc-mtext">Dashboard</span>
                     </a>
                 </li>
+
+                <li class="pc-item pc-caption">
+                    <label>Pages</label>
+                    <i class="ti ti-news"></i>
+                </li>
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
                             class="pc-mtext">Beranda</span><span class="pc-arrow"><i
                                 data-feather="chevron-right"></i></span></a>
                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="{{ route('client_admin.index') }}">Tambah Klien</a>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('client_admin.index') }}">
+                                <span class="pc-micon"><i class="ti ti-user"></i></span>
+                                <span class="pc-mtext">Tambah Klien</span>
+                            </a>
                         </li>
-                        <li class="pc-item"><a class="pc-link" href="{{ route('team_admin.index') }}">Tambah Tim</a>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('team_admin.index') }}">
+                                <span class="pc-micon"><i class="ti ti-users"></i></span>
+                                <span class="pc-mtext">Tambah Tim</span>
+                            </a>
                         </li>
                     </ul>
                 </li>
@@ -32,11 +41,6 @@
                         <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
                         <span class="pc-mtext">Bidang Studi</span>
                     </a>
-                </li>
-
-                <li class="pc-item pc-caption">
-                    <label>Pages</label>
-                    <i class="ti ti-news"></i>
                 </li>
                 <li class="pc-item">
                     <a href="{{ route('service_admin.index') }}" class="pc-link">

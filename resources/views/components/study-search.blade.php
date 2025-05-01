@@ -1,9 +1,9 @@
-@props(['studies' => [], 'searchQuery' => []])
+@props(['searchStudies' => [], 'searchQuery' => []])
 <div class="container" data-aos="fade-up" data-aos-delay="100">
     <h2>Search Results for "{{ $searchQuery }}"</h2>
 
-    @if($studies->count() > 0)
-        @foreach($studies as $study)
+    @if($searchStudies->count() > 0)
+        @foreach($searchStudies as $study)
             <div class="portfolio-info mb-3" data-aos="fade-up" data-aos-delay="200">
                 <a href="{{ route('study.show', $study->id) }}" class="strecthed-link">
                     <h5>{{ $study->name }}</h5>
@@ -12,7 +12,7 @@
             </div>
         @endforeach
         <div class="d-flex justify-content-center">
-            {{ $studies->appends(['query' => $searchQuery])->links() }}
+            {{ $searchStudies->appends(['query' => $searchQuery])->links() }}
         </div>
     @else
         <div class="alert alert-info">

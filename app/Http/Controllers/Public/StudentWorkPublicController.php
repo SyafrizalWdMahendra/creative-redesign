@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public;
 use App\Models\StudentWork;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use App\Models\Service;
 use App\Models\Study;
 
@@ -16,10 +17,11 @@ class StudentWorkPublicController extends Controller
     public function index()
     {
         $studentWorks = StudentWork::latest()->get();
-        $services = Service::latest()->get();
         $studies = Study::latest()->get();
+        $services = Service::latest()->get();
+        $contacts = Contact::latest()->get();
 
-        return view('public.study_work.index', compact(['studentWorks', 'services', 'studies']));
+        return view('public.study_work.index', compact(['studentWorks', 'services', 'studies', 'contacts']));
     }
 
     /**

@@ -15,7 +15,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::latest()->get();
+        $articles = Article::latest()->paginate(5);
 
         if ($articles->isEmpty()) {
             return redirect()->route('article_admin.create')->with('teamAlert', 'Silakan buat artikel baru.');
@@ -163,7 +163,7 @@ class ArticleController extends Controller
 
         $articles = Article::where('title', 'LIKE', "%{$query}%")
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(5);
 
         return view('admin.article.index', [
             'articles' => $articles,

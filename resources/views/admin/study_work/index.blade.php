@@ -62,7 +62,7 @@
               <form action="{{ route('search.study_work_admin') }}" method="GET" class="col-lg-4" id="searchForm">
                 @csrf
                 <div class="input-group mb-3">
-                  <input type="search" name="query" id="searchInput" class="form-control rounded"
+                  <input type="text" name="query" id="searchInput" class="form-control rounded"
                     placeholder="Cari Karya Siswa..." aria-label="Search" aria-describedby="search-addon"
                     value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus/>
                   <button type="submit" class="input-group-text border-0" id="search-addon">
@@ -76,11 +76,11 @@
               </form>
               <a href="{{ route('student_work_admin.create') }}" class="btn btn-primary">Tambah Karya Siswa</a>
             </div>
-            <div class="card-body">
+            <div class="card-body d-flex flex-column align-items-center">
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">No.</th>
                     <th scope="col">Nama Siswa</th>
                     <th scope="col">Deskripsi Karya</th>
                     <th scope="col">Sampul Karya</th>
@@ -90,30 +90,33 @@
                 <tbody>
                   @foreach ($studentWorks as $student)
                     <tr>
-                    <th scope="row">{{ $loop->iteration }}</th>
-                    <td>{{ $student->name }}</td>
-                    <td>{{ $student->description }}</td>
-                    <td><img src="{{ asset('storage/' . $student->image) }}" alt="" width="100px"></td>
-                    <td>
-                      <div class="d-flex align-items-center gap-2">
-                      <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $student->id }}"
-                        data-name="{{ $student->name }}" data-description="{{ $student->description }}"
-                        data-image="{{ $student->image }}">
-                        Edit
-                      </button>
-                      <form id="deleteForm" action="{{ route('student_work_admin.destroy', $student->id) }}"
-                        method="POST" class="ms-2">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
-                        data-id="{{ $student->id }}">Hapus</button>
-                      </form>
-                      </div>
-                    </td>
+                      <th scope="row">{{ ($studentWorks->currentPage() - 1) * $studentWorks->perPage() + $loop->iteration }}</th>
+                      <td>{{ $student->name }}</td>
+                      <td>{{ $student->description }}</td>
+                      <td><img src="{{ asset('storage/' . $student->image) }}" alt="" width="100px"></td>
+                      <td>
+                        <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $student->id }}"
+                          data-name="{{ $student->name }}" data-description="{{ $student->description }}"
+                          data-image="{{ $student->image }}">
+                          Edit
+                        </button>
+                        <form id="deleteForm" action="{{ route('student_work_admin.destroy', $student->id) }}"
+                          method="POST" class="ms-2">
+                          @csrf
+                          @method('DELETE')
+                          <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
+                          data-id="{{ $student->id }}">Hapus</button>
+                        </form>
+                        </div>
+                      </td>
                     </tr>
                   @endforeach
                 </tbody>
               </table>
+              <div class="pagination-container">
+                {{ $studentWorks->links('components.custom-pagination') }}
+              </div>
             </div>
           </div>
         </div>

@@ -69,7 +69,7 @@
               <form action="{{ route('search.article_admin') }}" method="GET" class="col-lg-4" id="searchForm">
                 @csrf
                 <div class="input-group mb-3">
-                  <input type="search" name="query" id="searchInput" class="form-control rounded"
+                  <input type="text" name="query" id="searchInput" class="form-control rounded"
                     placeholder="Cari Artikel..." aria-label="Search" aria-describedby="search-addon"
                     value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus />
                   <button type="submit" class="input-group-text border-0" id="search-addon">
@@ -83,11 +83,11 @@
               </form>
               <a href="{{ route('article_admin.create') }}" class="btn btn-primary">Tambah Artikel</a>
             </div>
-            <div class="card-body">
+            <div class="card-body d-flex flex-column align-items-center">
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">No.</th>
                     <th scope="col">Judul Artikel</th>
                     <th scope="col">Tanggal Posting</th>
                     <th scope="col">Deskripsi</th>
@@ -96,40 +96,43 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($articles as $article)
-            <tr>
-            <th scope="row">{{ $loop->iteration }}</th>
-            <td>{{ $article->title }}</td>
-            <td>{{ \Carbon\Carbon::parse($article->date)->format('Y-m-d') }}</td>
-            <td>{{ $article->description }}</td>
-            <td>
-              @if ($article->image)
-          <img src="{{ asset('storage/' . $article->image) }}" alt="Artikel Image" width="100px">
-        @else
-        Tidak ada gambar
-      @endif
-            </td>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-              <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $article->id }}"
-                data-title="{{ $article->title }}" data-date="{{ $article->date }}"
-                data-content="{{ $article->content }}" data-description="{{ $article->description }}"
-                data-image="{{ $article->image }}">
-                Edit
-              </button>
-              <form id="deleteForm" action="{{ route('article_admin.destroy', $article->id) }}" method="POST"
-                class="ms-2">
-                @csrf
-                @method('DELETE')
-                <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
-                data-id="{{ $article->id }}">Hapus</button>
-              </form>
-              </div>
-            </td>
-            </tr>
-          @endforeach
+                @foreach ($articles as $article)
+                  <tr>
+                    <th scope="row">{{ ($articles->currentPage() - 1) * $articles->perPage() + $loop->iteration }}</th>
+                    <td>{{ $article->title }}</td>
+                    <td>{{ \Carbon\Carbon::parse($article->date)->format('Y-m-d') }}</td>
+                    <td>{{ $article->description }}</td>
+                    <td>
+                      @if ($article->image)
+                          <img src="{{ asset('storage/' . $article->image) }}" alt="Artikel Image" width="100px">
+                        @else
+                        Tidak ada gambar
+                      @endif
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                      <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $article->id }}"
+                        data-title="{{ $article->title }}" data-date="{{ $article->date }}"
+                        data-content="{{ $article->content }}" data-description="{{ $article->description }}"
+                        data-image="{{ $article->image }}">
+                        Edit
+                      </button>
+                      <form id="deleteForm" action="{{ route('article_admin.destroy', $article->id) }}" method="POST"
+                        class="ms-2">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
+                        data-id="{{ $article->id }}">Hapus</button>
+                      </form>
+                      </div>
+                    </td>
+                  </tr>
+                @endforeach
                 </tbody>
               </table>
+              <div class="pagination-container">
+                {{ $articles->links('components.custom-pagination') }}
+              </div>
             </div>
           </div>
         </div>

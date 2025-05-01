@@ -69,7 +69,7 @@
               <form action="{{ route('search.service_admin') }}" method="GET" class="col-lg-4" id="searchForm">
                 @csrf
                 <div class="input-group mb-3">
-                  <input type="search" name="query" id="searchInput" class="form-control rounded"
+                  <input type="text" name="query" id="searchInput" class="form-control rounded"
                     placeholder="Cari Layanan Jasa..." aria-label="Search" aria-describedby="search-addon"
                     value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus/>
                   <button type="submit" class="input-group-text border-0" id="search-addon">
@@ -83,11 +83,11 @@
               </form>
               <a href="{{ route('service_admin.create') }}" class="btn btn-primary">Tambah Layanan Jasa</a>
             </div>
-            <div class="card-body">
+            <div class="card-body d-flex flex-column align-items-center">
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">No.</th>
                     <th scope="col">Layanan Jasa</th>
                     <th scope="col">Judul Artikel</th>
                     <th scope="col">Deskripsi Layanan</th>
@@ -97,33 +97,36 @@
                 </thead>
                 <tbody>
                   @foreach ($services as $service)
-            <tr>
-            <th scope="row">{{ $loop->iteration }}</th>
-            <td>{{ $service->name }}</td>
-            <td>{{ !empty($service->title) ? $service->title : '-' }}</td>
-            <td>{{ $service->description }}</td>
-            <td><img src="{{ asset('storage/' . $service->image) }}" alt="" width="100px"></td>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-              <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $service->id }}"
-                data-name="{{ $service->name }}" data-title="{{ $service->title }}"
-                data-description="{{ $service->description }}" data-content="{{ $service->content }}"
-                data-image="{{ $service->image }}">
-                Edit
-              </button>
-              <form id="deleteForm" action="{{ route('service_admin.destroy', $service->id) }}" method="POST"
-                class="ms-2">
-                @csrf
-                @method('DELETE')
-                <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
-                data-id="{{ $service->id }}">Hapus</button>
-              </form>
-              </div>
-            </td>
-            </tr>
-          @endforeach
+                    <tr>
+                      <th scope="row">{{ ($services->currentPage() - 1) * $services->perPage() + $loop->iteration }}</th>
+                      <td>{{ $service->name }}</td>
+                      <td>{{ !empty($service->title) ? $service->title : '-' }}</td>
+                      <td>{{ $service->description }}</td>
+                      <td><img src="{{ asset('storage/' . $service->image) }}" alt="" width="100px"></td>
+                      <td>
+                        <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $service->id }}"
+                          data-name="{{ $service->name }}" data-title="{{ $service->title }}"
+                          data-description="{{ $service->description }}" data-content="{{ $service->content }}"
+                          data-image="{{ $service->image }}">
+                          Edit
+                        </button>
+                        <form id="deleteForm" action="{{ route('service_admin.destroy', $service->id) }}" method="POST"
+                          class="ms-2">
+                          @csrf
+                          @method('DELETE')
+                          <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
+                          data-id="{{ $service->id }}">Hapus</button>
+                        </form>
+                        </div>
+                      </td>
+                    </tr>
+                  @endforeach
                 </tbody>
               </table>
+              <div class="pagination-container">
+                {{ $services->links('components.custom-pagination') }}
+              </div>
             </div>
           </div>
 

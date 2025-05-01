@@ -15,7 +15,7 @@ class StudentWorkController extends Controller
      */
     public function index()
     {
-        $studentWorks = StudentWork::latest()->get();
+        $studentWorks = StudentWork::latest()->paginate(5);
 
         if ($studentWorks->isEmpty()) {
             return redirect()->route('student_work_admin.create')->with('teamAlert', 'Silakan buat karya siswa baru.');
@@ -147,7 +147,7 @@ class StudentWorkController extends Controller
 
         $studentWorks = StudentWork::where('name', 'LIKE', "%{$query}%")
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(5);
 
         return view('admin.study_work.index', [
             'studentWorks' => $studentWorks,

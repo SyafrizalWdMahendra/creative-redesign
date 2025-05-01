@@ -69,7 +69,7 @@
               <form action="{{ route('search.testimony_admin') }}" method="GET" class="col-lg-4" id="searchForm">
                 @csrf
                 <div class="input-group mb-3">
-                  <input type="search" name="query" id="searchInput" class="form-control rounded"
+                  <input type="text" name="query" id="searchInput" class="form-control rounded"
                     placeholder="Cari Testimoni..." aria-label="Search" aria-describedby="search-addon"
                     value="{{ request('query') ?? '' }}" onkeyup="handleSearchInput()" autofocus />
                   <button type="submit" class="input-group-text border-0" id="search-addon">
@@ -83,55 +83,58 @@
               </form>
               <a href="{{ route('testimony_admin.create') }}" class="btn btn-primary">Tambah Testimoni</a>
             </div>
-            <div class="card-body">
+            <div class="card-body d-flex flex-column align-items-center">
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">No.</th>
                     <th scope="col">Nama Alumni</th>
                     <th scope="col">Komentar</th>
                     @if ($testimonies->isNotEmpty())
-            <th scope="col">Video Testimoni</th>
-          @endif
+                      <th scope="col">Video Testimoni</th>
+                    @endif
                     <th scope="col">Foto Profil</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($testimonies as $testimony)
-            <tr>
-            <th scope="row">{{ $loop->iteration }}</th>
-            <td>{{ $testimony->name }}</td>
-            <td>{{ $testimony->comment }}</td>
-            <td>
-              @if (!empty($testimony->video))
-          <iframe width="150" height="150" src="{{ $testimony->video }}" frameborder="0"
-          allowfullscreen></iframe>
-        @else
-        <p>-</p>
-      @endif
-            </td>
-            <td><img src="{{ asset('storage/' . $testimony->image) }}" alt="" width="100px"></td>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-              <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $testimony->id }}"
-                data-name="{{ $testimony->name }}" data-comment="{{ $testimony->comment }}"
-                data-video="{{ $testimony->video }}" data-image="{{ $testimony->image }}">
-                Edit
-              </button>
-              <form id="deleteForm" action="{{ route('testimony_admin.destroy', $testimony->id) }}"
-                method="POST" class="ms-2">
-                @csrf
-                @method('DELETE')
-                <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
-                data-id="{{ $testimony->id }}">Hapus</button>
-              </form>
-              </div>
-            </td>
-            </tr>
-          @endforeach
+                @foreach ($testimonies as $testimony)
+                  <tr>
+                  <th scope="row">{{ ($testimonies->currentPage() - 1) * $testimonies->perPage() + $loop->iteration }}</th>
+                  <td>{{ $testimony->name }}</td>
+                  <td>{{ $testimony->comment }}</td>
+                  <td>
+                    @if (!empty($testimony->video))
+                        <iframe width="150" height="150" src="{{ $testimony->video }}" frameborder="0"
+                        allowfullscreen></iframe>
+                      @else
+                      <p>-</p>
+                    @endif
+                  </td>
+                  <td><img src="{{ asset('storage/' . $testimony->image) }}" alt="" width="100px"></td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-warning btn-sm edit-btn" data-id="{{ $testimony->id }}"
+                      data-name="{{ $testimony->name }}" data-comment="{{ $testimony->comment }}"
+                      data-video="{{ $testimony->video }}" data-image="{{ $testimony->image }}">
+                      Edit
+                    </button>
+                    <form id="deleteForm" action="{{ route('testimony_admin.destroy', $testimony->id) }}"
+                      method="POST" class="ms-2">
+                      @csrf
+                      @method('DELETE')
+                      <button type="button" class="btn btn-danger btn-sm" id="delete-btn"
+                      data-id="{{ $testimony->id }}">Hapus</button>
+                    </form>
+                    </div>
+                  </td>
+                  </tr>
+                @endforeach
                 </tbody>
               </table>
+              <div class="pagination-container">
+                {{ $testimonies->links('components.custom-pagination') }}
+              </div>
             </div>
           </div>
 

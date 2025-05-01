@@ -5,7 +5,7 @@
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
       <h2>Layanan</h2>
-      <p>cek layanan kami</p>
+      <p>layanan kami</p>
     </div><!-- End Section Title -->
 
     <div class="container">

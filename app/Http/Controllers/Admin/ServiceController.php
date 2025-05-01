@@ -15,7 +15,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::latest()->get();
+        $services = Service::latest()->paginate(5);
 
         if ($services->isEmpty()) {
             return redirect()->route('service_admin.create')->with('teamAlert', 'Silakan buat layanan baru.');
@@ -174,7 +174,7 @@ class ServiceController extends Controller
 
         $services = Service::where('name', 'LIKE', "%{$query}%")
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(5);
 
         return view('admin.service.index', [
             'services' => $services,

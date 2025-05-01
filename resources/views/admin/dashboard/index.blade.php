@@ -92,8 +92,8 @@
                     <h5 class="mb-3">Riwayat Penambahan Konten</h5>
                     <div class="card tbl-card">
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-borderless mb-0">
+                            <div class="table-responsive d-flex flex-column align-items-center">
+                                <table class="table table-hover table-borderless mb-5">
                                     <thead>
                                         <tr>
                                             <th>No.</th>
@@ -104,10 +104,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($clientContents as $content)
+                                        @forelse ($clientContents as $content)
                                             <tr>
                                                 @if($content->client)
-                                                    <td>{{ $loop->iteration }}</td>
+                                                    <th scope="row">{{ ($clientContents->currentPage() - 1) * $clientContents->perPage() + $loop->iteration }}</th>
                                                     <td>Beranda</td>
                                                     <td>{{ $content->client->name }}</td>
                                                     <td>{{ $content->created_at->format('d M Y') }}</td>
@@ -116,7 +116,7 @@
                                                             Ditambahkan</span>
                                                     </td>
                                                 @elseif($content->team)
-                                                    <td>{{ $loop->iteration }}</td>
+                                                    <th scope="row">{{ ($clientContents->currentPage() - 1) * $clientContents->perPage() + $loop->iteration }}</th>
                                                     <td>Beranda</td>
                                                     <td>{{ $content->team->name }}</td>
                                                     <td>{{ $content->created_at->format('d M Y') }}</td>
@@ -125,7 +125,7 @@
                                                             Ditambahkan</span>
                                                     </td>
                                                 @elseif($content->study)
-                                                    <td>{{ $loop->iteration }}</td>
+                                                    <th scope="row">{{ ($clientContents->currentPage() - 1) * $clientContents->perPage() + $loop->iteration }}</th>
                                                     <td>Bidang Studi</td>
                                                     <td>{{ $content->study->name }}</td>
                                                     <td>{{ $content->created_at->format('d M Y') }}</td>
@@ -134,7 +134,7 @@
                                                             Ditambahkan</span>
                                                     </td>
                                                 @elseif($content->service)
-                                                    <td>{{ $loop->iteration }}</td>
+                                                    <th scope="row">{{ ($clientContents->currentPage() - 1) * $clientContents->perPage() + $loop->iteration }}</th>
                                                     <td>Layanan Jasa</td>
                                                     <td>{{ $content->service->name }}</td>
                                                     <td>{{ $content->created_at->format('d M Y') }}</td>
@@ -143,7 +143,7 @@
                                                             Ditambahkan</span>
                                                     </td>
                                                 @elseif($content->studentWork)
-                                                    <td>{{ $loop->iteration }}</td>
+                                                    <th scope="row">{{ ($clientContents->currentPage() - 1) * $clientContents->perPage() + $loop->iteration }}</th>
                                                     <td>Karya Siswa</td>
                                                     <td>{{ $content->studentWork->name }}</td>
                                                     <td>{{ $content->created_at->format('d M Y') }}</td>
@@ -152,7 +152,7 @@
                                                             Ditambahkan</span>
                                                     </td>
                                                 @elseif($content->testimony)
-                                                    <td>{{ $loop->iteration }}</td>
+                                                    <th scope="row">{{ ($clientContents->currentPage() - 1) * $clientContents->perPage() + $loop->iteration }}</th>
                                                     <td>Testimoni</td>
                                                     <td>{{ $content->testimony->name }}</td>
                                                     <td>{{ $content->created_at->format('d M Y') }}</td>
@@ -161,7 +161,7 @@
                                                             Ditambahkan</span>
                                                     </td>
                                                 @elseif($content->article)
-                                                    <td>{{ $loop->iteration }}</td>
+                                                    <th scope="row">{{ ($clientContents->currentPage() - 1) * $clientContents->perPage() + $loop->iteration }}</th>
                                                     <td>Artikel</td>
                                                     <td>{{ $content->article->title }}</td>
                                                     <td>{{ $content->created_at->format('d M Y') }}</td>
@@ -170,7 +170,7 @@
                                                             Ditambahkan</span>
                                                     </td>
                                                 @elseif($content->contact)
-                                                    <td>{{ $loop->iteration }}</td>
+                                                    <th scope="row">{{ ($clientContents->currentPage() - 1) * $clientContents->perPage() + $loop->iteration }}</th>
                                                     <td>Hubungi Kami</td>
                                                     <td>{{ $content->contact->location }}</td>
                                                     <td>{{ $content->created_at->format('d M Y') }}</td>
@@ -180,9 +180,16 @@
                                                     </td>
                                                 @endif
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center">Content not available</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
+                                <div class="pagination-container">
+                                    {{ $clientContents->links('components.custom-pagination') }}
+                                </div>
                             </div>
                         </div>
                     </div>

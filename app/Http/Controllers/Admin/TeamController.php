@@ -16,7 +16,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $teams = Team::latest()->get();
+        $teams = Team::latest()->paginate(5);
 
         if ($teams->isEmpty()) {
             return redirect()->route('team_admin.create')->with('teamAlert', 'Silakan buat anggota tim baru.');
@@ -161,7 +161,7 @@ class TeamController extends Controller
 
         $teams = Team::where('name', 'LIKE', "%{$query}%")
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(5);
 
         return view('admin.home.team.index', [
             'teams' => $teams,

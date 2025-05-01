@@ -3,7 +3,7 @@
 
   <a href="/" class="logo d-flex align-items-center me-auto">
     <!-- Uncomment the line below if you also wish to use an image logo -->
-    <h1 class="sitename">Credis</h1>
+    <img src="{{ asset('img/craetive-logo.png') }}" alt="creative logo">
   </a>
 
   <nav id="navmenu" class="navmenu">
@@ -65,9 +65,6 @@
           </div>
           </button>
         </form>
-        </li>
-        <li>
-        <hr class="dropdown-divider">
         </li>
       </ul>
       </li>
