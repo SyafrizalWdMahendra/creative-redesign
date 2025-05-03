@@ -7,7 +7,7 @@ Website resmi Creative Media dengan berbagai fitur untuk menampilkan informasi p
 -   **Framework**: Laravel 12
 -   **PHP Version**: 8.2.12
 -   **Database**: MySQL
--   **Frontend**: (Tambahkan jika menggunakan framework frontend seperti Bootstrap/Tailwind dll)
+-   **Frontend**: Template Admin By: CodedThemes, Template public page By: BootstrapMade
 
 ## Installation Guide
 
@@ -16,7 +16,6 @@ Website resmi Creative Media dengan berbagai fitur untuk menampilkan informasi p
 -   PHP 8.2.12
 -   Composer
 -   MySQL
--   Node.js (jika menggunakan frontend tools)
 
 ### Installation Steps
 
